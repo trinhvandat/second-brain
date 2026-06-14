@@ -15,7 +15,8 @@ buildingasecondbrain.com). (confidence: high)
 It treats notes as an external, searchable memory you offload to so you can think with
 more than your biological working memory. The organizing scheme is [[para-method]], and
 in the AI era Forte reframes the key skill as [[personal-context-management]]. Contrast its
-folder-based organization with the link-based approach of [[zettelkasten]].
+folder-based organization with the link-based approach of [[zettelkasten]]. A concrete
+daily application of its capture-then-organize loop in this vault is [[capture-routine]].
 
 Note: the broader "second brain" metaphor (commonplace books) predates Forte — do not
 attribute the term itself to him. (confidence: medium)
