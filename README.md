@@ -113,8 +113,16 @@ alias sbclip="$SB/scripts/clip.sh"  # sbclip https://...
 javascript:(()=>{const c=`sbclip '${location.href}'`;navigator.clipboard.writeText(c);alert('Copied: '+c);})()
 ```
 
-**Weekly auto-lint (cron)** — runs the mechanical lint every Monday 09:00, logs to `.lint-history.log`, and shows a macOS notification on issues:
+**Weekly auto-lint** — runs the mechanical lint every Monday 09:00, logs to `.lint-history.log`, and shows a macOS notification on issues.
 
+*Option A — launchd (macOS-native, recommended):*
+```bash
+cp launchd/com.leonard.second-brain-lint.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.leonard.second-brain-lint.plist
+launchctl start com.leonard.second-brain-lint    # optional: run once now
+```
+
+*Option B — cron:* run in your own Terminal (needs Full Disk Access for `cron`):
 ```bash
 crontab -e
 # add this line:
