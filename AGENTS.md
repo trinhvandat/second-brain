@@ -38,7 +38,7 @@
   - stale claims (recency marker is long past);
   - orphans (notes nothing links to);
   - wikilinks pointing to non-existent files;
-  - lifecycle issues (superseded without a replacement link, open disputes, claims with confidence but no source).
+  - lifecycle issues (superseded without a replacement link, open disputes, claims with confidence but no source, retired notes not yet moved to `wiki/archive/`).
 - The mechanical subset can be pre-run with `scripts/lint.sh`; the contradiction check is semantic and is yours to do.
 - Produce a report + SUGGESTED fixes; do NOT edit raw content automatically.
 

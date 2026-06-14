@@ -9,6 +9,7 @@
 #   4. broken supersession — status:superseded with no/missing "→ [[replacement]]"
 #   5. open disputes       — status:disputed (or inline) needing resolution
 #   6. unsourced claims    — a (confidence: …) marker with no source URL / sources entry
+#   7. misplaced retired   — status:retired note still living outside wiki/archive/
 #
 # Semantic checks (contradictions between notes) are NOT done here — they require
 # an LLM and remain Claude's job. This script is a fast pre-pass.
@@ -129,6 +130,14 @@ while IFS= read -r f; do
   fi
 done <<< "$ACTIVE_FILES"
 if [[ -n "$nosrc" ]]; then echo "[unsourced claims]"; printf '%s' "$nosrc"; issues=$((issues+1)); else echo "[unsourced claims] none"; fi
+
+# --- 7. misplaced retired (status:retired must live under wiki/archive/) ---
+misret=""
+while IFS= read -r f; do
+  [[ -z "$f" ]] && continue
+  [[ "$(status_of "$f")" == "retired" ]] && misret+="  $f -> status: retired but not under wiki/archive/"$'\n'
+done <<< "$ACTIVE_FILES"
+if [[ -n "$misret" ]]; then echo "[misplaced retired]"; printf '%s' "$misret"; issues=$((issues+1)); else echo "[misplaced retired] none"; fi
 
 echo "=== $issues issue group(s) found ==="
 echo "Note: contradictions between notes need a semantic pass — ask Claude to \"lint the brain\"."

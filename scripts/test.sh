@@ -71,6 +71,8 @@ printf -- '---\nstatus: superseded\nupdated: 2026-06\nsources:\n  - https://x\n-
 printf -- '---\nstatus: current\nupdated: 2026-06\nsources:\n  - https://x\n---\n# Prose\nThis term was (superseded by the new standard) ages ago. See [[claimy]].\n' > "$L3/wiki/concepts/prose.md"
 # retired note in archive: must be excluded from orphan + stale scans, still resolvable as target
 printf -- '---\nstatus: retired\nupdated: 2020-01\nsources:\n  - https://x\n---\n# Retired\nObsolete.\n' > "$L3/wiki/archive/retired.md"
+# retired note NOT in archive: must be flagged as misplaced retired
+printf -- '---\nstatus: retired\nupdated: 2026-06\nsources:\n  - https://x\n---\n# Stray\nShould be archived. See [[claimy]].\n' > "$L3/wiki/concepts/stray-retired.md"
 OUT5="$(./scripts/lint.sh "$L3")"; RC5=$?
 ok5=1
 echo "$OUT5" | grep -A8 '\[broken supersession\]' | grep -q "gone.md"     || ok5=0
@@ -78,8 +80,10 @@ echo "$OUT5" | grep -A8 '\[broken supersession\]' | grep -q "moved.md"    && ok5
 echo "$OUT5" | grep -A8 '\[broken supersession\]' | grep -q "prose.md"    && ok5=0   # prose "(superseded by…)" must NOT trigger
 echo "$OUT5" | grep -A3 '\[open disputes\]'        | grep -q "hot.md"      || ok5=0
 echo "$OUT5" | grep -A3 '\[unsourced claims\]'     | grep -q "claimy.md"   || ok5=0
-echo "$OUT5" | grep -A20 '\[orphan notes\]'        | grep -q "retired.md"  && ok5=0   # archive must NOT be orphan-scanned
-echo "$OUT5" | grep -A20 '\[stale claims\]'        | grep -q "retired.md"  && ok5=0   # archive must NOT be stale-scanned
+echo "$OUT5" | grep -A20 '\[orphan notes\]'        | grep -q "archive/retired" && ok5=0   # archive must NOT be orphan-scanned
+echo "$OUT5" | grep -A20 '\[stale claims\]'        | grep -q "archive/retired" && ok5=0   # archive must NOT be stale-scanned
+echo "$OUT5" | grep -A8 '\[misplaced retired\]'    | grep -q "stray-retired.md"   || ok5=0   # retired outside archive → flagged
+echo "$OUT5" | grep -A8 '\[misplaced retired\]'    | grep -q "archive/retired.md" && ok5=0   # archived retired → NOT flagged
 [[ "$RC5" -eq 1 ]] || ok5=0
 if [[ "$ok5" -eq 1 ]]; then
   echo "PASS lint.sh lifecycle (supersession+dispute+unsourced, archive excluded)"
