@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Dựng một second brain cá nhân dạng LLM Wiki — vault Markdown local-first làm source of truth, Claude (Code + Desktop/MCP) làm bộ não đọc/ghi/duy trì, phục vụ hỏi-đáp + trợ lý kỹ thuật + capture ý tưởng + bộ nhớ đời sống.
+**Goal:** Build a personal second brain as an LLM Wiki — a local-first Markdown vault as the source of truth, with Claude (Code + Desktop/MCP) as the brain for reading/writing/maintaining, serving Q&A + technical assistant + idea capture + life memory.
 
-**Architecture:** File `.md` là nguồn chân lý; không vector DB, Claude lập luận trực tiếp trên Markdown (mẫu Karpathy LLM Wiki). Luật vận hành đặt trong `AGENTS.md` (surface-agnostic) để cả Claude Code và Claude Desktop/MCP đọc chung; SKILL.md chỉ là wrapper mỏng. Ba luồng: capture (raw bất biến) → compile (wiki atomic + wikilinks) → lint.
+**Architecture:** `.md` files are the source of truth; no vector DB, Claude reasons directly over Markdown (Karpathy LLM Wiki pattern). Operating rules are placed in `AGENTS.md` (surface-agnostic) so both Claude Code and Claude Desktop/MCP read from the same source; SKILL.md is just a thin wrapper. Three pipelines: capture (immutable raw) → compile (atomic wiki + wikilinks) → lint.
 
 **Tech Stack:** Markdown, Bash (clip/import scripts), Claude Code skill, MCP filesystem server (Claude Desktop), git.
 
@@ -14,23 +14,23 @@
 
 ## File Structure
 
-| File | Trách nhiệm |
+| File | Responsibility |
 |---|---|
-| `index.md` | Bản đồ vault + thứ tự đọc; Claude đọc đầu tiên |
-| `CRITICAL_FACTS.md` | Facts cố định về user (~150 token), luôn nạp |
-| `AGENTS.md` | Bộ luật vận hành capture/query/maintain (surface-agnostic) |
-| `raw/web/`, `raw/meetings/`, `raw/inbox/` | Nguồn bất biến |
-| `wiki/concepts/`, `wiki/entities/`, `wiki/tech/`, `wiki/journal/` | Tri thức compiled |
-| `.claude/skills/second-brain/SKILL.md` | Wrapper kích hoạt cho Claude Code |
-| `scripts/clip.sh` | URL → Markdown stub vào `raw/web/` |
-| `scripts/import.sh` | file local → `raw/inbox/` |
-| `scripts/test.sh` | Assertions cho 2 script trên |
-| `mcp/claude_desktop_config.snippet.json` | Cấu hình MCP filesystem cho Desktop |
-| `.gitignore` | Bỏ qua junk |
+| `index.md` | Vault map + reading order; Claude reads this first |
+| `CRITICAL_FACTS.md` | Fixed facts about the user (~150 tokens), always loaded |
+| `AGENTS.md` | Operating rules for capture/query/maintain (surface-agnostic) |
+| `raw/web/`, `raw/meetings/`, `raw/inbox/` | Immutable sources |
+| `wiki/concepts/`, `wiki/entities/`, `wiki/tech/`, `wiki/journal/` | Compiled knowledge |
+| `.claude/skills/second-brain/SKILL.md` | Activation wrapper for Claude Code |
+| `scripts/clip.sh` | URL → Markdown stub into `raw/web/` |
+| `scripts/import.sh` | local file → `raw/inbox/` |
+| `scripts/test.sh` | Assertions for the 2 scripts above |
+| `mcp/claude_desktop_config.snippet.json` | MCP filesystem config for Desktop |
+| `.gitignore` | Ignore junk files |
 
 ---
 
-## Task 0: Khởi tạo project & git
+## Task 0: Initialize project & git
 
 **Files:**
 - Create: `.gitignore`
@@ -44,7 +44,7 @@ git init
 ```
 Expected: `Initialized empty Git repository ...`
 
-- [ ] **Step 2: Tạo cây thư mục**
+- [ ] **Step 2: Create directory tree**
 
 Run:
 ```bash
@@ -52,9 +52,9 @@ mkdir -p raw/web raw/meetings raw/inbox \
          wiki/concepts wiki/entities wiki/tech wiki/journal \
          .claude/skills/second-brain scripts mcp
 ```
-Expected: không lỗi.
+Expected: no error.
 
-- [ ] **Step 3: Viết `.gitignore`**
+- [ ] **Step 3: Write `.gitignore`**
 
 ```gitignore
 .DS_Store
@@ -64,14 +64,14 @@ node_modules/
 .env
 ```
 
-- [ ] **Step 4: Giữ thư mục rỗng bằng `.gitkeep`**
+- [ ] **Step 4: Keep empty directories with `.gitkeep`**
 
 Run:
 ```bash
 touch raw/web/.gitkeep raw/meetings/.gitkeep raw/inbox/.gitkeep \
       wiki/concepts/.gitkeep wiki/entities/.gitkeep wiki/tech/.gitkeep wiki/journal/.gitkeep
 ```
-Expected: không lỗi.
+Expected: no error.
 
 - [ ] **Step 5: Commit**
 
@@ -82,62 +82,62 @@ git commit -m "chore: init second-brain vault skeleton"
 
 ---
 
-## Task 1: AGENTS.md — bộ luật vận hành (trái tim hệ thống)
+## Task 1: AGENTS.md — operating rules (heart of the system)
 
 **Files:**
 - Create: `AGENTS.md`
 
-- [ ] **Step 1: Viết acceptance check (checklist nội dung)**
+- [ ] **Step 1: Write acceptance check (content checklist)**
 
-File phải chứa đủ 5 mục: (1) read order, (2) luật CAPTURE, (3) luật QUERY + chống bịa, (4) luật COMPILE, (5) luật LINT. Sẽ verify bằng grep ở Step 3.
+The file must contain all 5 sections: (1) read order, (2) CAPTURE rules, (3) QUERY rules + anti-hallucination, (4) COMPILE rules, (5) LINT rules. Will be verified with grep in Step 3.
 
-- [ ] **Step 2: Viết `AGENTS.md`**
+- [ ] **Step 2: Write `AGENTS.md`**
 
 ```markdown
-# AGENTS.md — Luật vận hành Second Brain
+# AGENTS.md — Second Brain Operating Rules
 
-> Đây là bộ luật chung cho MỌI bề mặt (Claude Code & Claude Desktop/MCP).
-> Đọc file này trước khi thao tác với vault.
+> These are the shared operating rules for ALL surfaces (Claude Code & Claude Desktop/MCP).
+> Read this file before operating on the vault.
 
-## 0. Thứ tự đọc (BẮT BUỘC)
-1. `index.md` — bản đồ vault.
-2. `CRITICAL_FACTS.md` — facts cố định về user (luôn nạp).
-3. Sau đó mới `grep`/đọc file liên quan trong `wiki/` và `raw/`.
+## 0. Reading order (REQUIRED)
+1. `index.md` — vault map.
+2. `CRITICAL_FACTS.md` — fixed facts about the user (always loaded).
+3. Only then `grep`/read relevant files in `wiki/` and `raw/`.
 
-## 1. CAPTURE (nạp vào)
-- Mọi thứ vào `raw/` là **BẤT BIẾN** — không sửa nội dung gốc, chỉ thêm file mới.
-- URL → `raw/web/YYYY-MM-DD-<slug>.md` (dùng `scripts/clip.sh` hoặc WebFetch).
-- Ý/note nhanh → `raw/inbox/YYYY-MM-DD-HHMM-<slug>.md`.
+## 1. CAPTURE
+- Everything in `raw/` is **IMMUTABLE** — do not modify the original content, only add new files.
+- URL → `raw/web/YYYY-MM-DD-<slug>.md` (use `scripts/clip.sh` or WebFetch).
+- Quick note/idea → `raw/inbox/YYYY-MM-DD-HHMM-<slug>.md`.
 - Meeting → `raw/meetings/YYYY-MM-DD-<slug>.md`.
-- Mỗi file raw có YAML frontmatter: `source`, `captured_at`, `status: raw`.
+- Each raw file has YAML frontmatter: `source`, `captured_at`, `status: raw`.
 
-## 2. QUERY (hỏi-đáp)
-- Trả lời CHỈ từ nội dung trong vault.
-- Mọi khẳng định kèm trích dẫn `[[file]]` (wikilink tới file nguồn).
-- Nếu KHÔNG có trong vault: nói rõ "Không có trong bộ não" — KHÔNG bịa, KHÔNG dùng kiến thức ngoài trừ khi user yêu cầu rõ.
-- Khi thông tin cũ/mâu thuẫn, nêu marker thời điểm `(as of YYYY-MM, source)`.
+## 2. QUERY
+- Answer ONLY from content within the vault.
+- Every assertion includes a citation `[[file]]` (wikilink to the source file).
+- If NOT in the vault: clearly state "Not in the second brain" — do NOT hallucinate, do NOT use outside knowledge unless the user explicitly requests it.
+- When information is outdated/contradictory, include a timestamp marker `(as of YYYY-MM, source)`.
 
 ## 3. COMPILE (raw → wiki)
-- Khi user nói "xử lý inbox": đọc `raw/inbox/`, chắt lọc thành note ATOMIC.
-- Atomicity: 1 file = 1 khái niệm/thực thể. Đặt vào đúng `wiki/concepts|entities|tech|journal`.
-- Mỗi wiki note PHẢI có ≥1 `[[wikilink]]` CÓ NGỮ CẢNH (giải thích vì sao liên kết).
-- Giữ URL nguồn verbatim + marker confidence `(high|medium|low)` cho claim quan trọng.
-- Sau khi compile, đánh dấu file raw đã xử lý: đổi frontmatter `status: processed`.
+- When the user says "process inbox": read `raw/inbox/`, distill into ATOMIC notes.
+- Atomicity: 1 file = 1 concept/entity. Place in the correct `wiki/concepts|entities|tech|journal`.
+- Each wiki note MUST have ≥1 wikilink with context `[[wikilink]]` (explain why the link exists).
+- Keep the source URL verbatim + confidence marker `(high|medium|low)` for important claims.
+- After compiling, mark the raw file as processed: change frontmatter `status: processed`.
 
-## 4. LINT (rà soát định kỳ)
-- Khi user nói "lint" hoặc "kiểm tra bộ não": rà toàn `wiki/` tìm:
-  - mâu thuẫn giữa các note;
-  - claim cũ (marker thời điểm đã lâu);
-  - orphan (note không ai link tới);
-  - wikilink trỏ tới file không tồn tại.
-- Xuất báo cáo + ĐỀ XUẤT sửa; KHÔNG tự sửa nội dung raw.
+## 4. LINT (periodic review)
+- When the user says "lint" or "lint the brain": scan all of `wiki/` for:
+  - contradictions between notes;
+  - stale claims (outdated timestamp markers);
+  - orphans (notes with no incoming links);
+  - wikilinks pointing to non-existent files.
+- Output a report + SUGGEST fixes; do NOT modify raw content.
 
-## 5. Văn phong note
-- Viết cho future-Claude đọc & lập luận, không phải prose cho người.
-- Ngắn, atomic, nhiều liên kết. Tiếng Việt hoặc Anh đều được, nhất quán trong 1 note.
+## 5. Note writing style
+- Write for future-Claude to read & reason over, not as prose for humans.
+- Short, atomic, richly linked. Write in English by default.
 ```
 
-- [ ] **Step 3: Verify cấu trúc**
+- [ ] **Step 3: Verify structure**
 
 Run:
 ```bash
@@ -154,45 +154,45 @@ git commit -m "feat: add AGENTS.md operating rules (capture/query/compile/lint)"
 
 ---
 
-## Task 2: index.md — bản đồ vault
+## Task 2: index.md — vault map
 
 **Files:**
 - Create: `index.md`
 
-- [ ] **Step 1: Viết `index.md`**
+- [ ] **Step 1: Write `index.md`**
 
 ```markdown
 # Second Brain — Index
 
-> Claude: đọc file này ĐẦU TIÊN, rồi `CRITICAL_FACTS.md`, rồi `AGENTS.md`.
+> Claude: read this file FIRST, then `CRITICAL_FACTS.md`, then `AGENTS.md`.
 
-## Bản đồ vault
-- `raw/` — nguồn bất biến đã capture
-  - `web/` bài clip · `meetings/` họp · `inbox/` capture nhanh chưa xử lý
-- `wiki/` — tri thức đã compile (atomic + wikilink)
-  - `concepts/` khái niệm · `entities/` người/cty/dự án/tool · `tech/` kỹ thuật · `journal/` nhật ký
-- `AGENTS.md` — luật vận hành (đọc trước khi thao tác)
+## Vault map
+- `raw/` — captured immutable sources
+  - `web/` clipped articles · `meetings/` meetings · `inbox/` quick captures not yet processed
+- `wiki/` — compiled knowledge (atomic + wikilinks)
+  - `concepts/` concepts · `entities/` people/companies/projects/tools · `tech/` technical · `journal/` journal
+- `AGENTS.md` — operating rules (read before operating)
 
-## 4 use case → đường đi
-- Hỏi-đáp tri thức → `wiki/` + `raw/`, trả lời kèm `[[trích dẫn]]`.
-- Trợ lý kỹ thuật → `wiki/tech/`.
-- Capture & kết nối ý tưởng → `raw/inbox/` → (compile) → `wiki/concepts/`.
-- Bộ nhớ đời sống → `raw/` + `wiki/journal/`.
+## 4 use cases → pathways
+- Knowledge Q&A → `wiki/` + `raw/`, answer with `[[citation]]`.
+- Technical assistant → `wiki/tech/`.
+- Capture & connect ideas → `raw/inbox/` → (compile) → `wiki/concepts/`.
+- Life memory → `raw/` + `wiki/journal/`.
 
-## Lệnh quen dùng
+## Common commands
 - Capture URL: `./scripts/clip.sh <url>`
 - Capture file: `./scripts/import.sh <path>`
-- Trong Claude: "lưu ý này: ..." / "xử lý inbox" / "lint bộ não".
+- In Claude: "note this: ..." / "process inbox" / "lint the brain".
 
-## Trạng thái
-- Khởi tạo: 2026-06-14. Retrieval: LLM-over-Markdown (chưa dùng RAG).
+## Status
+- Initialized: 2026-06-14. Retrieval: LLM-over-Markdown (RAG not yet in use).
 ```
 
 - [ ] **Step 2: Verify**
 
 Run:
 ```bash
-test -f index.md && grep -q "đọc file này ĐẦU TIÊN" index.md && echo OK
+test -f index.md && grep -q "read this file FIRST" index.md && echo OK
 ```
 Expected: `OK`
 
@@ -205,35 +205,35 @@ git commit -m "feat: add index.md vault map"
 
 ---
 
-## Task 3: CRITICAL_FACTS.md — facts cố định về user
+## Task 3: CRITICAL_FACTS.md — fixed facts about the user
 
 **Files:**
 - Create: `CRITICAL_FACTS.md`
 
-- [ ] **Step 1: Viết `CRITICAL_FACTS.md` (template + seed tối thiểu)**
+- [ ] **Step 1: Write `CRITICAL_FACTS.md` (template + minimal seed)**
 
 ```markdown
 # CRITICAL FACTS
 
-> ~150 token. Facts ÍT THAY ĐỔI về chủ nhân. Claude luôn nạp file này.
+> ~150 tokens. Facts that RARELY CHANGE about the owner. Claude always loads this file.
 
-- Tên: Leonard.
-- Vai trò: Fullstack Engineer (mạnh backend) + Engineering Manager.
-- Stack chính: Java, Spring Boot, Kotlin, TypeScript, PostgreSQL, microservices.
-- Công cụ làm việc: sống trong Claude Code; dùng Claude Desktop + MCP cho chat.
-- Ngôn ngữ: tiếng Việt là chính, kỹ thuật có thể tiếng Anh.
-- Mục tiêu bộ não: hỏi-đáp tri thức, trợ lý kỹ thuật, capture ý tưởng, bộ nhớ đời sống.
+- Name: Leonard.
+- Role: Fullstack Engineer (strong backend) + Engineering Manager.
+- Primary stack: Java, Spring Boot, Kotlin, TypeScript, PostgreSQL, microservices.
+- Work tools: lives in Claude Code; uses Claude Desktop + MCP for chat.
+- Language: Vietnamese primarily, English for technical topics.
+- Second brain goals: knowledge Q&A, technical assistant, idea capture, life memory.
 
-<!-- Thêm facts mới ở đây khi ổn định. Đừng để file này phình quá ~200 token. -->
+<!-- Add new facts here once stable. Do not let this file grow beyond ~200 tokens. -->
 ```
 
-- [ ] **Step 2: Verify độ dài (~< 200 từ)**
+- [ ] **Step 2: Verify length (~< 200 words)**
 
 Run:
 ```bash
 wc -w CRITICAL_FACTS.md
 ```
-Expected: số từ < 120 (đủ nhỏ để luôn nạp).
+Expected: word count < 120 (small enough to always load).
 
 - [ ] **Step 3: Commit**
 
@@ -249,32 +249,32 @@ git commit -m "feat: add CRITICAL_FACTS seed"
 **Files:**
 - Create: `.claude/skills/second-brain/SKILL.md`
 
-- [ ] **Step 1: Viết `SKILL.md`**
+- [ ] **Step 1: Write `SKILL.md`**
 
 ```markdown
 ---
 name: second-brain
-description: Personal second brain over a local Markdown vault. Use when the user asks to capture/clip something, ask questions about their notes/knowledge, process inbox, compile wiki notes, or lint the knowledge base. Triggers — "lưu ý này", "clip", "hỏi bộ não", "xử lý inbox", "lint bộ não", "second brain".
+description: Personal second brain over a local Markdown vault. Use when the user asks to capture/clip something, ask questions about their notes/knowledge, process inbox, compile wiki notes, or lint the knowledge base. Triggers — "note this", "clip", "ask the brain", "process inbox", "lint the brain", "second brain".
 ---
 
 # Second Brain
 
-Bạn đang vận hành second brain cá nhân của user (vault Markdown này là source of truth).
+You are operating the user's personal second brain (this Markdown vault is the source of truth).
 
-## Bắt buộc trước mọi thao tác
-Đọc theo thứ tự: `index.md` → `CRITICAL_FACTS.md` → `AGENTS.md`.
-Tuân thủ NGHIÊM NGẶT mọi luật trong `AGENTS.md` (capture/query/compile/lint).
+## Required before any operation
+Read in order: `index.md` → `CRITICAL_FACTS.md` → `AGENTS.md`.
+STRICTLY follow all rules in `AGENTS.md` (capture/query/compile/lint).
 
-## Tóm tắt nhanh
-- CAPTURE: ghi vào `raw/` (bất biến), có frontmatter `status: raw`.
-- QUERY: trả lời CHỈ từ vault, kèm `[[trích dẫn]]`; không có thì nói "không có trong bộ não".
-- COMPILE: "xử lý inbox" → note atomic vào `wiki/` + `[[wikilink]]` có ngữ cảnh.
-- LINT: rà mâu thuẫn/claim cũ/orphan/link gãy → báo cáo, không tự sửa raw.
+## Quick summary
+- CAPTURE: write to `raw/` (immutable), with frontmatter `status: raw`.
+- QUERY: answer ONLY from the vault, with `[[citation]]`; if not found, say "not in the second brain".
+- COMPILE: "process inbox" → atomic notes into `wiki/` + wikilinks with context `[[wikilink]]`.
+- LINT: scan for contradictions/stale claims/orphans/broken links → report, do not modify raw.
 
-Chi tiết đầy đủ: xem `AGENTS.md`.
+Full details: see `AGENTS.md`.
 ```
 
-- [ ] **Step 2: Verify frontmatter hợp lệ**
+- [ ] **Step 2: Verify frontmatter is valid**
 
 Run:
 ```bash
@@ -291,13 +291,13 @@ git commit -m "feat: add second-brain Claude Code skill wrapper"
 
 ---
 
-## Task 5: scripts/import.sh — capture file local
+## Task 5: scripts/import.sh — capture local file
 
 **Files:**
 - Create: `scripts/import.sh`
 - Test: `scripts/test.sh`
 
-- [ ] **Step 1: Viết test trước (trong `scripts/test.sh`)**
+- [ ] **Step 1: Write test first (in `scripts/test.sh`)**
 
 ```bash
 #!/usr/bin/env bash
@@ -318,15 +318,15 @@ fi
 exit $FAIL
 ```
 
-- [ ] **Step 2: Chạy test → phải FAIL (chưa có import.sh)**
+- [ ] **Step 2: Run test → must FAIL (import.sh does not exist yet)**
 
 Run:
 ```bash
 chmod +x scripts/test.sh && ./scripts/test.sh
 ```
-Expected: FAIL / lỗi "No such file" cho `import.sh`.
+Expected: FAIL / "No such file" error for `import.sh`.
 
-- [ ] **Step 3: Viết `scripts/import.sh`**
+- [ ] **Step 3: Write `scripts/import.sh`**
 
 ```bash
 #!/usr/bin/env bash
@@ -355,7 +355,7 @@ DEST="raw/inbox/${TS}-${SLUG:-note}.md"
 echo "$DEST"
 ```
 
-- [ ] **Step 4: Chạy test → phải PASS**
+- [ ] **Step 4: Run test → must PASS**
 
 Run:
 ```bash
@@ -376,9 +376,9 @@ git commit -m "feat: add import.sh capture script with test"
 
 **Files:**
 - Create: `scripts/clip.sh`
-- Modify: `scripts/test.sh` (thêm test clip.sh ở chế độ --dry-run, không cần mạng)
+- Modify: `scripts/test.sh` (add clip.sh test in --dry-run mode, no network required)
 
-- [ ] **Step 1: Thêm test vào `scripts/test.sh`** (chèn ngay trước dòng `exit $FAIL`)
+- [ ] **Step 1: Add test to `scripts/test.sh`** (insert just before the `exit $FAIL` line)
 
 ```bash
 # --- clip.sh (dry-run, no network) ---
@@ -390,15 +390,15 @@ else
 fi
 ```
 
-- [ ] **Step 2: Chạy test → phải FAIL (chưa có clip.sh)**
+- [ ] **Step 2: Run test → must FAIL (clip.sh does not exist yet)**
 
 Run:
 ```bash
 ./scripts/test.sh
 ```
-Expected: FAIL cho clip.sh.
+Expected: FAIL for clip.sh.
 
-- [ ] **Step 3: Viết `scripts/clip.sh`**
+- [ ] **Step 3: Write `scripts/clip.sh`**
 
 ```bash
 #!/usr/bin/env bash
@@ -447,13 +447,13 @@ fi
 echo "$DEST"
 ```
 
-- [ ] **Step 4: Chạy test → phải PASS**
+- [ ] **Step 4: Run test → must PASS**
 
 Run:
 ```bash
 chmod +x scripts/clip.sh && ./scripts/test.sh
 ```
-Expected: cả `PASS import.sh` và `PASS clip.sh dry-run`.
+Expected: both `PASS import.sh` and `PASS clip.sh dry-run`.
 
 - [ ] **Step 5: Commit**
 
@@ -464,13 +464,13 @@ git commit -m "feat: add clip.sh URL capture (pandoc + Claude-fetch fallback) wi
 
 ---
 
-## Task 7: MCP filesystem config cho Claude Desktop
+## Task 7: MCP filesystem config for Claude Desktop
 
 **Files:**
 - Create: `mcp/claude_desktop_config.snippet.json`
 - Create: `mcp/README.md`
 
-- [ ] **Step 1: Viết snippet config**
+- [ ] **Step 1: Write config snippet**
 
 `mcp/claude_desktop_config.snippet.json`:
 ```json
@@ -488,23 +488,23 @@ git commit -m "feat: add clip.sh URL capture (pandoc + Claude-fetch fallback) wi
 }
 ```
 
-- [ ] **Step 2: Viết `mcp/README.md` hướng dẫn lắp**
+- [ ] **Step 2: Write `mcp/README.md` setup guide**
 
 ```markdown
-# Bật Claude Desktop đọc/ghi vault qua MCP filesystem
+# Enable Claude Desktop to read/write the vault via MCP filesystem
 
-1. Mở file cấu hình Claude Desktop:
+1. Open the Claude Desktop config file:
    - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-2. Merge nội dung `claude_desktop_config.snippet.json` vào (gộp khoá `mcpServers`).
-3. Khởi động lại Claude Desktop.
-4. Trong chat, yêu cầu Claude đọc `index.md` rồi `AGENTS.md` trước khi thao tác.
+2. Merge the contents of `claude_desktop_config.snippet.json` into it (merge the `mcpServers` key).
+3. Restart Claude Desktop.
+4. In chat, ask Claude to read `index.md` then `AGENTS.md` before operating.
 
-Lưu ý: server `@modelcontextprotocol/server-filesystem` cho phép đọc & GHI trong
-đúng thư mục vault — đây là điều kiện để Desktop capture/compile được như Claude Code.
-Cần có Node.js (npx) trên máy.
+Note: the `@modelcontextprotocol/server-filesystem` server allows reading & WRITING within
+the vault directory — this is required for Desktop to capture/compile the same as Claude Code.
+Node.js (npx) must be installed on the machine.
 ```
 
-- [ ] **Step 3: Verify JSON hợp lệ**
+- [ ] **Step 3: Verify valid JSON**
 
 Run:
 ```bash
@@ -521,26 +521,26 @@ git commit -m "feat: add Claude Desktop MCP filesystem config + setup guide"
 
 ---
 
-## Task 8: Seed dữ liệu thật & nghiệm thu 5 prompt
+## Task 8: Seed real data & acceptance testing with 5 prompts
 
 **Files:**
-- Create: `raw/inbox/2026-06-14-seed-note.md` (qua script)
-- Create: `wiki/concepts/llm-wiki.md` (seed thủ công để test query)
+- Create: `raw/inbox/2026-06-14-seed-note.md` (via script)
+- Create: `wiki/concepts/llm-wiki.md` (manually seeded to test query)
 
-- [ ] **Step 1: Seed 1 wiki note thật để test query**
+- [ ] **Step 1: Seed 1 real wiki note to test query**
 
 `wiki/concepts/llm-wiki.md`:
 ```markdown
 # LLM Wiki
 
-Mẫu kiến trúc second brain do Andrej Karpathy đề xuất (as of 2026-04, gist.github.com/karpathy):
-bỏ vector DB cho corpus cỡ vừa (~400k từ), để LLM lập luận trực tiếp trên Markdown
-qua 3 giai đoạn raw → compile → lint. File `.md` là nguồn chân lý truy vết được. (confidence: high)
+Second brain architecture pattern proposed by Andrej Karpathy (as of 2026-04, gist.github.com/karpathy):
+drops the vector DB for mid-sized corpora (~400k words), letting the LLM reason directly over Markdown
+through 3 stages: raw → compile → lint. `.md` files are the traceable source of truth. (confidence: high)
 
-Liên quan: [[zettelkasten]] (atomicity dùng cho note), và là nền của vault này — xem [[../index]].
+Related: [[zettelkasten]] (atomicity applied to notes), and the foundation of this vault — see [[../index]].
 ```
 
-- [ ] **Step 2: Verify query path bằng grep (mô phỏng điều Claude làm)**
+- [ ] **Step 2: Verify query path using grep (simulating what Claude does)**
 
 Run:
 ```bash
@@ -548,29 +548,29 @@ grep -rl "Karpathy" wiki/ | head -1
 ```
 Expected: `wiki/concepts/llm-wiki.md`
 
-- [ ] **Step 3: Capture 1 note qua script (luồng capture)**
+- [ ] **Step 3: Capture 1 note via script (capture pipeline)**
 
 Run:
 ```bash
-echo "Thử nghiệm: ý tưởng dùng cron để auto-lint hằng tuần." > /tmp/sb_idea.txt
+echo "Test idea: use a cron job to auto-lint weekly." > /tmp/sb_idea.txt
 ./scripts/import.sh /tmp/sb_idea.txt
 ```
-Expected: in ra path `raw/inbox/2026-06-14-...md`.
+Expected: prints path `raw/inbox/2026-06-14-...md`.
 
-- [ ] **Step 4: Chạy 5 prompt nghiệm thu (thủ công trong Claude Code, ghi kết quả)**
+- [ ] **Step 4: Run 5 acceptance prompts (manually in Claude Code, record results)**
 
-Mở `cd second-brain && claude`, chạy lần lượt và xác nhận:
-- [ ] (a) "clip https://example.com" → file mới trong `raw/web/` có frontmatter `status: raw`.
-- [ ] (b) "lưu ý này: <bất kỳ>" → file mới trong `raw/inbox/`.
-- [ ] (c) "LLM Wiki là gì?" → trả lời **kèm trích dẫn `[[llm-wiki]]`**.
-- [ ] (d) "Giá cổ phiếu Apple hôm nay?" → trả lời "không có trong bộ não", KHÔNG bịa.
-- [ ] (e) "xử lý inbox" → sinh note atomic trong `wiki/` có `[[wikilink]]`, và đổi raw `status: processed`.
+Open `cd second-brain && claude`, run each prompt in order and confirm:
+- [ ] (a) "clip https://example.com" → new file in `raw/web/` with frontmatter `status: raw`.
+- [ ] (b) "note this: <anything>" → new file in `raw/inbox/`.
+- [ ] (c) "What is LLM Wiki?" → answer **with citation `[[llm-wiki]]`**.
+- [ ] (d) "What is Apple's stock price today?" → answer "Not in the second brain", do NOT hallucinate.
+- [ ] (e) "process inbox" → generate atomic note in `wiki/` with `[[wikilink]]`, and change raw `status: processed`.
 
-- [ ] **Step 5: Lặp lại (a)–(e) tương ứng trên Claude Desktop/MCP**
+- [ ] **Step 5: Repeat (a)–(e) on Claude Desktop/MCP**
 
-Xác nhận capture (a,b) và query (c,d) hoạt động qua MCP filesystem. (Compile (e) có thể chạy ở 1 trong 2 bề mặt.)
+Confirm capture (a,b) and query (c,d) work via MCP filesystem. (Compile (e) can run on either surface.)
 
-- [ ] **Step 6: Commit seed + ghi chú nghiệm thu**
+- [ ] **Step 6: Commit seed + acceptance test notes**
 
 ```bash
 git add wiki/concepts/llm-wiki.md raw/inbox/
@@ -579,8 +579,8 @@ git commit -m "test: seed note + capture sample, verify 5 acceptance prompts"
 
 ---
 
-## Hoàn tất MVP
+## MVP Complete
 
-Sau Task 8: vault hoạt động đủ 3 luồng (capture/query/maintain) trên cả 2 bề mặt.
-**Để dành (YAGNI):** RAG/pgvector khi corpus vượt ngưỡng context, web clipper tự động,
-mobile capture, auto-lint theo lịch (cron).
+After Task 8: the vault operates all 3 pipelines (capture/query/maintain) on both surfaces.
+**Deferred (YAGNI):** RAG/pgvector when corpus exceeds context threshold, automated web clipper,
+mobile capture, scheduled auto-lint (cron).

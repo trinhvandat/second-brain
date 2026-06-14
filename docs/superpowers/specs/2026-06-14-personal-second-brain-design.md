@@ -7,157 +7,162 @@
 
 ---
 
-## 1. Mục tiêu (Objective)
+## 1. Objective
 
-Xây một **second brain cá nhân** dạng *LLM Wiki*: một vault Markdown local-first
-làm **source of truth**, với Claude làm bộ não đọc/lập luận/duy trì. Hệ thống phục
-vụ **4 use case trên cùng một substrate**:
+Build a **personal second brain** as an *LLM Wiki*: a local-first Markdown vault
+as the **source of truth**, with Claude acting as the reading/reasoning/maintenance engine.
+The system serves **4 use cases on a single substrate**:
 
-1. **Hỏi-đáp tri thức cá nhân** — hỏi tự nhiên, nhận câu trả lời kèm trích dẫn nguồn.
-2. **Trợ lý kỹ thuật / công việc** — snippet, ADR, lessons-learned cho lúc code.
-3. **Capture & kết nối ý tưởng** — ghi nhanh, hệ thống tự liên kết note (Zettelkasten + AI).
-4. **Bộ nhớ đời sống tổng hợp** — bài đọc web, meeting notes, PDF, journal.
+1. **Personal knowledge Q&A** — ask naturally, receive answers with source citations.
+2. **Technical / work assistant** — snippets, ADRs, lessons-learned while coding.
+3. **Capture & connect ideas** — quick capture, system auto-links notes (Zettelkasten + AI).
+4. **Comprehensive life memory** — web articles, meeting notes, PDFs, journal.
 
-**Vì sao (why):** Nút thắt của AI trong knowledge work không phải mô hình mà là
-*ngữ cảnh cá nhân* được cấu trúc để LLM đọc được (Tiago Forte — "Personal Context
-Management"). Mục tiêu là biến ghi chú rời rạc thành một "wiki biết trả lời" và
-**tự duy trì**.
+**Why:** The bottleneck of AI in knowledge work is not the model but
+*personal context* structured for LLM consumption (Tiago Forte — "Personal Context
+Management"). The goal is to turn scattered notes into a "wiki that can answer" and
+**self-maintain**.
 
-## 2. Cơ sở từ research (đã verify 3-0)
+## 2. Research Basis (verified 3-0)
 
-Dựa trên báo cáo deep-research ngày 2026-06-13 (21/25 claim confirmed):
+Based on the deep-research report from 2026-06-13 (21/25 claims confirmed):
 
-- **LLM Wiki của Karpathy (4/2026):** bỏ vector DB cho corpus cỡ vừa (~100 bài /
-  ~400k từ); LLM lập luận trực tiếp trên Markdown qua 3 giai đoạn raw → compile →
-  lint; file `.md` là nguồn chân lý truy vết được, tránh hộp đen embedding.
+- **Karpathy's LLM Wiki (4/2026):** drops vector DB for mid-sized corpora (~100 articles /
+  ~400k words); LLM reasons directly over Markdown through 3 stages: raw → compile →
+  lint; `.md` files are the traceable source of truth, avoiding embedding black boxes.
   (gist Karpathy, VentureBeat)
-- **obsidian-second-brain:** Claude Code skill biến vault Markdown thành KB
-  **tự duy trì**; cấu trúc cho LLM đọc (`index.md` đọc trước, `CRITICAL_FACTS.md`
-  luôn nạp, `raw/` bất biến, `wiki/` theo entities/concepts, `[[wikilinks]]` bắt
-  buộc, marker confidence/recency). (github.com/eugeniughelbur/obsidian-second-brain)
-- **Zettelkasten:** atomicity (1 note = 1 khối tri thức, địa chỉ duy nhất); liên
-  kết phải CÓ NGỮ CẢNH mới tạo tri thức. (zettelkasten.de)
-- **NotebookLM source-grounding:** chỉ trả lời từ nguồn đã có + trích dẫn xác minh
-  được → mẫu chống bịa. (arXiv 2504.09720)
+- **obsidian-second-brain:** Claude Code skill that turns a Markdown vault into a
+  **self-maintaining** KB; structured for LLM reading (`index.md` read first,
+  `CRITICAL_FACTS.md` always loaded, `raw/` immutable, `wiki/` organized by entities/concepts,
+  `[[wikilinks]]` required, confidence/recency markers).
+  (github.com/eugeniughelbur/obsidian-second-brain)
+- **Zettelkasten:** atomicity (1 note = 1 unit of knowledge, unique address); links
+  must HAVE CONTEXT to generate knowledge. (zettelkasten.de)
+- **NotebookLM source-grounding:** answers only from existing sources + verifiable
+  citations → anti-hallucination pattern. (arXiv 2504.09720)
 
-## 3. Quyết định thiết kế (từ brainstorming)
+## 3. Design Decisions (from brainstorming)
 
-| Quyết định | Lựa chọn | Ghi chú |
+| Decision | Choice | Notes |
 |---|---|---|
-| Mục đích | Cả 4 use case | Phục vụ trên cùng substrate Markdown |
-| Triết lý build | Hybrid → vault sẵn + lớp custom mỏng | "Lớp custom" = Claude skill + script nhỏ, KHÔNG phải app |
-| Stack | Không cần code nhiều | Claude Code làm ingest/query; chỉ viết shell script khi cần |
-| Retrieval | **LLM-over-Markdown** (Karpathy) | Zero infra; RAG/pgvector để dành cho tương lai |
-| Bề mặt | **Claude Code (chính) + Claude Desktop/MCP (phụ)** | Cả hai trỏ vào cùng vault |
-| Luật vận hành | **Surface-agnostic** | Đặt trong `index.md` + `AGENTS.md`; SKILL.md chỉ là wrapper |
+| Purpose | All 4 use cases | Served on the same Markdown substrate |
+| Build philosophy | Hybrid → existing vault + thin custom layer | "Custom layer" = Claude skill + small scripts, NOT an app |
+| Stack | Minimal code needed | Claude Code handles ingest/query; write shell scripts only when needed |
+| Retrieval | **LLM-over-Markdown** (Karpathy) | Zero infra; RAG/pgvector deferred (YAGNI) for the future |
+| Surface | **Claude Code (primary) + Claude Desktop/MCP (secondary)** | Both point to the same vault |
+| Operating rules | **Surface-agnostic** | Defined in `index.md` + `AGENTS.md`; SKILL.md is just a wrapper |
 
-**Approaches đã loại:**
-- *RAG + pgvector*: mâu thuẫn "không cần code nhiều"; YAGNI cho tới khi corpus vượt
-  ngưỡng context window.
-- *Obsidian + plugin RAG (Smart Connections)*: khoá vào Obsidian app; muốn Claude
-  là tác nhân chính.
-- *claude.ai Projects*: **không ghi ngược file local** → vault "sống" sẽ lệch dần.
+**Discarded approaches:**
+- *RAG + pgvector*: conflicts with "minimal code needed"; YAGNI until corpus exceeds
+  context window threshold.
+- *Obsidian + plugin RAG (Smart Connections)*: locks into the Obsidian app; we want
+  Claude as the primary agent.
+- *claude.ai Projects*: **cannot write back to local files** → the "live" vault will
+  gradually drift.
 
-## 4. Kiến trúc & cấu trúc vault
+## 4. Architecture & Vault Structure
 
-**Nguyên tắc nền:**
-- File `.md` là source of truth — mọi câu trả lời truy về được một file cụ thể.
-- Viết **cho Claude đọc trước, người đọc sau** (AI-first retrieval).
-- Mỗi claim mang marker: `(as of YYYY-MM, source.com)` + độ tin cậy khi liên quan.
-- `[[wikilinks]]` bắt buộc, có ngữ cảnh giải thích (Zettelkasten).
+**Core principles:**
+- `.md` files are the source of truth — every answer traces back to a specific file.
+- Written **for Claude to read first, humans second** (AI-first retrieval).
+- Every claim carries a marker: `(as of YYYY-MM, source.com)` + confidence level when relevant.
+- `[[wikilinks]]` are required, with context explaining the link (Zettelkasten).
 
 ```
 second-brain/
-├── index.md              # Claude ĐỌC ĐẦU TIÊN — bản đồ vault + cách dùng
-├── CRITICAL_FACTS.md     # ~150 token, facts luôn-đúng-về-tôi, luôn nạp
-├── AGENTS.md             # Bộ luật vận hành surface-agnostic (capture/query/lint)
-├── raw/                  # Nguồn BẤT BIẾN
-│   ├── web/              # bài clip từ URL (Markdown)
-│   ├── meetings/         # meeting notes thô
-│   └── inbox/            # capture nhanh, chưa xử lý
-├── wiki/                 # Tri thức đã compile — Claude tự viết & duy trì
+├── index.md              # Claude reads THIS FIRST — vault map + usage guide
+├── CRITICAL_FACTS.md     # ~150 tokens, always-true facts about me, always loaded
+├── AGENTS.md             # Surface-agnostic operating rules (capture/query/lint)
+├── raw/                  # IMMUTABLE sources
+│   ├── web/              # articles clipped from URLs (Markdown)
+│   ├── meetings/         # raw meeting notes
+│   └── inbox/            # quick captures, unprocessed
+├── wiki/                 # Compiled knowledge — Claude writes & maintains
 │   ├── concepts/         # 1 file = 1 atomic concept
-│   ├── entities/         # người, công ty, dự án, công cụ
-│   ├── tech/             # use case trợ lý kỹ thuật: snippet, ADR, lessons
-│   └── journal/          # use case bộ nhớ đời sống: theo ngày/tuần
+│   ├── entities/         # people, companies, projects, tools
+│   ├── tech/             # technical assistant use case: snippets, ADRs, lessons
+│   └── journal/          # life memory use case: by day/week
 ├── .claude/
-│   └── skills/second-brain/SKILL.md   # wrapper mỏng trỏ về AGENTS.md
-├── scripts/              # shell script nhỏ: clip url, import file
-└── docs/superpowers/specs/            # spec này
+│   └── skills/second-brain/SKILL.md   # thin wrapper pointing to AGENTS.md
+├── scripts/              # small shell scripts: clip URL, import file
+└── docs/superpowers/specs/            # this spec
 ```
 
-**Ánh xạ use case → substrate:**
-- Hỏi-đáp tri thức → đọc `wiki/` + `raw/`, trả lời kèm trích dẫn.
-- Trợ lý kỹ thuật → `wiki/tech/`.
-- Capture & kết nối ý tưởng → `raw/inbox/` → compile thành `wiki/concepts/` + auto `[[links]]`.
-- Bộ nhớ đời sống → `raw/` + `wiki/journal/`.
+**Use case → substrate mapping:**
+- Knowledge Q&A → read `wiki/` + `raw/`, answer with citations.
+- Technical assistant → `wiki/tech/`.
+- Capture & connect ideas → `raw/inbox/` → compile into `wiki/concepts/` + auto `[[links]]`.
+- Life memory → `raw/` + `wiki/journal/`.
 
-## 5. Các đơn vị (units) & ranh giới
+## 5. Units & Boundaries
 
-| Unit | Làm gì | Phụ thuộc | Giao diện |
+| Unit | Role | Dependencies | Interface |
 |---|---|---|---|
-| `AGENTS.md` | Định nghĩa luật capture/query/maintain | — | Claude đọc khi vào vault |
-| `index.md` | Bản đồ vault + thứ tự đọc | cấu trúc thư mục | Claude đọc đầu tiên |
-| `CRITICAL_FACTS.md` | Facts cố định về user | — | luôn nạp vào context |
-| SKILL.md (Claude Code) | Wrapper kích hoạt + trỏ về AGENTS.md | AGENTS.md | auto khi cd vào vault |
-| MCP filesystem config | Cho Desktop đọc/ghi vault | Claude Desktop | chat surface |
-| `scripts/clip.sh` | URL → Markdown vào raw/web/ | curl/markdown tool | CLI |
+| `AGENTS.md` | Defines capture/query/maintain rules | — | Claude reads on vault entry |
+| `index.md` | Vault map + reading order | directory structure | Claude reads first |
+| `CRITICAL_FACTS.md` | Fixed facts about the user | — | always loaded into context |
+| SKILL.md (Claude Code) | Activation wrapper + points to AGENTS.md | AGENTS.md | auto on cd into vault |
+| MCP filesystem config | Allows Desktop to read/write vault | Claude Desktop | chat surface |
+| `scripts/clip.sh` | URL → Markdown into raw/web/ | curl/markdown tool | CLI |
 | `scripts/import.sh` | file → raw/inbox/ | — | CLI |
 
-Mỗi unit hiểu được độc lập, test được riêng. Luật vận hành tách khỏi cơ chế kích
-hoạt (AGENTS.md vs SKILL.md) để hai bề mặt dùng chung.
+Each unit is independently understandable and testable in isolation. Operating rules are
+decoupled from the activation mechanism (AGENTS.md vs SKILL.md) so both surfaces share
+the same rules.
 
-## 6. Ba luồng vận hành
+## 6. Three Operating Workflows
 
-### ① CAPTURE (nạp vào) — ma sát thấp
-- Claude Code: `clip <url>` → `raw/web/`; "lưu ý này: ..." → `raw/inbox/`.
-- Desktop: paste/nói → Claude ghi file qua MCP filesystem.
-- **Nguyên tắc:** capture thô **bất biến**, không sửa; xử lý để sau.
+### ① CAPTURE (ingest) — low friction
+- Claude Code: `clip <url>` → `raw/web/`; "note this: ..." → `raw/inbox/`.
+- Desktop: paste/speak → Claude writes files via MCP filesystem.
+- **Principle:** raw captures are **immutable**, not edited; process later.
 
-### ② QUERY (hỏi-đáp) — 4 use case
-- Claude đọc `index.md` + `CRITICAL_FACTS.md` trước → `grep`/đọc `wiki/` + `raw/`.
-- Trả lời **kèm trích dẫn `[[file]]`** + độ tin cậy.
-- Không có trong vault → nói rõ "không có trong bộ não" (source-grounding, chống bịa).
+### ② QUERY (Q&A) — 4 use cases
+- Claude reads `index.md` + `CRITICAL_FACTS.md` first → `grep`/reads `wiki/` + `raw/`.
+- Answers **with `[[file]]` citations** + confidence level.
+- Not in the vault → explicitly states "Not in the second brain" (source-grounding, anti-hallucination).
 
 ### ③ MAINTAIN (compile + lint)
-- *Compile*: "xử lý inbox" → đọc `raw/inbox/`, viết/cập nhật note atomic vào `wiki/`,
-  tự thêm `[[wikilinks]]` + gợi ý liên hệ.
-- *Lint* (định kỳ): rà mâu thuẫn, claim cũ, orphan, link thiếu → báo cáo + đề xuất sửa.
+- *Compile*: "process inbox" → read `raw/inbox/`, write/update atomic notes in `wiki/`,
+  auto-add `[[wikilinks]]` + suggest connections.
+- *Lint* (periodic): scan for contradictions, outdated claims, orphans, missing links →
+  report + suggest fixes.
 
-## 7. Phạm vi MVP (vòng 1)
+## 7. MVP Scope (Round 1)
 
-1. Khởi tạo cấu trúc vault + `index.md`, `CRITICAL_FACTS.md`, `AGENTS.md`.
-2. Viết Claude Code skill `second-brain` (wrapper mỏng trỏ AGENTS.md).
-3. Cấu hình MCP filesystem cho Claude Desktop trỏ vào vault.
-4. 1-2 script capture (`clip.sh`, `import.sh`).
-5. Seed vài note thật để test 3 luồng.
+1. Initialize vault structure + `index.md`, `CRITICAL_FACTS.md`, `AGENTS.md`.
+2. Write Claude Code skill `second-brain` (thin wrapper pointing to AGENTS.md).
+3. Configure MCP filesystem for Claude Desktop to point at the vault.
+4. 1-2 capture scripts (`clip.sh`, `import.sh`).
+5. Seed a few real notes to test the 3 workflows.
 
-**Ngoài phạm vi (YAGNI — chỉ làm khi cần):** RAG/pgvector (khi corpus vượt ngưỡng
-context), web clipper tự động, mobile capture, auto-lint theo lịch.
+**Out of scope (YAGNI — only when needed):** RAG/pgvector (when corpus exceeds context
+threshold), automated web clipper, mobile capture, scheduled auto-lint.
 
-## 8. Kế hoạch test (verify MVP dùng được)
+## 8. Test Plan (verify MVP is usable)
 
-5 prompt thử:
-- (a) capture 1 URL → file Markdown xuất hiện trong `raw/web/`.
-- (b) capture 1 ý nhanh → file trong `raw/inbox/`.
-- (c) hỏi 1 câu CÓ trong vault → câu trả lời **kèm trích dẫn `[[file]]`**.
-- (d) hỏi 1 câu KHÔNG có → phải nói "không có trong bộ não", không bịa.
-- (e) "xử lý inbox" → sinh note atomic trong `wiki/` có `[[link]]`.
+5 test prompts:
+- (a) capture 1 URL → Markdown file appears in `raw/web/`.
+- (b) capture 1 quick idea → file in `raw/inbox/`.
+- (c) ask 1 question that IS in the vault → answer **with `[[file]]` citation**.
+- (d) ask 1 question that is NOT in the vault → must say "Not in the second brain", no hallucination.
+- (e) "process inbox" → generate atomic note in `wiki/` with `[[link]]`.
 
-Cả 5 phải pass trên **cả hai bề mặt** (Claude Code + Desktop/MCP) cho luồng tương ứng.
+All 5 must pass on **both surfaces** (Claude Code + Desktop/MCP) for the relevant workflow.
 
-## 9. Rủi ro & câu hỏi mở
+## 9. Risks & Open Questions
 
-- **Ngưỡng quy mô:** khi corpus vượt context window, cần chuyển sang RAG. Karpathy
-  nêu ~400k từ là "cỡ vừa"; ranh giới trên chưa định lượng → theo dõi, chưa build RAG.
-- **Chi phí token:** "nạp wiki vào context" tốn token khi vault lớn → giảm bằng
-  `index.md`/grep có chọn lọc thay vì đọc toàn bộ.
-- **Tiếng Việt:** chất lượng xử lý note tiếng Việt của Claude tốt, nhưng chưa có
-  benchmark embedding tiếng Việt (chỉ quan trọng nếu sau này thêm RAG).
-- **Đồng bộ hai bề mặt:** cả hai ghi vào cùng file → tránh sửa đồng thời; vault
-  không bật real-time sync nên xung đột thấp.
+- **Scale threshold:** when corpus exceeds the context window, RAG will be needed. Karpathy
+  cites ~400k words as "mid-sized"; the upper boundary is not yet quantified → monitor,
+  do not build RAG yet.
+- **Token cost:** "loading the wiki into context" is expensive as the vault grows → mitigate
+  with selective `index.md`/grep instead of reading everything.
+- **Vietnamese:** Claude's quality processing Vietnamese notes is good, but there is no
+  Vietnamese embedding benchmark yet (only relevant if RAG is added later).
+- **Two-surface sync:** both write to the same files → avoid simultaneous edits; vault
+  does not use real-time sync so conflicts are low.
 
-## 10. Bước tiếp theo
+## 10. Next Steps
 
-Sau khi user duyệt spec → invoke **writing-plans** để ra kế hoạch triển khai chi tiết
-cho MVP (mục 7).
+After the user approves this spec → invoke **writing-plans** to produce a detailed
+implementation plan for the MVP (section 7).

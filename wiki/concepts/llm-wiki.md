@@ -1,7 +1,7 @@
 # LLM Wiki
 
-Mẫu kiến trúc second brain do Andrej Karpathy đề xuất (as of 2026-04, gist.github.com/karpathy):
-bỏ vector DB cho corpus cỡ vừa (~400k từ), để LLM lập luận trực tiếp trên Markdown
-qua 3 giai đoạn raw → compile → lint. File `.md` là nguồn chân lý truy vết được. (confidence: high)
+A second-brain architecture proposed by Andrej Karpathy (as of 2026-04, gist.github.com/karpathy):
+drop the vector DB for mid-sized corpora (~400k words) and let the LLM reason directly over Markdown
+across 3 stages raw → compile → lint. The `.md` files are the traceable source of truth. (confidence: high)
 
-Liên quan: [[zettelkasten]] (atomicity dùng cho note), và là nền của vault này — xem [[index]].
+Related: [[zettelkasten]] (atomicity applied to notes), and the foundation of this vault — see [[index]].

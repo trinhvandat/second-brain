@@ -1,11 +1,11 @@
-# Bật Claude Desktop đọc/ghi vault qua MCP filesystem
+# Enable Claude Desktop to read/write the vault via MCP filesystem
 
-1. Mở file cấu hình Claude Desktop:
+1. Open the Claude Desktop config file:
    - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-2. Merge nội dung `claude_desktop_config.snippet.json` vào (gộp khoá `mcpServers`).
-3. Khởi động lại Claude Desktop.
-4. Trong chat, yêu cầu Claude đọc `index.md` rồi `AGENTS.md` trước khi thao tác.
+2. Merge the contents of `claude_desktop_config.snippet.json` (combine the `mcpServers` key).
+3. Restart Claude Desktop.
+4. In chat, ask Claude to read `index.md` then `AGENTS.md` before doing anything.
 
-Lưu ý: server `@modelcontextprotocol/server-filesystem` cho phép đọc & GHI trong
-đúng thư mục vault — đây là điều kiện để Desktop capture/compile được như Claude Code.
-Cần có Node.js (npx) trên máy.
+Note: the `@modelcontextprotocol/server-filesystem` server allows reading & WRITING within
+the vault directory — this is what lets Desktop capture/compile just like Claude Code.
+Requires Node.js (npx) on the machine.

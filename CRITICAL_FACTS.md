@@ -1,12 +1,12 @@
 # CRITICAL FACTS
 
-> ~150 token. Facts ÍT THAY ĐỔI về chủ nhân. Claude luôn nạp file này.
+> ~150 tokens. Rarely-changing facts about the owner. Claude always loads this file.
 
-- Tên: Leonard.
-- Vai trò: Fullstack Engineer (mạnh backend) + Engineering Manager.
-- Stack chính: Java, Spring Boot, Kotlin, TypeScript, PostgreSQL, microservices.
-- Công cụ làm việc: sống trong Claude Code; dùng Claude Desktop + MCP cho chat.
-- Ngôn ngữ: tiếng Việt là chính, kỹ thuật có thể tiếng Anh.
-- Mục tiêu bộ não: hỏi-đáp tri thức, trợ lý kỹ thuật, capture ý tưởng, bộ nhớ đời sống.
+- Name: Leonard.
+- Role: Fullstack Engineer (backend-heavy) + Engineering Manager.
+- Main stack: Java, Spring Boot, Kotlin, TypeScript, PostgreSQL, microservices.
+- Working tools: lives in Claude Code; uses Claude Desktop + MCP for chat.
+- Language: English (primary); technical terms may stay in their original form.
+- Brain goals: knowledge Q&A, technical assistant, idea capture, life memory.
 
-<!-- Thêm facts mới ở đây khi ổn định. Đừng để file này phình quá ~200 token. -->
+<!-- Add new facts here once stable. Keep this file under ~200 tokens. -->

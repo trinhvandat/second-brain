@@ -1,8 +1,8 @@
-# Auto-lint định kỳ bằng cron
+# Periodic auto-lint with cron
 
-Ý tưởng: chạy bước LINT của vault tự động hằng tuần thay vì thủ công, dùng `cron`
-để định kỳ nhờ Claude rà mâu thuẫn/claim cũ/orphan/link gãy. (as of 2026-06, raw/inbox)
+Idea: run the vault's LINT step automatically every week instead of manually, using `cron`
+to periodically have Claude scan for contradictions/stale claims/orphans/broken links. (as of 2026-06, raw/inbox)
 
-Đây là một mở rộng của giai đoạn *lint* trong [[llm-wiki]] (raw → compile → lint) —
-biến lint từ thao tác thủ công thành định kỳ. Thuộc danh mục "để dành (YAGNI)" của
-MVP: chỉ làm khi vault đủ lớn để việc rà tay trở nên tốn công. (confidence: medium — mới là ý tưởng)
+This is an extension of the *lint* stage in [[llm-wiki]] (raw → compile → lint) —
+turning lint from a manual action into a periodic one. It belongs to the MVP's "deferred (YAGNI)"
+list: only build it once the vault is large enough that manual linting becomes costly. (confidence: medium — still just an idea)
