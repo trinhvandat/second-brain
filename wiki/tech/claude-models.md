@@ -13,3 +13,5 @@ Current Claude models (as of 2026-06): Fable 5 and the Claude 4.X family — Opu
 
 Supersedes [[latest-claude-model]] (which named Opus 4.5 as the latest, as of 2025-12).
 These models are the reasoning engine behind this vault's [[llm-wiki]] design.
+In practice, start with the cheapest tier (Haiku) for dev iterations — e.g. the first API
+call in [[agentic-ai-course-setup]].
