@@ -129,6 +129,28 @@ crontab -e
 0 9 * * 1 /Users/leonard/Workspace/code/personal/second-brain/scripts/weekly-lint.sh
 ```
 
+## Backup & sync
+
+The vault is local-first, but it's also a git repo — back it up to a **private** remote so a
+disk failure never loses your brain. (Keep it private; it holds personal notes.)
+
+One-time setup (already done for this vault via `gh`):
+
+```bash
+gh repo create second-brain --private --source=. --remote=origin --push
+# or, with an existing empty repo:
+git remote add origin git@github.com:<you>/second-brain.git
+git push -u origin master
+```
+
+Then make pushing a habit — after a capture/compile/lint session:
+
+```bash
+git add -A && git commit -m "notes: <what changed>" && git push
+```
+
+To restore on a new machine: `git clone <remote> second-brain && cd second-brain && chmod +x scripts/*.sh`.
+
 ## Layout
 
 ```
