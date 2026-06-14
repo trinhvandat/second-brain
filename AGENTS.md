@@ -34,6 +34,7 @@
   - stale claims (recency marker is long past);
   - orphans (notes nothing links to);
   - wikilinks pointing to non-existent files.
+- The mechanical subset (broken links, orphans, stale-by-date) can be pre-run with `scripts/lint.sh`; the contradiction check is semantic and is yours to do.
 - Produce a report + SUGGESTED fixes; do NOT edit raw content automatically.
 
 ## 5. Note style

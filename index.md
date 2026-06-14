@@ -18,6 +18,7 @@
 ## Common commands
 - Capture URL: `./scripts/clip.sh <url>`
 - Capture file: `./scripts/import.sh <path>`
+- Mechanical lint: `./scripts/lint.sh` (broken links, orphans, stale claims)
 - In Claude: "note this: ..." / "process inbox" / "lint the brain".
 
 ## Status
