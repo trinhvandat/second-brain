@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "second-brain": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/leonard/Workspace/code/personal/second-brain"
+      ]
+    }
+  }
+}
