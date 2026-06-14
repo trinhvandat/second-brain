@@ -1,5 +1,5 @@
 ---
-status: superseded
+status: retired
 updated: 2025-12
 sources:
   - https://docs.claude.com/en/docs/about-claude/models
