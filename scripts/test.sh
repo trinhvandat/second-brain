@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -uo pipefail
 cd "$(dirname "$0")/.."
-ROOT="$(pwd)"
 FAIL=0
 
 # --- import.sh ---
@@ -12,6 +11,7 @@ if [[ -f "$OUT" ]] && grep -q "status: raw" "$OUT" && grep -q "hello brain" "$OU
 else
   echo "FAIL import.sh"; FAIL=1
 fi
+[[ -n "${OUT:-}" && -f "$OUT" ]] && rm -f "$OUT"
 
 # --- clip.sh (dry-run, no network) ---
 OUT2="$(./scripts/clip.sh --dry-run 'https://example.com/some/Article-Title')"

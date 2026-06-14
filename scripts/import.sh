@@ -11,9 +11,10 @@ BASE="$(basename "$SRC")"
 SLUG="$(echo "${BASE%.*}" | tr '[:upper:] ' '[:lower:]-' | tr -cd 'a-z0-9-')"
 DEST="raw/inbox/${TS}-${SLUG:-note}.md"
 
+mkdir -p "$(dirname "$DEST")"
 {
   echo "---"
-  echo "source: $SRC"
+  echo "source: \"$SRC\""
   echo "captured_at: $TS"
   echo "status: raw"
   echo "---"

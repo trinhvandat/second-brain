@@ -12,13 +12,13 @@ URL="${1:?usage: clip.sh [--dry-run] <url>}"
 
 TS="$(date +%Y-%m-%d)"
 # slug from last path segment for readability
-LASTSEG="$(echo "$URL" | sed -E 's#/+$##; s#.*/##; s#\?.*##; s#\.[a-z]+$##')"
+LASTSEG="$(echo "$URL" | sed -E 's#/+$##; s#.*/##; s#[?#].*##; s#\.[[:alpha:]]+$##')"
 SLUG="$(echo "${LASTSEG:-clip}" | tr '[:upper:] ' '[:lower:]-' | tr -cd 'a-z0-9-')"
 DEST="raw/web/${TS}-${SLUG:-clip}.md"
 
 frontmatter() {
   echo "---"
-  echo "source: $URL"
+  echo "source: \"$URL\""
   echo "captured_at: $(date +%Y-%m-%d-%H%M)"
   echo "status: raw"
   echo "---"
@@ -30,6 +30,7 @@ if [[ "$DRY" == "1" ]]; then
   exit 0
 fi
 
+mkdir -p "$(dirname "$DEST")"
 {
   frontmatter
   echo
