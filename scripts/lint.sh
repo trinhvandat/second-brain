@@ -38,8 +38,8 @@ status_of() { grep -m1 -E '^status:[[:space:]]*' "$1" 2>/dev/null | sed -E 's/^s
 # Resolution set: ALL wiki notes (incl archive) + roots — links to retired notes still resolve.
 ALL_BASENAMES="$(find wiki ${roots[@]+"${roots[@]}"} -name '*.md' 2>/dev/null | sed -E 's#.*/##; s#\.md$##')"
 
-# Active notes = wiki minus archive (retired). The scope of every scan below.
-ACTIVE_FILES="$(find wiki -name '*.md' -not -path '*/archive/*' 2>/dev/null)"
+# Active notes = wiki minus the top-level archive/ (retired). The scope of every scan below.
+ACTIVE_FILES="$(find wiki -name '*.md' -not -path 'wiki/archive/*' 2>/dev/null)"
 
 # Referenced basenames from active notes + roots (alias-stripped).
 REFERENCED="$(
@@ -95,8 +95,8 @@ supbad=""
 while IFS= read -r f; do
   [[ -z "$f" ]] && continue
   st="$(status_of "$f")"
-  if [[ "$st" == "superseded" ]] || grep -q '(superseded' "$f" 2>/dev/null; then
-    link="$(grep -oE 'superseded[^[]*\[\[[^]]+\]\]' "$f" 2>/dev/null | grep -oE '\[\[[^]]+\]\]' | head -1)"
+  if [[ "$st" == "superseded" ]] || grep -qE '\(superseded [0-9]{4}-[0-9]{2}' "$f" 2>/dev/null; then
+    link="$(grep -oE '\(superseded [0-9]{4}-[0-9]{2}[^)]*\[\[[^]]+\]\]' "$f" 2>/dev/null | grep -oE '\[\[[^]]+\]\]' | head -1)"
     if [[ -z "$link" ]]; then
       supbad+="  $f -> superseded but no '→ [[replacement]]'"$'\n'
     else
