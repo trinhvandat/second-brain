@@ -12,6 +12,8 @@
 # Usage: lint.sh [VAULT_DIR]   (defaults to the repo root containing this script)
 # Exit:  0 = clean, 1 = issues found, 2 = bad usage.
 # Portable to bash 3.2 (macOS system bash): no associative arrays / mapfile.
+# Limitation: notes are matched by basename, so filenames should be unique across
+# the vault and must not contain ':' or '|'.
 set -uo pipefail
 
 VAULT="${1:-$(cd "$(dirname "$0")/.." && pwd)}"
@@ -23,13 +25,14 @@ STALE_MONTHS=6
 roots=()
 for r in index.md CRITICAL_FACTS.md; do [[ -f "$r" ]] && roots+=("$r"); done
 
-# basename helper (strip any path + .md)
-base_of() { printf '%s' "$1" | sed -E 's#.*/##; s#\.md$##'; }
+# basename helper (strip [[name|alias]] alias, any path, and .md)
+base_of() { printf '%s' "$1" | sed -E 's/[|].*//; s#.*/##; s#\.md$##'; }
 
 # Newline-delimited sets (bash 3.2 has no associative arrays).
-ALL_BASENAMES="$(find wiki "${roots[@]}" -name '*.md' 2>/dev/null | sed -E 's#.*/##; s#\.md$##')"
-REFERENCED="$(grep -rhoE '\[\[[^]]+\]\]' wiki "${roots[@]}" 2>/dev/null \
-              | sed -E 's/^\[\[//; s/\]\]$//; s#.*/##; s#\.md$##')"
+# ${roots[@]+"${roots[@]}"} keeps `set -u` happy when roots is empty (bash 3.2).
+ALL_BASENAMES="$(find wiki ${roots[@]+"${roots[@]}"} -name '*.md' 2>/dev/null | sed -E 's#.*/##; s#\.md$##')"
+REFERENCED="$(grep -rhoE '\[\[[^]]+\]\]' wiki ${roots[@]+"${roots[@]}"} 2>/dev/null \
+              | sed -E 's/^\[\[//; s/\]\]$//; s/[|].*//; s#.*/##; s#\.md$##')"
 
 in_set() { printf '%s\n' "$2" | grep -Fxq -- "$1"; }
 
@@ -72,12 +75,12 @@ cy="$(date +%Y)"; cm="$(date +%m)"
 while IFS= read -r hit; do
   [[ -z "$hit" ]] && continue
   f="${hit%%:*}"
-  ym="$(printf '%s' "$hit" | grep -oE '[0-9]{4}-[0-9]{2}' | head -1)"
+  ym="$(printf '%s' "${hit#*:}" | grep -oE '[0-9]{4}-[0-9]{2}' | head -1)"  # date from match, not path
   [[ -z "$ym" ]] && continue
   yy="${ym%-*}"; mm="${ym#*-}"
   months=$(( (10#$cy - 10#$yy) * 12 + (10#$cm - 10#$mm) ))
   (( months > STALE_MONTHS )) && stale+="  $f -> (as of $ym, ${months} months old)"$'\n'
-done < <(grep -rEo '\(as of [0-9]{4}-[0-9]{2}' wiki "${roots[@]}" 2>/dev/null)
+done < <(grep -rEo '\(as of [0-9]{4}-[0-9]{2}' wiki ${roots[@]+"${roots[@]}"} 2>/dev/null)
 if [[ -n "$stale" ]]; then
   echo "[stale claims]"; printf '%s' "$stale"; issues=$((issues+1))
 else
