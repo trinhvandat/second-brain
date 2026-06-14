@@ -16,9 +16,11 @@
 - Life memory → `raw/` + `wiki/journal/`.
 
 ## Common commands
+- Quick capture: `./scripts/sb.sh some thought` (or pipe via stdin) → `raw/inbox/`
 - Capture URL: `./scripts/clip.sh <url>`
 - Capture file: `./scripts/import.sh <path>`
-- Mechanical lint: `./scripts/lint.sh` (broken links, orphans, stale claims)
+- Mechanical lint: `./scripts/lint.sh` (broken links, orphans, stale claims, lifecycle)
+- Weekly maintenance (cron): `./scripts/weekly-lint.sh` (logs + notifies on issues)
 - In Claude: "note this: ..." / "process inbox" / "lint the brain".
 
 ## Status

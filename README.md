@@ -97,6 +97,30 @@ Ask something not in the vault and it answers `Not in the second brain.`
 === 0 issue group(s) found ===
 ```
 
+## Power-user setup
+
+**Shell aliases** (`~/.zshrc`) — capture from anywhere in seconds:
+
+```bash
+SB=~/Workspace/code/personal/second-brain
+alias sb="$SB/scripts/sb.sh"        # sb some quick thought
+alias sbclip="$SB/scripts/clip.sh"  # sbclip https://...
+```
+
+**Browser bookmarklet** — copies a ready `sbclip` command for the current tab to your clipboard (paste it in a terminal). Make a bookmark with this URL:
+
+```
+javascript:(()=>{const c=`sbclip '${location.href}'`;navigator.clipboard.writeText(c);alert('Copied: '+c);})()
+```
+
+**Weekly auto-lint (cron)** — runs the mechanical lint every Monday 09:00, logs to `.lint-history.log`, and shows a macOS notification on issues:
+
+```bash
+crontab -e
+# add this line:
+0 9 * * 1 /Users/leonard/Workspace/code/personal/second-brain/scripts/weekly-lint.sh
+```
+
 ## Layout
 
 ```

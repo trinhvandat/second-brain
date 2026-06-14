@@ -21,6 +21,15 @@ else
   echo "FAIL clip.sh dry-run (got: $OUT2)"; FAIL=1
 fi
 
+# --- sb.sh (quick text capture) ---
+OUTS="$(./scripts/sb.sh quick capture test note)"
+if [[ -f "$OUTS" ]] && grep -q "status: raw" "$OUTS" && grep -q "quick capture test note" "$OUTS"; then
+  echo "PASS sb.sh -> $OUTS"
+else
+  echo "FAIL sb.sh (got: $OUTS)"; FAIL=1
+fi
+[[ -n "${OUTS:-}" && -f "$OUTS" ]] && rm -f "$OUTS"
+
 # --- lint.sh (isolated fixture vaults, no dependency on the real vault) ---
 # Dirty fixture: a.md links [[b]] (ok) + [[ghost]] (broken); a.md is an orphan
 # (nothing links to it); b.md has a stale "(as of 2020-01" marker.
