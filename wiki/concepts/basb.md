@@ -1,3 +1,11 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - https://toolfinder.com/best/second-brain-apps
+  - https://www.buildingasecondbrain.com/ai-second-brain
+---
+
 # Building a Second Brain (BASB)
 
 The modern "second brain" methodology from Tiago Forte's book *Building a Second Brain*,

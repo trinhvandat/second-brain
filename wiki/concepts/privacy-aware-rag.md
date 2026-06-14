@@ -1,3 +1,10 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - https://arxiv.org/html/2503.15548v1
+---
+
 # Privacy-Aware RAG
 
 RAG systems often lack built-in mechanisms to enforce strict user isolation and secure data

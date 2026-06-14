@@ -1,3 +1,10 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - raw/inbox/2026-06-14-0807-sbidea.md
+---
+
 # Periodic auto-lint with cron
 
 Idea: run the vault's LINT step automatically every week instead of manually, using `cron`

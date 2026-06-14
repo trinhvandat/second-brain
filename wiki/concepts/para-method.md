@@ -1,3 +1,10 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - https://toolfinder.com/best/second-brain-apps
+---
+
 # PARA Method
 
 PARA is Tiago Forte's organizing framework: **P**rojects, **A**reas, **R**esources,

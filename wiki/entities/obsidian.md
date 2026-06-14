@@ -1,3 +1,11 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - https://toolfinder.com/best/second-brain-apps
+  - https://www.saner.ai/blogs/10-best-second-brain-ai-apps
+---
+
 # Obsidian
 
 A local-first PKM app that stores every note as plain-text Markdown on your own machine

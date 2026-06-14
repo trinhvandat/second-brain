@@ -1,3 +1,11 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+  - https://venturebeat.com/data/karpathy-shares-llm-knowledge-base-architecture-that-bypasses-rag-with-an
+---
+
 # LLM Wiki
 
 A second-brain architecture proposed by Andrej Karpathy (as of 2026-04, gist.github.com/karpathy):

@@ -1,3 +1,10 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - https://zettelkasten.de/introduction/
+---
+
 # Zettelkasten
 
 A note-taking method by sociologist Niklas Luhmann, credited with helping him publish

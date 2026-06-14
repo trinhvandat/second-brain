@@ -1,3 +1,11 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - https://www.saner.ai/blogs/10-best-second-brain-ai-apps
+  - https://arxiv.org/html/2504.09720v2
+---
+
 # NotebookLM
 
 Google's source-grounded research assistant: it answers only from the documents you upload

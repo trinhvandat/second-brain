@@ -1,3 +1,10 @@
+---
+status: current
+updated: 2026-06
+sources:
+  - https://www.buildingasecondbrain.com/ai-second-brain
+---
+
 # Personal Context Management (PCM)
 
 Tiago Forte's reframing of personal knowledge management for the AI era: the bottleneck
