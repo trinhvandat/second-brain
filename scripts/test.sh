@@ -65,11 +65,14 @@ printf -- '---\nstatus: superseded\nupdated: 2026-06\nsources:\n  - https://x\n-
 printf -- '---\nstatus: disputed\nupdated: 2026-06\nsources:\n  - https://x\n---\n# Hot\nContested. (confidence: low)\n' > "$L3/wiki/concepts/hot.md"
 # confidence marker but no source URL / sources: key → unsourced; also links retired (must resolve)
 printf -- '---\nstatus: current\nupdated: 2026-06\n---\n# Claimy\nA bold claim. (confidence: high) See [[retired]].\n' > "$L3/wiki/concepts/claimy.md"
+# VALID superseded note → existing target [[claimy]]: must NOT be flagged as broken supersession
+printf -- '---\nstatus: superseded\nupdated: 2026-06\nsources:\n  - https://x\n---\n# Moved\nOld. (superseded 2026-06 → [[claimy]])\n' > "$L3/wiki/concepts/moved.md"
 # retired note in archive: must be excluded from orphan + stale scans, still resolvable as target
 printf -- '---\nstatus: retired\nupdated: 2020-01\nsources:\n  - https://x\n---\n# Retired\nObsolete.\n' > "$L3/wiki/archive/retired.md"
 OUT5="$(./scripts/lint.sh "$L3")"; RC5=$?
 ok5=1
-echo "$OUT5" | grep -A3 '\[broken supersession\]' | grep -q "gone.md"     || ok5=0
+echo "$OUT5" | grep -A4 '\[broken supersession\]' | grep -q "gone.md"     || ok5=0
+echo "$OUT5" | grep -A4 '\[broken supersession\]' | grep -q "moved.md"    && ok5=0   # valid target must NOT be flagged
 echo "$OUT5" | grep -A3 '\[open disputes\]'        | grep -q "hot.md"      || ok5=0
 echo "$OUT5" | grep -A3 '\[unsourced claims\]'     | grep -q "claimy.md"   || ok5=0
 echo "$OUT5" | grep -A20 '\[orphan notes\]'        | grep -q "retired.md"  && ok5=0   # archive must NOT be orphan-scanned

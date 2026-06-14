@@ -31,7 +31,7 @@ STALE_MONTHS=6
 roots=()
 for r in index.md CRITICAL_FACTS.md; do [[ -f "$r" ]] && roots+=("$r"); done
 
-base_of() { printf '%s' "$1" | sed -E 's/[|].*//; s#.*/##; s#\.md$##'; }
+base_of() { printf '%s' "$1" | sed -E 's/^\[\[//; s/\]\]$//; s/[|].*//; s#.*/##; s#\.md$##'; }
 in_set()  { printf '%s\n' "$2" | grep -Fxq -- "$1"; }
 status_of() { grep -m1 -E '^status:[[:space:]]*' "$1" 2>/dev/null | sed -E 's/^status:[[:space:]]*//; s/[[:space:]]*$//'; }
 
