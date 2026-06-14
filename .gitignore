@@ -1,0 +1,5 @@
+.DS_Store
+.omc/
+*.tmp
+node_modules/
+.env
