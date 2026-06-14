@@ -24,8 +24,8 @@ fi
 # --- lint.sh (isolated fixture vaults, no dependency on the real vault) ---
 # Dirty fixture: a.md links [[b]] (ok) + [[ghost]] (broken); a.md is an orphan
 # (nothing links to it); b.md has a stale "(as of 2020-01" marker.
-LROOT="$(mktemp -d)"; LROOT2=""
-trap 'rm -rf "${LROOT:-}" "${LROOT2:-}"' EXIT
+LROOT="$(mktemp -d)"; LROOT2=""; L3=""
+trap 'rm -rf "${LROOT:-}" "${LROOT2:-}" "${L3:-}"' EXIT
 mkdir -p "$LROOT/wiki/concepts"
 printf '# A\nSee [[b]] and [[ghost]].\n' > "$LROOT/wiki/concepts/a.md"
 printf '# B\nText (as of 2020-01, src).\n' > "$LROOT/wiki/concepts/b.md"
@@ -54,5 +54,32 @@ else
   echo "FAIL lint.sh clean fixture (rc=$RC4)"; echo "$OUT4"; FAIL=1
 fi
 rm -rf "$LROOT" "$LROOT2"
+
+# Lifecycle fixture: exercises supersession/dispute/unsourced checks + archive exclusion.
+L3="$(mktemp -d)"
+mkdir -p "$L3/wiki/concepts" "$L3/wiki/archive"
+printf '# index\n' > "$L3/index.md"; printf '# facts\n' > "$L3/CRITICAL_FACTS.md"
+# superseded note pointing at a non-existent replacement → broken supersession
+printf -- '---\nstatus: superseded\nupdated: 2026-06\nsources:\n  - https://x\n---\n# Gone\nOld (superseded 2026-06 → [[nowhere]]).\n' > "$L3/wiki/concepts/gone.md"
+# disputed note → open dispute
+printf -- '---\nstatus: disputed\nupdated: 2026-06\nsources:\n  - https://x\n---\n# Hot\nContested. (confidence: low)\n' > "$L3/wiki/concepts/hot.md"
+# confidence marker but no source URL / sources: key → unsourced; also links retired (must resolve)
+printf -- '---\nstatus: current\nupdated: 2026-06\n---\n# Claimy\nA bold claim. (confidence: high) See [[retired]].\n' > "$L3/wiki/concepts/claimy.md"
+# retired note in archive: must be excluded from orphan + stale scans, still resolvable as target
+printf -- '---\nstatus: retired\nupdated: 2020-01\nsources:\n  - https://x\n---\n# Retired\nObsolete.\n' > "$L3/wiki/archive/retired.md"
+OUT5="$(./scripts/lint.sh "$L3")"; RC5=$?
+ok5=1
+echo "$OUT5" | grep -A3 '\[broken supersession\]' | grep -q "gone.md"     || ok5=0
+echo "$OUT5" | grep -A3 '\[open disputes\]'        | grep -q "hot.md"      || ok5=0
+echo "$OUT5" | grep -A3 '\[unsourced claims\]'     | grep -q "claimy.md"   || ok5=0
+echo "$OUT5" | grep -A20 '\[orphan notes\]'        | grep -q "retired.md"  && ok5=0   # archive must NOT be orphan-scanned
+echo "$OUT5" | grep -A20 '\[stale claims\]'        | grep -q "retired.md"  && ok5=0   # archive must NOT be stale-scanned
+[[ "$RC5" -eq 1 ]] || ok5=0
+if [[ "$ok5" -eq 1 ]]; then
+  echo "PASS lint.sh lifecycle (supersession+dispute+unsourced, archive excluded)"
+else
+  echo "FAIL lint.sh lifecycle fixture (rc=$RC5)"; echo "$OUT5"; FAIL=1
+fi
+rm -rf "$L3"
 
 exit $FAIL
