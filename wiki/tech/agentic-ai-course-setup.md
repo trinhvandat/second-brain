@@ -15,3 +15,5 @@ browser auth), plus Node.js 18+ (MCP, Module 03) and Python 3.11+ (Agent SDK, Mo
 First API call is `HelloClaude.java` using the cheapest model tier to conserve credits —
 see [[claude-models]] for the lineup (Haiku is the cheapest). Guardrails: console spend
 limits, `.gitignore` the `.env`, and all 10 verification checks pass before Module 01.
+
+For the broader taxonomy of agentic patterns (workflows vs agents), see [[agentic-systems-taxonomy]].
