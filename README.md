@@ -48,7 +48,7 @@ That's it — no build, no dependencies. The Claude Code skill auto-activates wh
 
 ### Optional: Claude Desktop (chat surface)
 
-Point Claude Desktop's MCP filesystem server at this vault so you can capture/ask from chat too. See [`mcp/README.md`](mcp/README.md) (merge `mcp/claude_desktop_config.snippet.json` into your Desktop config).
+Point Claude Desktop's MCP filesystem server at this vault so you can capture/ask from chat too. Full step-by-step guide: [`docs/install-claude-desktop.md`](docs/install-claude-desktop.md) (quick reference in [`mcp/README.md`](mcp/README.md)).
 
 ## Usage
 

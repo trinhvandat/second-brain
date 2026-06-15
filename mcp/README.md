@@ -3,6 +3,8 @@
 Claude Desktop can read & write this vault through the MCP filesystem server, giving you a
 chat-style surface alongside Claude Code. Both point at the same Markdown files.
 
+> 📘 **Prefer a full step-by-step walkthrough?** See [`../docs/install-claude-desktop.md`](../docs/install-claude-desktop.md). This file is the quick reference.
+
 ## Prerequisites
 - Node.js 18+ (`npx` must be on PATH) — the server runs via `npx @modelcontextprotocol/server-filesystem`.
 - Claude Desktop installed.
