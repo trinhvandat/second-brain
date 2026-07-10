@@ -1,0 +1,75 @@
+name: Deploy Quartz site to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "wiki/**"
+      - "site/**"
+      - ".github/workflows/deploy-site.yml"
+  # Allow manual runs from the Actions tab.
+  workflow_dispatch:
+
+# Allow the workflow to publish to GitHub Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one concurrent deploy; don't cancel an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so created/modified dates resolve from git
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cache Quartz plugins
+        uses: actions/cache@v4
+        with:
+          path: site/.quartz/plugins
+          key: ${{ runner.os }}-quartz-plugins-${{ hashFiles('site/quartz.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-quartz-plugins-
+
+      - name: Install dependencies
+        working-directory: site
+        run: npm ci
+
+      - name: Install Quartz plugins
+        working-directory: site
+        run: npx quartz plugin install
+
+      - name: Sync publishable notes into Quartz content
+        run: ./scripts/build-site.sh
+
+      - name: Build site
+        working-directory: site
+        run: npx quartz build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
