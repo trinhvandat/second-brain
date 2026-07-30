@@ -48,3 +48,5 @@ One LLM generates; another evaluates and provides feedback in a loop. Analogous 
 - **Example**: literary translation with evaluator critiques; multi-round search refinement.
 
 These patterns are composable — combine and customize to fit the use case. Always measure performance and iterate. (confidence: high)
+
+When you compose these patterns into a larger multi-agent system, the organizing layer is [[graph-engineering]] — modeling each pattern as a node/edge topology (chaining→sequential, routing→conditional edges, parallelization→fan-out, orchestrator-workers→supervisor, evaluator-optimizer→feedback cycle), which is directly relevant to a Claude Code plugin/harness.
