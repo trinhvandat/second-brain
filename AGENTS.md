@@ -54,6 +54,7 @@
   ```
 - Write for future-Claude to retrieve and reason over, not prose for humans.
 - Short, atomic, heavily linked. Write in English by default.
+- **Optional headings** for `wiki/tech/` notes (or any note mixing concept + practical usage): add `## Gotchas` (common pitfalls, easy-to-forget details) and/or `## References` (source links, docs) as trailing sections when the note has enough of that material to warrant scanning separately. Not mandatory — don't retrofit existing notes just to add empty headings.
 
 ## 6. LIFECYCLE (invalidate old knowledge — never delete silently)
 - **Supersede** (new info replaces old): set the old note's frontmatter `status: superseded`, add an inline `(superseded YYYY-MM → [[new-note]])` on the affected claim, and have the new note state `Supersedes [[old-note]]`. Keep the old note in place (preserves backlinks + provenance).
