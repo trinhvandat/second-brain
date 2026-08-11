@@ -34,7 +34,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | Context windows & token-based pricing | planned | — |
 | Generation controls (temperature, top-p, frequency/presence penalty, stopping criteria, max length) | planned | — |
 | Open-weight vs closed-weight models, model families & licenses | planned | — |
-| Streamed vs unstreamed responses | planned | — |
+| Streamed vs unstreamed responses (TTFT, SSE/WebSocket, decoding strategies) | learning | [[llm-streamed-vs-unstreamed-responses]] |
 | Reasoning vs standard models | planned | — |
 | Fine-tuning vs prompt engineering (when to use which) | planned | — |
 | Basics of RAG (primer — deep dive under `rag-`) | planned | — |
