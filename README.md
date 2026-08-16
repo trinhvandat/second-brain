@@ -97,6 +97,20 @@ Ask something not in the vault and it answers `Not in the second brain.`
 === 0 issue group(s) found ===
 ```
 
+## Web UI (Quartz site)
+
+The vault also renders as a browsable static site (via [Quartz](https://quartz.jzhao.xyz)) under `site/`, with content synced from `wiki/` into `site/content/`.
+
+Run it locally on **http://localhost:4321**:
+
+```bash
+cd site
+npm install                                          # first run only
+npm run quartz -- build --serve --port 4321
+```
+
+Leave it running — Quartz watches for changes and live-reloads the page. Stop with `Ctrl+C`.
+
 ## Power-user setup
 
 **Shell aliases** (`~/.zshrc`) — capture from anywhere in seconds:

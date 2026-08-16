@@ -11,9 +11,9 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 **Why this track over the broader [roadmap.sh/ai-engineer](https://roadmap.sh/ai-engineer):** that one is a generalist "build AI products" track (pretrained models, OpenAI Platform specifics, multimodal AI...) — AI Agents goes deep specifically on agent loops, tool use/MCP, memory, architectures (ReAct/CoT/Planner-Executor/DAG/ToT), and evaluation, which is the more directly applicable track given existing work with multi-agent orchestration (see [[graph-engineering]], [[agentic-systems-taxonomy]]). Its own prerequisite layer (LLM Fundamentals + Embeddings/Vector Search) is already mostly covered by notes below.
 
 ## Convention (read before adding a note)
-- **Location:** one atomic note per topic in `wiki/tech/ai-engineer/<category>-<slug>.md`.
-- **Naming:** `<category>-<slug>.md`, no numeric prefixes (renumbering on insert is annoying — category prefix keeps related topics adjacent alphabetically instead).
-- **Categories so far:** `llm-` (LLM fundamentals — prerequisite layer: architecture, tokenization, generation controls, model families), `prompt-` (prompt engineering), `agent-` (AI Agents 101, tools/MCP, memory, architectures, building — the core of this track), `rag-` (retrieval/RAG, also used as an agent architecture pattern), `eval-` (evaluation & testing for agents), `sec-` (agent security & ethics — prompt injection, tool sandboxing, red-teaming), `infra-` (serving/deployment/observability/MLOps), `finetune-` (fine-tuning/training — deprioritized by this track, kept for later). Add new category prefixes as needed — update this list when you do.
+- **Location:** one atomic note per topic in `wiki/tech/ai-engineer/<category>/<category>-<slug>.md` — files live inside a per-category subfolder so the Quartz sidebar Explorer groups/collapses them by category instead of listing everything flat and alphabetized. `<category>-<slug>.md` filenames also keep the prefix (redundant with the folder, but keeps `grep`/wikilinks unambiguous and survives a future flatten if ever needed).
+- **Naming:** no numeric prefixes (renumbering on insert is annoying — the folder does the grouping now, the prefix inside the filename is just for grep-ability).
+- **Categories so far** (folder name = prefix, minus trailing `-`): `llm/` (LLM fundamentals — prerequisite layer: architecture, tokenization, generation controls, model families; also holds `vector-search.md`, which predates the prefix convention), `prompt/` (prompt engineering), `agent/` (AI Agents 101, tools/MCP, memory, architectures, building — the core of this track), `rag/` (retrieval/RAG deep-dive, also used as an agent architecture pattern — the RAG *primer* lives under `llm/` per the table below), `eval/` (evaluation & testing for agents), `sec/` (agent security & ethics — prompt injection, tool sandboxing, red-teaming), `infra/` (serving/deployment/observability/MLOps), `finetune/` (fine-tuning/training — deprioritized by this track, kept for later). Add new category folders as needed — update this list when you do, and `mkdir` the folder before adding the first note in it.
 - **Frontmatter:** standard vault frontmatter (`status`, `updated`, `sources` — see `AGENTS.md` §5) plus two series-specific fields:
   ```yaml
   roadmap: ai-engineer
@@ -30,14 +30,14 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 |---|---|---|
 | What is an LLM (architecture overview, training pipeline, scaling laws, limitations) | learning | [[llm-large-language-model]] |
 | Embeddings & vector search (vectors, similarity, ANN search, vector DB) | learning | [[llm-embedding]] |
-| Tokenization | planned | — |
-| Context windows & token-based pricing | planned | — |
+| Tokenization | learning | [[llm-tokenization]] |
+| Context windows & token-based pricing | learning | [[llm-context-window]], [[llm-token-pricing]] |
 | Generation controls (temperature, top-p, frequency/presence penalty, stopping criteria, max length) | planned | — |
-| Open-weight vs closed-weight models, model families & licenses | planned | — |
+| Open-weight vs closed-weight models, model families & licenses | learning | [[llm-open-weight-models]], [[llm-closed-weight-models]] |
 | Streamed vs unstreamed responses (TTFT, SSE/WebSocket, decoding strategies) | learning | [[llm-streamed-vs-unstreamed-responses]] |
 | Reasoning vs standard models | learning | [[llm-reasoning-vs-standard-models]] |
 | Fine-tuning vs prompt engineering (when to use which) | planned | — |
-| Basics of RAG (primer — deep dive under `rag-`) | planned | — |
+| Basics of RAG (primer — deep dive under `rag-`) | learning | [[llm-rag-basics]] |
 | Artificial General Intelligence (definitions, approaches, safety) — background, not on critical path | learning | [[llm-artificial-general-intelligence]] |
 
 ### Prompt Engineering (`prompt-`)

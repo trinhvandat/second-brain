@@ -34,7 +34,7 @@ Theo phân loại trong [[llm-artificial-general-intelligence]], LLM hiện tạ
 - **Biến thể 2026** so với bản gốc 2017: RoPE (rotary positional encoding) thay vì positional encoding tuyệt đối, SwiGLU thay ReLU trong FFN, RMSNorm thay LayerNorm, Grouped-Query Attention / Multi-head Latent Attention thay multi-head attention thuần — chủ yếu để giảm chi phí inference (KV-cache) mà giữ chất lượng (as of 2026, explainx.ai) (confidence: medium — chi tiết implementation khác nhau giữa các lab, không phải mọi model đều dùng đủ 4 biến thể này).
 - **Residual connections + normalization** — cho phép xếp chồng rất nhiều layer (chục đến hàng trăm) mà gradient không biến mất khi train.
 
-> Ghi chú roadmap: tokenization/embeddings và context window/attention chi tiết hơn sẽ tách thành note riêng (`llm-tokenization-embeddings`, `llm-context-window-attention` — xem bảng ở [[ai-engineer-roadmap]], hiện `planned`). Note này chỉ tóm tắt đủ để hiểu bức tranh tổng.
+> Chi tiết tokenization xem [[llm-tokenization]], chi tiết context window xem [[llm-context-window]] — note này chỉ tóm tắt đủ để hiểu bức tranh tổng về kiến trúc Transformer.
 
 ## Training pipeline: 3 giai đoạn
 
@@ -57,11 +57,11 @@ Pipeline chuẩn cho một chat model hiện đại (kiểu ChatGPT/Claude) gồ
 
 - **Hallucination** — model sinh thông tin sai một cách tự tin, vì objective gốc là "token nào có xác suất cao tiếp theo" chứ không có cơ chế nội tại kiểm chứng sự thật.
 - **Knowledge cutoff** — kiến thức đóng băng tại thời điểm dữ liệu pretraining, không tự cập nhật (khác với con người học liên tục) — đây là một phần lý do RAG/tool-use tồn tại (xem nhóm `rag-`/`agent-` trong [[ai-engineer-roadmap]]).
-- **Context window hữu hạn** — "trí nhớ làm việc" bị giới hạn bởi cửa sổ token, không phải continual/persistent memory thật (dù caching + tool-based memory đang cố bù đắp phần này).
+- **Context window hữu hạn** — "trí nhớ làm việc" bị giới hạn bởi cửa sổ token, không phải continual/persistent memory thật (dù caching + tool-based memory đang cố bù đắp phần này) — chi tiết ở [[llm-context-window]].
 - **Không có continual learning trong inference** — trọng số cố định sau training; model không tự học thêm từ một cuộc hội thoại để nhớ sang lần sau (trừ khi có hệ thống ngoài như RAG/fine-tune lại) — chính là "generality gap" đã nhắc ở note AGI.
 
 ## Open questions / cần đọc thêm
-- Tokenization thực sự ảnh hưởng gì tới reasoning/toán học của LLM? — để dành cho note `llm-tokenization-embeddings`.
+- Tokenization thực sự ảnh hưởng gì tới reasoning/toán học của LLM? — xem [[llm-tokenization]] mục liên hệ reasoning.
 - So sánh RLHF vs DPO vs RLAIF về chi phí/chất lượng — cần note riêng khi đào sâu phần alignment kỹ thuật.
 - Note này chưa cover **inference optimization** (quantization, speculative decoding, KV-cache) — thuộc nhóm `infra-` trong roadmap, để lại cho sau.
 - Liên hệ AGI: khoảng cách giữa LLM hiện tại và AGI (theo framing DeepMind Levels of AGI) nằm chủ yếu ở breadth thực sự out-of-distribution + autonomy dài hạn, không chỉ ở "biết nhiều fact" — xem chi tiết ở [[llm-artificial-general-intelligence]].
