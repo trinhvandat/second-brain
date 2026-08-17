@@ -8,7 +8,7 @@ sources:
   - https://machinelearningplus.com/gen-ai/build-bpe-tokenizer/
   - https://futureagi.com/blog/what-is-tokenization-llms-2026/
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Tokenization — chia văn bản thành token, bước đầu tiên trước khi model "đọc" được gì

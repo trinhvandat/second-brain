@@ -9,7 +9,7 @@ sources:
   - https://www.digitalapplied.com/blog/ai-context-window-comparison-2026-1m-to-10m-tokens
   - https://arxiv.org/abs/2503.00353
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Context window — "trí nhớ làm việc" của LLM trong một lần gọi

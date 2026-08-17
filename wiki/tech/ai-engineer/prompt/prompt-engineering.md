@@ -9,7 +9,7 @@ sources:
   - https://arxiv.org/abs/2205.01068
   - https://medium.com/@aabhi02/prompt-engineering-vs-prompt-tuning-a-detailed-explanation-19ea8ce62ac4
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Prompt Engineering

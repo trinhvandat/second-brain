@@ -8,7 +8,7 @@ sources:
   - https://zilliz.com/learn/hierarchical-navigable-small-worlds-HNSW
   - https://www.pingcap.com/article/approximate-nearest-neighbor-ann-search-explained-ivf-vs-hnsw-vs-pq/
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Vector Search

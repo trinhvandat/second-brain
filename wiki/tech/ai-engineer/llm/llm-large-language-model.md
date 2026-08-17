@@ -11,7 +11,7 @@ sources:
   - https://lifearchitect.ai/chinchilla/
   - https://arxiv.org/pdf/2403.15796
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # LLM: Large Language Model

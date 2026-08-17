@@ -12,7 +12,7 @@ sources:
   - https://code.claude.com/docs/en/agent-sdk/agent-loop
   - https://claude.com/blog/building-agents-with-the-claude-agent-sdk
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Agent loop — vòng lặp perceive → reason/plan → act/invoke tool → observe/reflect

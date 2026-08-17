@@ -8,7 +8,7 @@ sources:
   - https://www.pingcap.com/article/approximate-nearest-neighbor-ann-search-explained-ivf-vs-hnsw-vs-pq/
   - https://reintech.io/blog/embedding-models-comparison-2026-openai-cohere-voyage-bge
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Embedding

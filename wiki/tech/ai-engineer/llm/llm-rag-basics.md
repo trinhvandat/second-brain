@@ -9,7 +9,7 @@ sources:
   - https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview
   - https://winder.ai/rag-vs-fine-tuning-2026-decision-framework/
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # RAG (Retrieval-Augmented Generation) — cơ bản

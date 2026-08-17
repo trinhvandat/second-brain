@@ -8,7 +8,7 @@ sources:
   - https://code.claude.com/docs/en/settings
   - https://github.com/ccbogel/QualCoder/issues/1125
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Top-p (nucleus sampling) — lọc tập ứng viên token theo tổng xác suất tích lũy

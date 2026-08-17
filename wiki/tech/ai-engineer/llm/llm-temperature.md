@@ -9,7 +9,7 @@ sources:
   - https://code.claude.com/docs/en/settings
   - https://github.com/ccbogel/QualCoder/issues/1125
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Temperature — tham số điều chỉnh độ ngẫu nhiên khi model chọn token tiếp theo

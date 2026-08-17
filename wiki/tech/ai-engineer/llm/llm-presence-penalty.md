@@ -10,7 +10,7 @@ sources:
   - https://platform.claude.com/docs/en/api/messages
   - https://hidekazu-konishi.com/entry/llm_api_parameter_compatibility_reference.html
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Presence Penalty — phạt việc TÁI SỬ DỤNG một token đã xuất hiện, bất kể lặp bao nhiêu lần

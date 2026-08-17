@@ -13,7 +13,7 @@ sources:
   - https://kingy.ai/blog/state-of-open-weight-ai-models/
   - https://stackviv.ai/blog/open-weights-vs-open-source-ai
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Open-weight models — model families & licenses

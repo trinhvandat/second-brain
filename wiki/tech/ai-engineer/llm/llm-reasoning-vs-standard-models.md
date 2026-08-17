@@ -11,7 +11,7 @@ sources:
   - https://arxiv.org/pdf/2412.21187
   - https://arxiv.org/pdf/2501.18585
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Reasoning vs Standard Models

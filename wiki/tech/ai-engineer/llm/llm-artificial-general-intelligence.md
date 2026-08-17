@@ -8,7 +8,7 @@ sources:
   - https://openai.com/safety/how-we-think-about-safety-alignment/
   - https://fortune.com/2026/03/30/agi-definition-jensen-huang-lex-fridman-deepmind-turing-text-cognitive-taxonomy/
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # AGI: Artificial General Intelligence

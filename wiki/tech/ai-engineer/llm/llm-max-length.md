@@ -7,7 +7,7 @@ sources:
   - https://help.openai.com/en/articles/5072518-controlling-the-length-of-openai-model-responses (fetch lỗi HTTP 403 — giữ lại làm pointer, chưa đọc được nội dung gốc)
   - https://www.restack.io/p/ai-model-answer-max-model-length-cat-ai (fetch redirect ra domain gốc, không tới được trang con — chưa đọc được nội dung)
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Max Length — giới hạn cứng số token model được phép sinh ra trong một response

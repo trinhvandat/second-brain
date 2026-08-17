@@ -7,7 +7,7 @@ sources:
   - https://arxiv.org/abs/2305.14314
   - https://magazine.sebastianraschka.com/p/llm-training-rlhf-and-its-alternatives
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Fine-tuning LLM

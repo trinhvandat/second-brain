@@ -10,7 +10,7 @@ sources:
   - https://www.cloudzero.com/blog/claude-pricing/
   - https://gigagpu.com/is-self-hosting-llms-cheaper-than-apis/
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Pricing của các model phổ biến — token-based pricing

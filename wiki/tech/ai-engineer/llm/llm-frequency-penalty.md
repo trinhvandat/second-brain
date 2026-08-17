@@ -7,7 +7,7 @@ sources:
   - https://community.openai.com/t/frequency-presence-penalty-values-meaning/246148
   - https://platform.claude.com/docs/en/api/messages
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Frequency Penalty — trừ điểm token theo số lần đã lặp lại trong response

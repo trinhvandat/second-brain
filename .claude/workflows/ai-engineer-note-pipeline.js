@@ -41,18 +41,17 @@ const REVIEW_SCHEMA = {
 }
 
 const DEFAULT_ARGS = {
-  topic: "Perception / User Input — buoc dau tien trong agent loop. Agent 'nghe' va thu thap du lieu tho tu the gioi ben ngoai: text nguoi dung go, loi noi, anh camera, chi so sensor, hoac noi dung web qua API. Muc tieu la bien tin hieu tho thanh dang ro rang, dung duoc — agent co the lam sach text, chuyen giong noi thanh text, resize anh, hoac loc nhieu khoi du lieu sensor. Perception tot nghia la agent bat dau vong lap voi su that, khong phai doan mo. Neu input sai hoac khong ro, cac buoc sau cung se sai — nen xu ly perception can than giup ca vong lap agent di dung huong.",
-  category: 'agent',
-  slug: 'perception-user-input',
-  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-perception-user-input.md',
+  topic: "Writing Good Prompts — Use Examples (Few-Shot) — put sample input->output examples in the prompt so the model learns the pattern via in-context learning, instead of only describing the task in words (zero-shot). Few-shot is especially useful when the desired output format is hard to describe in text, when doing classification/extraction with a non-standard label set, or when zero-shot has already failed. Example-selection principles: diversity to avoid the model overfitting to one narrow pattern, consistent formatting between examples and the real question, and example count (usually 2-5) trading off quality against token cost. Distinct from 'provide context' — few-shot is concrete input/output examples, not general background description.",
+  category: 'prompt',
+  slug: 'writing-good-prompts-use-examples',
+  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/prompt/prompt-writing-good-prompts-use-examples.md',
   roadmapPath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer-roadmap.md',
-  roadmapRowTopic: 'Perception / user input — step 1 of the agent loop',
-  relatedNotes: ['agent-loop', 'agent-what-are-ai-agents', 'ai-engineer-roadmap'],
+  roadmapRowTopic: 'Writing Good Prompts — use examples in your prompt (few-shot)',
+  relatedNotes: ['prompt-engineering', 'prompt-writing-good-prompts-be-specific', 'prompt-writing-good-prompts-provide-context', 'ai-engineer-roadmap'],
   seedSources: [
-    'https://marktalks.com/perception-in-ai-understanding-its-types-and-importance/',
-    'https://www.ibm.com/think/topics/ai-agent-perception',
+    'https://www.promptingguide.ai/techniques/fewshot',
   ],
-  seedContext: 'Perception, also called user input, is the first step in an agent loop. The agent listens and gathers data from the outside world. This data can be text typed by a user, spoken words, camera images, sensor readings, or web content pulled through an API. The goal is to turn raw signals into a clear, usable form. The agent may clean the text, translate speech to text, resize an image, or drop noise from sensor values. Good perception means the agent starts its loop with facts, not guesses. If the input is wrong or unclear, later steps will also fail. So careful handling of perception keeps the whole agent loop on track.',
+  seedContext: 'Using examples means putting a few input-to-output examples directly in the prompt so the model learns the pattern via in-context learning, instead of only describing the task in words (zero-shot). Few-shot is especially useful when the desired output format is hard to describe in text, when doing classification/extraction with a non-standard label set, or when zero-shot has already failed. Example selection matters: diverse examples avoid overfitting to one narrow pattern, and consistent formatting between examples and the real question improves reliability.',
 }
 const rawArgs = (args && typeof args === 'object' && !Array.isArray(args)) ? args : {}
 const A = {
@@ -63,76 +62,80 @@ const A = {
   seedContext: typeof rawArgs.seedContext === 'string' ? rawArgs.seedContext : DEFAULT_ARGS.seedContext,
 }
 
+// NOTE: these rules govern the OUTPUT note file, which must be written in
+// Vietnamese with full diacritics (technical terms stay in English, bolded).
+// The rules themselves are written in English deliberately — this script is
+// code and must stay in English; only the generated wiki note is Vietnamese.
 const TEMPLATE_RULES = `
-Quy uoc bat buoc cho note trong wiki/tech/ai-engineer (vault nay viet bang tieng Viet, thuat ngu ky thuat giu tieng Anh in dam):
-- Frontmatter YAML: status: current, updated: 2026-08, sources: [danh sach URL da dung], roadmap: ai-engineer, stage: learning
-- H1: "<Ten khai niem> — <mo ta ngan 1 dong>"
-- Ngay sau H1: 1 dong TL;DR tom tat cot loi trong 1-2 cau, TRUOC KHI di vao chi tiet.
-- Than bai chia theo H2, uu tien bullet-first thay vi doan van lien mach dai.
-- Citation "(as of nguon, confidence: high/medium/low)" CHI gan inline cho claim gay tranh cai, so lieu quan trong, hoac claim chua chac chan/suy luan — KHONG gan cho moi cau/moi doan. Muc tieu: toi da ~4-6 inline citation cho ca note. Danh sach nguon day du da nam trong frontmatter 'sources', khong can lap lai. Neu thay minh dang gan citation qua 1 lan/doan, hay xoa bot va chi giu lai cho claim thuc su can justify.
-- Co it nhat 1 vi du cu the (so lieu, bang, hoac code) minh hoa khai niem, khong chi mo ta truu tuong.
-- Dung wikilink [[note-khac]] khi lien he toi cac note lien quan.
-- Muc "## Lien he toi cac phan khac" o cuoi, BAT BUOC co sub-muc "### Ap dung voi Claude Code" noi ro khai niem nay ap dung the nao voi Claude Code (CLI) — ke ca khi cau tra loi la "khong ap dung / khong expose qua CLI", van phai neu ro.
-- Muc "## Gioi han / open questions" o cuoi cung, liet ke cac diem chua chac chan hoac chua nghien cuu sau.
+Mandatory conventions for notes under wiki/tech/ai-engineer (the note body must be written in Vietnamese with full diacritics; keep technical terms in English, bolded):
+- YAML frontmatter: status: current, updated: 2026-08, sources: [list of URLs used], roadmap: ai-engineer, stage: learning
+- H1: "<Concept name> — <one-line description>"
+- Right after the H1: a 1-2 sentence TL;DR summarizing the core idea, BEFORE going into details.
+- Body organized under H2 headings, prefer bullet-first over long flowing paragraphs.
+- The citation "(as of source, confidence: high/medium/low)" is attached inline ONLY to contested claims, important figures, or uncertain/inferred claims — NOT to every sentence/paragraph. Target: at most ~4-6 inline citations for the whole note. The full source list already lives in the 'sources' frontmatter field, no need to repeat it. If you notice you're attaching a citation more than once per paragraph, cut back and keep it only for claims that truly need justification.
+- Include at least 1 concrete example (numbers, a table, or code) illustrating the concept, not just an abstract description.
+- Use [[other-note]] wikilinks when referencing related notes.
+- A "## Liên hệ tới các phần khác" section at the end MUST include a "### Áp dụng với Claude Code" sub-section explaining how this concept applies to Claude Code (the CLI) — even when the answer is "does not apply / not exposed via the CLI", that must still be stated explicitly.
+- A "## Giới hạn / open questions" section at the very end, listing points that are uncertain or not yet researched in depth.
 `
 
 phase('Research')
 const angles = [
-  'tai lieu chinh thuc & nguon goc khai niem (docs, paper goc neu co)',
-  'vi du thuc te, so sanh voi khai niem lien ke (LLM call thuan, RAG, workflow don gian)',
-  'cach Claude Code / Claude Agent SDK ap dung hoac khong ap dung khai niem nay',
+  'official documentation & the origin of the concept (docs, original paper if any)',
+  'real-world examples, comparison with adjacent concepts (plain LLM call, RAG, a simple workflow)',
+  'how Claude Code / the Claude Agent SDK applies or does not apply this concept',
 ]
 const seedBlock = (A.seedSources.length || A.seedContext)
   ? (
-      `\nNguoi dung da cung cap san ngu canh/nguon ban dau, hay doc/verify cac nguon nay va uu tien dung lam diem neo (van phai doi chieu, khong copy nguyen van):\n` +
-      (A.seedContext ? `- Boi canh/dinh nghia nhap: ${A.seedContext}\n` : '') +
+      `\nThe user already provided seed context/sources — read/verify these sources and prioritize using them as anchors (still cross-check, do not copy verbatim):\n` +
+      (A.seedContext ? `- Seed context/definition: ${A.seedContext}\n` : '') +
       (A.seedSources.length ? A.seedSources.map(s => `- ${s}`).join('\n') + '\n' : '')
     )
   : ''
 const researchResults = await parallel(angles.map((angle, i) => () =>
   agent(
-    `Research chu de AI-engineering sau cho mot wiki note tieng Viet: "${A.topic}".\n` +
-    `Goc nghien cuu cua ban: ${angle}.\n` +
+    `Research the following AI-engineering topic for a Vietnamese wiki note: "${A.topic}".\n` +
+    `Your research angle: ${angle}.\n` +
     seedBlock +
-    `Dung WebSearch/WebFetch de tim nguon dang tin cay (docs chinh thuc, paper, bai viet ky thuat uy tin) — ngoai cac nguon nguoi dung dua neu co. ` +
-    `Voi moi finding, ghi lai: claim cu the, source URL, va confidence (high/medium/low) dua tren do tin cay nguon. ` +
-    `Tra ve structured findings, khong can viet van xuoi.`,
+    `Use WebSearch/WebFetch to find credible sources (official docs, papers, reputable technical articles) — in addition to any sources the user provided. ` +
+    `For each finding, record: the specific claim, the source URL, and a confidence level (high/medium/low) based on source reliability. ` +
+    `Return structured findings, no need to write prose.`,
     { phase: 'Research', schema: RESEARCH_SCHEMA, label: `research:${i}` }
   )
 ))
 const allFindings = researchResults.filter(Boolean).flatMap(r => r.findings)
-log(`Thu thap duoc ${allFindings.length} findings tu ${angles.length} goc nghien cuu.`)
+log(`Collected ${allFindings.length} findings from ${angles.length} research angles.`)
 
 phase('Synthesize')
 const synthesizePrompt =
-  `Ban viet 1 note wiki tieng Viet tai duong dan TUYET DOI: ${A.filePath}\n` +
-  `Chu de: "${A.topic}" (category: ${A.category}, roadmap: ai-engineer).\n` +
-  `Duoi day la cac findings da research (co the trung lap giua cac nguon) — hay DEDUPE (loai claim trung y, giu nguon tot nhat), roi tong hop thanh note hoan chinh:\n` +
+  `Write a Vietnamese wiki note at the ABSOLUTE path: ${A.filePath}\n` +
+  `Topic: "${A.topic}" (category: ${A.category}, roadmap: ai-engineer).\n` +
+  `Below are the researched findings (may overlap across sources) — DEDUPE them (drop claims that repeat the same point, keep the best source), then synthesize into a complete note:\n` +
   JSON.stringify(allFindings, null, 2) + '\n\n' +
   TEMPLATE_RULES + '\n' +
-  `Cac note lien quan trong vault co the wikilink toi neu phu hop: ${A.relatedNotes.map(n => `[[${n}]]`).join(', ')}.\n` +
-  `Sau khi viet xong file note, hay MO ${A.roadmapPath}, tim dong bang co cot Topic khop (hoac chua) text "${A.roadmapRowTopic}", roi SUA dong do theo quy tac sau (dung Edit, KHONG ghi de toan bo dong neu khong can):\n` +
-  `  - Cot Note: neu dang la "—" thi thay bang "[[${A.category}-${A.slug}]]"; neu da co link khac roi (VD dong nay dung chung cho nhieu note) thi APPEND them ", [[${A.category}-${A.slug}]]" vao cuoi danh sach link hien co, khong xoa link cu.\n` +
-  `  - Cot Stage: neu dang la "planned" thi doi thanh "learning"; neu da la "learning" hoac "done" roi thi GIU NGUYEN, khong ha cap.\n` +
-  `Dung Write de tao file note, dung Edit de sua roadmap hub. Tra ve tom tat ngan cac gi da viet (khong can trich toan bo noi dung).`
+  `Related notes in the vault you may wikilink to if relevant: ${A.relatedNotes.map(n => `[[${n}]]`).join(', ')}.\n` +
+  `After writing the note file, OPEN ${A.roadmapPath}, find the table row whose Topic column matches (or starts with) the text "${A.roadmapRowTopic}", then EDIT that row per the following rules (use Edit, do NOT rewrite the whole row unless necessary):\n` +
+  `  - Note column: if it currently reads "—", replace it with "[[${A.category}-${A.slug}]]"; if it already has another link (e.g. this row is shared by multiple notes), APPEND ", [[${A.category}-${A.slug}]]" to the end of the existing link list, do not remove the existing link.\n` +
+  `  - Stage column: if it currently reads "planned", change it to "learning"; if it is already "learning" or "done", LEAVE IT AS IS, do not downgrade it.\n` +
+  `Use Write to create the note file, use Edit to update the roadmap hub. Return a short summary of what was written (no need to quote the full content).`
 const synth = await agent(synthesizePrompt, { phase: 'Synthesize', label: 'write-note' })
-log(`Da viet draft note tai ${A.filePath}`)
+log(`Draft note written at ${A.filePath}`)
 
 const PERSONAS = [
-  { key: 'junior', desc: 'ky su moi ra truong, moi hoc AI engineering, chua quen thuat ngu' },
-  { key: 'middle', desc: 'ky su 3-5 nam kinh nghiem, biet code nhung moi tiep can LLM/agent' },
-  { key: 'senior', desc: 'ky su senior/backend, quen he thong production, danh gia khat khe ve tinh ung dung thuc te' },
+  { key: 'junior', desc: 'a fresh-graduate engineer, new to AI engineering, unfamiliar with the terminology' },
+  { key: 'middle', desc: 'an engineer with 3-5 years of experience, comfortable with code but new to LLMs/agents' },
+  { key: 'senior', desc: 'a senior/backend engineer, used to production systems, strict about real-world applicability' },
 ]
 
 async function runReviewRound(roundLabel) {
   return parallel(PERSONAS.map(p => () =>
     agent(
-      `Doc note tai duong dan TUYET DOI: ${A.filePath}\n` +
-      `Dong vai mot ${p.desc}. Danh gia note nay tren 2 tieu chi:\n` +
-      `1. Tinh ung dung (applicability): doc xong co ap dung duoc vao viec thuc te khong, hay chi ly thuyet suong?\n` +
-      `2. Do de hieu/de scan (clarity): voi trinh do cua ban, doc co bi roi/qua day dac khong? Co TL;DR ro rang khong? Co vi du cu the khong?\n` +
-      `KIEM TRA BAT BUOC truoc khi cham clarity: dem so lan cum "(as of ..., confidence: ...)" xuat hien trong bai. Neu xuat hien qua 6 lan, HOAC gan nhu moi doan/moi cau deu co — tu dong cham clarity <= 5 va pass = false cho du cac mat khac tot, ghi ro trong feedback so lan dem duoc va vi tri can gom/xoa bot.\n` +
-      `Cham diem 1-10 cho moi tieu chi, quyet dinh pass (>=7 ca 2 tieu chi VA doc xong ban tu tin dung duoc) hoac fail, va feedback cu the (cau/doan nao co van de, sua gi).`,
+      `Read the note at the ABSOLUTE path: ${A.filePath}\n` +
+      `Role-play as ${p.desc}. Evaluate this note on 2 criteria:\n` +
+      `1. Applicability: after reading, can you actually apply this in real work, or is it just theory?\n` +
+      `2. Clarity/scannability: at your level, does it feel confusing or too dense? Is there a clear TL;DR? Are there concrete examples?\n` +
+      `MANDATORY CHECK before scoring clarity: count how many times the phrase "(as of ..., confidence: ...)" appears in the note. If it appears more than 6 times, OR appears in nearly every sentence/paragraph — automatically cap clarity <= 5 and pass = false regardless of other strengths, and state clearly in the feedback how many occurrences you counted and where to consolidate/trim them.\n` +
+      `Score 1-10 on each criterion, decide pass (>=7 on both criteria AND you'd confidently apply this after reading) or fail, and give specific feedback (which sentence/paragraph is problematic, what to fix).`,
       { phase: 'Review', schema: REVIEW_SCHEMA, label: `${roundLabel}:${p.key}` }
     )
   ))
@@ -147,13 +150,13 @@ phase('Revise')
 while (!reviews.every(r => r.pass) && rounds < MAX_ROUNDS) {
   rounds++
   const failing = reviews.filter(r => !r.pass)
-  log(`Vong review ${rounds}: ${failing.length}/${reviews.length} persona chua pass — dang revise.`)
+  log(`Review round ${rounds}: ${failing.length}/${reviews.length} personas have not passed — revising.`)
   const feedbackBlock = failing.map(r => `- [${r.persona}] clarity=${r.clarity_score}, applicability=${r.applicability_score}: ${r.feedback}`).join('\n')
   await agent(
-    `Sua lai note tai duong dan TUYET DOI: ${A.filePath} dua tren feedback review sau (giu nguyen frontmatter, chi sua noi dung de de hieu/ung dung hon):\n` +
+    `Revise the note at the ABSOLUTE path: ${A.filePath} based on the following review feedback (keep the frontmatter unchanged, only edit the body to be clearer/more applicable):\n` +
     feedbackBlock + '\n\n' +
     TEMPLATE_RULES + '\n' +
-    `Dung Edit de sua file, khong viet lai toan bo tru khi thuc su can thiet.`,
+    `Use Edit to modify the file, do not rewrite the whole thing unless truly necessary.`,
     { phase: 'Revise', label: `revise:round${rounds}` }
   )
   reviews = (await runReviewRound(`round${rounds}`)).filter(Boolean)
@@ -161,9 +164,9 @@ while (!reviews.every(r => r.pass) && rounds < MAX_ROUNDS) {
 
 const approved = reviews.every(r => r.pass)
 if (approved) {
-  log(`Note da pass review sau ${rounds} vong revise.`)
+  log(`Note passed review after ${rounds} revise round(s).`)
 } else {
-  log(`Note KHONG pass het sau ${MAX_ROUNDS} vong revise — can nguoi xem lai feedback con lai.`)
+  log(`Note did NOT pass all reviews after ${MAX_ROUNDS} revise round(s) — remaining feedback needs a human look.`)
 }
 
 return {

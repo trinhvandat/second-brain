@@ -13,7 +13,7 @@ sources:
   - https://react-lm.github.io/
   - https://www.ibm.com/think/topics/ai-agents
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # AI Agent là gì — so với gọi LLM trực tiếp và so với RAG

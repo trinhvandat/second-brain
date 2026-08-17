@@ -25,7 +25,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 - **Table columns:** `Topic` (title — one-line definition, straight from the roadmap.sh source content), `Stage` (`planned` / `learning` / `done`), `Note` (wikilink to the atomic note if one exists, else `—`), `Reference` (one primary external link roadmap.sh points to for that node — pull more when writing the full note).
 
 ## Topics
-117 leaf nodes across 16 sections, mirroring roadmap.sh/ai-agents' actual tree (verified against its source content repo on 2026-08-17). 11 have atomic notes so far; the rest carry an inline definition + reference link until promoted.
+117 leaf nodes across 16 sections, mirroring roadmap.sh/ai-agents' actual tree (verified against its source content repo on 2026-08-17). 29 have atomic notes so far; the rest carry an inline definition + reference link until promoted.
 
 ### Prerequisites — before you start
 | Topic | Stage | Note | Reference |
@@ -37,39 +37,39 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 ### LLM Fundamentals — prerequisite layer (`llm-`)
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| What is an LLM / Transformer Models — a neural network architecture that reads input all at once (attention) instead of one piece at a time, the basis of modern LLMs. | learning | [[llm-large-language-model]] | [Exploring Open Source AI Models: LLMs and Transformer Architectures](https://llmmodels.org/blog/exploring-open-source-ai-models-llms-and-transformer-architectures/) |
-| Embeddings & Vector Search — embeddings turn words/images/data into vectors that preserve meaning; similar items end up close together, enabling semantic search. | learning | [[llm-embedding]] | [OpenAI Embeddings API Documentation](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings) |
-| Tokenization — the step where raw text is broken into small pieces (tokens), each given a unique number the model operates on. | learning | [[llm-tokenization]] | [Explaining Tokens — the Language and Currency of AI](https://blogs.nvidia.com/blog/ai-tokens-explained/) |
-| Context Windows — the chunk of text (in tokens) a model can read/attend to at one time. | learning | [[llm-context-window]] | [What is a Context Window in AI? - IBM](https://www.ibm.com/think/topics/context-window) |
-| Token Based Pricing & Pricing of Common Models — most LLM providers charge per token read/written; a token is roughly 4 characters of text. | learning | [[llm-token-pricing]] | [OpenAI Pricing](https://openai.com/api/pricing/) |
-| Generation Controls — Temperature (randomness of output) | learning | [[llm-temperature]] | [What Temperature Means in NLP and AI](https://thenewstack.io/what-temperature-means-in-natural-language-processing-and-ai/) |
-| Generation Controls — Top-p / nucleus sampling (probability-mass cutoff for next-token choice) | learning | [[llm-top-p]] | [Nucleus Sampling](https://nn.labml.ai/sampling/nucleus.html) |
-| Generation Controls — Frequency Penalty (discourages repeating the same tokens) | learning | [[llm-frequency-penalty]] | [Understanding Frequency Penalty and Presence Penalty](https://medium.com/@the_tori_report/understanding-frequency-penalty-and-presence-penalty-how-to-fine-tune-ai-generated-text-e5e4f5e779cd) |
-| Generation Controls — Presence Penalty (discourages reusing any token already seen, regardless of count) | learning | [[llm-presence-penalty]] | [Understanding Presence Penalty and Frequency Penalty](https://medium.com/@pushparajgenai2025/understanding-presence-penalty-and-frequency-penalty-in-openai-chat-completion-api-calls-2e3a22547b48) |
-| Generation Controls — Stopping Criteria (rules for when the model halts generation) | learning | [[llm-stopping-criteria]] | [Defining Stopping Criteria in Large Language Models](https://www.metriccoders.com/post/defining-stopping-criteria-in-large-language-models-a-practical-guide) |
-| Generation Controls — Max Length (hard cap on tokens generated per reply) | learning | [[llm-max-length]] | [Utilising Max Token Context Window of Anthropic Claude](https://medium.com/@nampreetsingh/utilising-max-token-context-window-of-anthropic-claude-on-amazon-bedrock-7377d94b2dfa) |
-| Open Weight Models — models whose trained parameters are published and can be downloaded/run/fine-tuned by anyone. | learning | [[llm-open-weight-models]] | [BLOOM BigScience](https://bigscience.huggingface.co/) |
-| Closed Weight Models — models whose trained parameters are kept private, accessed only via a hosted API. | learning | [[llm-closed-weight-models]] | [OpenAI's GPT-4](https://openai.com/gpt-4) |
-| Streamed vs Unstreamed Responses — streaming sends tokens to the client as they're generated (lower perceived latency); unstreamed waits for the full response. | learning | [[llm-streamed-vs-unstreamed-responses]] | [Streaming Responses in AI](https://dev.to/pranshu_kabra_fe98a73547a/streaming-responses-in-ai-how-ai-outputs-are-generated-in-real-time-18kb) |
-| Reasoning vs Standard Models — reasoning models break a task into explicit steps before answering; standard models answer in one pass. | learning | [[llm-reasoning-vs-standard-models]] | [ReAct: Synergizing Reasoning and Acting in Language Models](https://react-lm.github.io/) |
-| Fine-tuning vs Prompt Engineering — two ways to steer model output: prompt engineering shapes the input, fine-tuning retrains weights on examples. | planned | — | [OpenAI Fine Tuning](https://platform.openai.com/docs/guides/fine-tuning) |
-| Basics of RAG (primer — deep dive under `rag-`) — Retrieval-Augmented Generation: let the model look up relevant facts before replying, instead of relying only on trained-in knowledge. | learning | [[llm-rag-basics]] | [What Is RAG in AI and How to Use It?](https://www.v7labs.com/blog/what-is-rag) |
-| Artificial General Intelligence (definitions, approaches, safety) — background, not on critical path | learning | [[llm-artificial-general-intelligence]] | — |
+| What is an LLM / Transformer Models — a neural network architecture that reads input all at once (attention) instead of one piece at a time, the basis of modern LLMs. | done | [[llm-large-language-model]] | [Exploring Open Source AI Models: LLMs and Transformer Architectures](https://llmmodels.org/blog/exploring-open-source-ai-models-llms-and-transformer-architectures/) |
+| Embeddings & Vector Search — embeddings turn words/images/data into vectors that preserve meaning; similar items end up close together, enabling semantic search. | done | [[llm-embedding]] | [OpenAI Embeddings API Documentation](https://platform.openai.com/docs/guides/embeddings/what-are-embeddings) |
+| Tokenization — the step where raw text is broken into small pieces (tokens), each given a unique number the model operates on. | done | [[llm-tokenization]] | [Explaining Tokens — the Language and Currency of AI](https://blogs.nvidia.com/blog/ai-tokens-explained/) |
+| Context Windows — the chunk of text (in tokens) a model can read/attend to at one time. | done | [[llm-context-window]] | [What is a Context Window in AI? - IBM](https://www.ibm.com/think/topics/context-window) |
+| Token Based Pricing & Pricing of Common Models — most LLM providers charge per token read/written; a token is roughly 4 characters of text. | done | [[llm-token-pricing]] | [OpenAI Pricing](https://openai.com/api/pricing/) |
+| Generation Controls — Temperature (randomness of output) | done | [[llm-temperature]] | [What Temperature Means in NLP and AI](https://thenewstack.io/what-temperature-means-in-natural-language-processing-and-ai/) |
+| Generation Controls — Top-p / nucleus sampling (probability-mass cutoff for next-token choice) | done | [[llm-top-p]] | [Nucleus Sampling](https://nn.labml.ai/sampling/nucleus.html) |
+| Generation Controls — Frequency Penalty (discourages repeating the same tokens) | done | [[llm-frequency-penalty]] | [Understanding Frequency Penalty and Presence Penalty](https://medium.com/@the_tori_report/understanding-frequency-penalty-and-presence-penalty-how-to-fine-tune-ai-generated-text-e5e4f5e779cd) |
+| Generation Controls — Presence Penalty (discourages reusing any token already seen, regardless of count) | done | [[llm-presence-penalty]] | [Understanding Presence Penalty and Frequency Penalty](https://medium.com/@pushparajgenai2025/understanding-presence-penalty-and-frequency-penalty-in-openai-chat-completion-api-calls-2e3a22547b48) |
+| Generation Controls — Stopping Criteria (rules for when the model halts generation) | done | [[llm-stopping-criteria]] | [Defining Stopping Criteria in Large Language Models](https://www.metriccoders.com/post/defining-stopping-criteria-in-large-language-models-a-practical-guide) |
+| Generation Controls — Max Length (hard cap on tokens generated per reply) | done | [[llm-max-length]] | [Utilising Max Token Context Window of Anthropic Claude](https://medium.com/@nampreetsingh/utilising-max-token-context-window-of-anthropic-claude-on-amazon-bedrock-7377d94b2dfa) |
+| Open Weight Models — models whose trained parameters are published and can be downloaded/run/fine-tuned by anyone. | done | [[llm-open-weight-models]] | [BLOOM BigScience](https://bigscience.huggingface.co/) |
+| Closed Weight Models — models whose trained parameters are kept private, accessed only via a hosted API. | done | [[llm-closed-weight-models]] | [OpenAI's GPT-4](https://openai.com/gpt-4) |
+| Streamed vs Unstreamed Responses — streaming sends tokens to the client as they're generated (lower perceived latency); unstreamed waits for the full response. | done | [[llm-streamed-vs-unstreamed-responses]] | [Streaming Responses in AI](https://dev.to/pranshu_kabra_fe98a73547a/streaming-responses-in-ai-how-ai-outputs-are-generated-in-real-time-18kb) |
+| Reasoning vs Standard Models — reasoning models break a task into explicit steps before answering; standard models answer in one pass. | done | [[llm-reasoning-vs-standard-models]] | [ReAct: Synergizing Reasoning and Acting in Language Models](https://react-lm.github.io/) |
+| Fine-tuning vs Prompt Engineering — two ways to steer model output: prompt engineering shapes the input, fine-tuning retrains weights on examples. | done | [[llm-fine-tuning]] | [OpenAI Fine Tuning](https://platform.openai.com/docs/guides/fine-tuning) |
+| Basics of RAG (primer — deep dive under `rag-`) — Retrieval-Augmented Generation: let the model look up relevant facts before replying, instead of relying only on trained-in knowledge. | done | [[llm-rag-basics]] | [What Is RAG in AI and How to Use It?](https://www.v7labs.com/blog/what-is-rag) |
+| Artificial General Intelligence (definitions, approaches, safety) — background, not on critical path | done | [[llm-artificial-general-intelligence]] | — |
 
 ### AI Agents 101 (`agent-`)
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| What are AI Agents? — a program/system that senses its environment, decides what the data means, picks an action toward a goal, then observes results and learns for next time. | learning | [[agent-what-are-ai-agents]] | [What are AI Agents? - AWS](https://aws.amazon.com/what-is/ai-agents/) |
-| What are Tools? — extra skills/resources (functions, APIs, DBs) an agent can call on to complete a task it can't do from language alone. | planned | — | [Compare 50+ AI Agent Tools in 2025 - AIMultiple](https://research.aimultiple.com/ai-agent-tools/) |
+| What are AI Agents? — a program/system that senses its environment, decides what the data means, picks an action toward a goal, then observes results and learns for next time. | done | [[agent-what-are-ai-agents]] | [What are AI Agents? - AWS](https://aws.amazon.com/what-is/ai-agents/) |
+| What are Tools? — extra skills/resources (functions, APIs, DBs) an agent can call on to complete a task it can't do from language alone. | done | [[agent-what-are-tools]] | [Compare 50+ AI Agent Tools in 2025 - AIMultiple](https://research.aimultiple.com/ai-agent-tools/) |
 
 ### Agent Loop (`agent-`)
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| The agent loop — perceive → reason/plan → act/invoke tool → observe/reflect (overview) | learning | [[agent-loop]] | [What is an Agent Loop? - HF Agents Course](https://huggingface.co/learn/agents-course/en/unit1/agent-steps-and-structure) |
+| The agent loop — perceive → reason/plan → act/invoke tool → observe/reflect (overview) | done | [[agent-loop]] | [What is an Agent Loop? - HF Agents Course](https://huggingface.co/learn/agents-course/en/unit1/agent-steps-and-structure) |
 | 1. Perception / User Input — the first step: the agent gathers data from the outside world (user text, sensors, API responses). | done | [[agent-perception-user-input]] | [Perception in AI: Understanding Its Types and Importance](https://marktalks.com/perception-in-ai-understanding-its-types-and-importance/) |
 | 2. Reason and Plan — the agent thinks before it acts: interprets the goal, breaks it into steps, decides what to do next. | done | [[agent-reason-plan]] | [ReAct: Synergizing Reasoning and Acting in Language Models](https://react-lm.github.io/) |
-| 3. Acting / Tool Invocation — the agent chooses a tool and runs it to fetch real-world data or change something. | learning | — | [What are Tools in AI Agents? - HF Agents Course](https://huggingface.co/learn/agents-course/en/unit1/tools) |
-| 4. Observation & Reflection — the agent reviews the tool's output, checks progress toward the goal, and decides whether to loop again or stop. | planned | — | [Best Practices for Prompting and Self-checking - OpenAI](https://platform.openai.com/docs/guides/prompt-engineering) |
+| 3. Acting / Tool Invocation — the agent chooses a tool and runs it to fetch real-world data or change something. | done | [[agent-acting-tool-invocation]] | [What are Tools in AI Agents? - HF Agents Course](https://huggingface.co/learn/agents-course/en/unit1/tools) |
+| 4. Observation & Reflection — the agent reviews the tool's output, checks progress toward the goal, and decides whether to loop again or stop. | done | [[agent-observation-reflection]] | [Best Practices for Prompting and Self-checking - OpenAI](https://platform.openai.com/docs/guides/prompt-engineering) |
 
 ### Example Use Cases (`agent-`)
 | Topic | Stage | Note | Reference |
@@ -83,15 +83,15 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 ### Prompt Engineering (`prompt-`)
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| What is Prompt Engineering — the skill of writing clear instructions/questions so an AI system gives the answer you want (roadmap.sh has a dedicated prompt-engineering track). | planned | — | [Dedicated Prompt Engineering Roadmap](https://roadmap.sh/prompt-engineering) |
-| Writing Good Prompts — be specific in what you want | planned | — | [Prompt Engineering Guide](https://www.promptingguide.ai/) |
-| Writing Good Prompts — provide additional context (background facts, constraints, goals) | planned | — | [What is Context in Prompt Engineering?](https://www.godofprompt.ai/blog/what-is-context-in-prompt-engineering) |
+| What is Prompt Engineering — the skill of writing clear instructions/questions so an AI system gives the answer you want (roadmap.sh has a dedicated prompt-engineering track). | done | [[prompt-engineering]] | [Dedicated Prompt Engineering Roadmap](https://roadmap.sh/prompt-engineering) |
+| Writing Good Prompts — be specific in what you want | done | [[prompt-writing-good-prompts-be-specific]] | [Prompt Engineering Guide](https://www.promptingguide.ai/) |
+| Writing Good Prompts — provide additional context (background facts, constraints, goals) | done | [[prompt-writing-good-prompts-provide-context]] | [What is Context in Prompt Engineering?](https://www.godofprompt.ai/blog/what-is-context-in-prompt-engineering) |
 | Writing Good Prompts — use relevant technical terms for domain tasks | planned | — | [AI Terms Glossary](https://www.moveworks.com/us/en/resources/ai-terms-glossary) |
-| Writing Good Prompts — use examples in your prompt (few-shot) | planned | — | [10 Real-World AI Agent Examples in 2025](https://www.chatbase.co/blog/ai-agent-examples) |
+| Writing Good Prompts — use examples in your prompt (few-shot) | done | [[prompt-writing-good-prompts-use-examples]] | [10 Real-World AI Agent Examples in 2025](https://www.chatbase.co/blog/ai-agent-examples) |
 | Writing Good Prompts — iterate and test your prompts (treat v1 as a draft) | planned | — | [Prompt Engineering Best Practices - DeepLearning.AI](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/) |
 | Writing Good Prompts — specify length, format, etc | planned | — | [Mastering Prompt Engineering: Format, Length, and Audience](https://techlasi.com/savvy/mastering-prompt-engineering-format-length-and-audience-examples-for-2024/) |
-| Tree-of-Thought — organizes an agent's reasoning as a branching tree of intermediate thoughts, exploring multiple paths before committing. | planned | — | [Tree of Thoughts (ToT) - Prompt Engineering Guide](https://www.promptingguide.ai/techniques/tot) |
-| Chain of Thought (CoT) — prompting technique where the model "thinks out loud" through intermediate reasoning steps before the final answer. | planned | — | [Chain-of-Thought Prompting Elicits Reasoning in LLMs](https://arxiv.org/abs/2201.11903) |
+| Tree-of-Thought — organizes an agent's reasoning as a branching tree of intermediate thoughts, exploring multiple paths before committing. | done | [[prompt-engineering]] (see "Tree of Thoughts (ToT)") | [Tree of Thoughts (ToT) - Prompt Engineering Guide](https://www.promptingguide.ai/techniques/tot) |
+| Chain of Thought (CoT) — prompting technique where the model "thinks out loud" through intermediate reasoning steps before the final answer. | done | [[prompt-engineering]] (see "Chain-of-Thought (CoT) prompting") | [Chain-of-Thought Prompting Elicits Reasoning in LLMs](https://arxiv.org/abs/2201.11903) |
 
 ### Tools / Actions (`agent-`)
 | Topic | Stage | Note | Reference |
@@ -132,7 +132,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | ReAct (Reason + Act) — alternates explicit reasoning steps with tool-invoking actions, using each observation to inform the next reasoning step. | planned | — | [ReAct: Synergizing Reasoning and Acting in Language Models](https://react-lm.github.io/) |
 | Chain of Thought (CoT) — reused here as an architecture pattern; see Prompt Engineering above for the technique itself. | planned | — | — |
 | RAG Agent — an agent that retrieves relevant documents before generating, so answers are grounded in fresh/reliable facts. | planned | — | [What is RAG? - AWS](https://aws.amazon.com/what-is/retrieval-augmented-generation/) |
-| RAG & Vector Databases (deep-dive, child of RAG Agent) — how retrieval + vector stores combine to ground agent responses in stored data. | planned | — | [Understanding RAG and Vector Databases](https://pureai.com/Articles/2025/03/03/Understanding-RAG.aspx) |
+| RAG & Vector Databases (deep-dive, child of RAG Agent) — how retrieval + vector stores combine to ground agent responses in stored data. | done | [[vector-search]] | [Understanding RAG and Vector Databases](https://pureai.com/Articles/2025/03/03/Understanding-RAG.aspx) |
 | Planner–Executor — splits agent work into two clear roles: a planner that decides the steps, and an executor that carries them out. | planned | — | [Plan-and-Execute Agents - LangChain](https://blog.langchain.dev/planning-agents/) |
 | DAG Agents — agent workflow modeled as a Directed Acyclic Graph of nodes/tasks with no loops, enabling parallel/ordered execution. | planned | — | [Airflow: Directed Acyclic Graphs](https://airflow.apache.org/docs/apache-airflow/stable/concepts/dags.html) |
 | Tree-of-Thought — reused here as an architecture pattern; see Prompt Engineering above for the technique itself. | planned | — | — |
@@ -161,7 +161,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 Only one confirmed roadmap.sh node here besides the primer under LLM Fundamentals and the RAG Agent under Architectures — the earlier speculative rows (chunking/hybrid search/reranking) weren't found in the actual source content and have been dropped pending confirmation; add back with a source link if they turn out to exist.
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| RAG & Vector Databases — see Agent Architectures above (roadmap.sh nests this node there, under RAG Agent). | planned | — | [Understanding RAG and Vector Databases](https://pureai.com/Articles/2025/03/03/Understanding-RAG.aspx) |
+| RAG & Vector Databases — see Agent Architectures above (roadmap.sh nests this node there, under RAG Agent). | done | [[vector-search]] | [Understanding RAG and Vector Databases](https://pureai.com/Articles/2025/03/03/Understanding-RAG.aspx) |
 
 ### Evaluation & Testing (`eval-`)
 | Topic | Stage | Note | Reference |

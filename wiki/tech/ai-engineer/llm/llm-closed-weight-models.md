@@ -10,7 +10,7 @@ sources:
   - https://www.nextplatform.com/ai/2026/08/13/the-war-between-open-source-open-weight-and-closed-ai-models/5287504
   - https://www.digitalapplied.com/blog/open-weight-vs-closed-source-ai-models-q2-2026
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Closed-weight models — API-only, không công khai trọng số

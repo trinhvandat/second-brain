@@ -13,7 +13,7 @@ sources:
   - https://code.claude.com/docs/en/agent-sdk/agent-loop
   - https://mbrenndoerfer.com/writing/repetition-penalties-language-model-generation
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Stopping Criteria — các quy tắc quyết định khi nào LLM ngừng sinh token

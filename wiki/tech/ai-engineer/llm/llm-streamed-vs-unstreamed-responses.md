@@ -8,7 +8,7 @@ sources:
   - https://redis.io/blog/ttft-meaning/
   - https://www.spheron.network/blog/structured-output-function-calling-inference-guide/
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Streamed vs Un-streamed response
