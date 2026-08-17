@@ -5,6 +5,8 @@ sources:
   - https://nn.labml.ai/sampling/nucleus.html
   - https://medium.com/@shashankag14/understanding-sampling-techniques-in-large-language-models-llms-dfc28b93f518 (fetch lỗi "Socket is closed" cả 2 lần thử — giữ lại làm pointer, chưa đọc được nội dung)
   - https://community.openai.com/t/temperature-top-p-and-top-k-for-chatbot-responses/295542
+  - https://code.claude.com/docs/en/settings
+  - https://github.com/ccbogel/QualCoder/issues/1125
 roadmap: ai-engineer
 stage: learning
 ---
@@ -91,8 +93,9 @@ Về mặt kỹ thuật khi cả hai được set cùng lúc trong một request
 
 ## Liên hệ tới các phần khác
 
-- Cùng nhóm **generation controls** với [[llm-temperature]] (và top-k, frequency/presence penalty — chưa có note riêng) trong prerequisite layer của [[ai-engineer-roadmap]].
+- Cùng nhóm **generation controls** với [[llm-temperature]] và [[llm-frequency-penalty]] (top-k, presence penalty — chưa có note riêng) trong prerequisite layer của [[ai-engineer-roadmap]].
 - Bước lọc top-p diễn ra ở tầng **sampling** (chọn token từ phân phối) — không liên quan tới decoding strategy dùng để stream response, xem [[llm-streamed-vs-unstreamed-responses]] mục Decoding strategies.
+- **Claude Code (CLI) không expose top_p cho người dùng chỉnh** — giống temperature (xem [[llm-temperature]] mục "Liên hệ tới các phần khác"), không có trong `settings.json`, không có CLI flag (as of code.claude.com/docs/en/settings, confidence: medium). Muốn chỉnh top_p phải gọi thẳng Anthropic API hoặc dùng Claude Agent SDK. Đáng chú ý: từ Opus 4.1 trở đi, API **không cho set `temperature` và `top_p` cùng lúc** trong một request (as of github.com/ccbogel/QualCoder issue #1125, confidence: medium) — khớp với khuyến nghị "chỉ chỉnh một trong hai tại một thời điểm" đã ghi ở mục "Kết hợp (hoặc không) với temperature" phía trên, chỉ khác là giờ API còn **enforce cứng** thay vì chỉ khuyến nghị.
 
 ## Giới hạn / open questions
 - Nguồn `medium.com/@shashankag14` fetch lỗi "Socket is closed" cả 2 lần thử (WebFetch) — chưa đọc được nội dung, cần thử lại sau (curl trực tiếp hoặc đọc thủ công) nếu muốn đối chiếu thêm góc nhìn so sánh top-p/top-k/temperature từ nguồn này.

@@ -6,6 +6,8 @@ sources:
   - https://docsbot.ai/article/how-temperature-settings-transform-your-ai-agents-responses
   - https://thenewstack.io/what-temperature-means-in-natural-language-processing-and-ai/ (403 khi fetch, không đọc được nội dung — giữ lại làm pointer)
   - https://www.ibm.com/think/topics/llm-temperature (403 khi fetch, không đọc được nội dung — giữ lại làm pointer)
+  - https://code.claude.com/docs/en/settings
+  - https://github.com/ccbogel/QualCoder/issues/1125
 roadmap: ai-engineer
 stage: learning
 ---
@@ -111,8 +113,9 @@ Ba tham số này **kết hợp được với nhau** trong cùng một request 
 ## Liên hệ tới các phần khác
 
 - Temperature chỉ có ý nghĩa ở bước **sampling** (chọn token từ phân phối) — không liên quan tới **decoding strategy nào được dùng để stream** (greedy/sampling tương thích streaming, beam search thì không), xem chi tiết ở [[llm-streamed-vs-unstreamed-responses]].
-- Đây là một trong các **generation controls** cơ bản (cùng nhóm với top-p, frequency/presence penalty, max tokens, stop sequences) trong prerequisite layer của [[ai-engineer-roadmap]] — các tham số còn lại trong nhóm này chưa có note riêng, để dành khi đào sâu tiếp.
+- Đây là một trong các **generation controls** cơ bản (cùng nhóm với [[llm-top-p]], [[llm-frequency-penalty]], max tokens, stop sequences) trong prerequisite layer của [[ai-engineer-roadmap]] — max tokens/stop sequences chưa có note riêng, để dành khi đào sâu tiếp.
 - Không ảnh hưởng tới **reasoning trace** của reasoning model (xem [[llm-reasoning-vs-standard-models]]) — temperature tác động ở tầng chọn token, còn việc model có "suy nghĩ" nhiều/ít trước khi trả lời là một cơ chế khác (test-time compute), độc lập với temperature.
+- **Claude Code (CLI) không expose temperature/top_p cho người dùng chỉnh** — không có trong `settings.json`, không có CLI flag (as of code.claude.com/docs/en/settings, confidence: medium). Đây là chủ đích: agentic coding tool cần output ổn định/có cấu trúc cho tool-calling nên harness cố định sẵn tham số sampling, không để người dùng tự do chỉnh như khi gọi thẳng API. Muốn chỉnh temperature/top_p, phải đi qua **Anthropic API trực tiếp** (set trong request body của `messages.create(...)`) hoặc **Claude Agent SDK** khi tự build agent riêng — không phải qua Claude Code. Ngoài ra, từ Opus 4.1 trở đi API còn **không cho set cả `temperature` và `top_p` cùng lúc** trong một request, đúng như khuyến nghị "chỉ chỉnh một tham số tại một thời điểm" ở mục "Temperature không phải cách duy nhất điều khiển randomness" phía trên (as of github.com/ccbogel/QualCoder issue #1125, confidence: medium — quan sát từ báo lỗi cộng đồng, chưa đối chiếu trực tiếp với changelog chính thức của Anthropic).
 
 ## Giới hạn / open questions
 - Hai nguồn `thenewstack.io` và `ibm.com/think` trả về HTTP 403 khi fetch (cả qua WebFetch lẫn `curl` trực tiếp) — nội dung 2 bài này chưa được đọc/tổng hợp vào note. Cần thử lại sau (VD qua cache khác, hoặc đọc thủ công) nếu muốn đối chiếu thêm góc nhìn/số liệu từ 2 nguồn này.

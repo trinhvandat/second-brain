@@ -32,7 +32,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | Embeddings & vector search (vectors, similarity, ANN search, vector DB) | learning | [[llm-embedding]] |
 | Tokenization | learning | [[llm-tokenization]] |
 | Context windows & token-based pricing | learning | [[llm-context-window]], [[llm-token-pricing]] |
-| Generation controls (temperature, top-p, frequency/presence penalty, stopping criteria, max length) | learning | [[llm-temperature]], [[llm-top-p]] |
+| Generation controls (temperature, top-p, frequency/presence penalty, stopping criteria, max length) | learning | [[llm-temperature]], [[llm-top-p]], [[llm-frequency-penalty]] |
 | Open-weight vs closed-weight models, model families & licenses | learning | [[llm-open-weight-models]], [[llm-closed-weight-models]] |
 | Streamed vs unstreamed responses (TTFT, SSE/WebSocket, decoding strategies) | learning | [[llm-streamed-vs-unstreamed-responses]] |
 | Reasoning vs standard models | learning | [[llm-reasoning-vs-standard-models]] |
