@@ -41,15 +41,18 @@ const REVIEW_SCHEMA = {
 }
 
 const DEFAULT_ARGS = {
-  topic: 'The agent loop — perceive (nhan input/observation) -> reason/plan (LLM quyet dinh buoc tiep theo) -> act/invoke tool (goi tool that) -> observe/reflect (doc ket qua, lap lai hoac dung)',
+  topic: "Perception / User Input — buoc dau tien trong agent loop. Agent 'nghe' va thu thap du lieu tho tu the gioi ben ngoai: text nguoi dung go, loi noi, anh camera, chi so sensor, hoac noi dung web qua API. Muc tieu la bien tin hieu tho thanh dang ro rang, dung duoc — agent co the lam sach text, chuyen giong noi thanh text, resize anh, hoac loc nhieu khoi du lieu sensor. Perception tot nghia la agent bat dau vong lap voi su that, khong phai doan mo. Neu input sai hoac khong ro, cac buoc sau cung se sai — nen xu ly perception can than giup ca vong lap agent di dung huong.",
   category: 'agent',
-  slug: 'loop',
-  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-loop.md',
+  slug: 'perception-user-input',
+  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-perception-user-input.md',
   roadmapPath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer-roadmap.md',
-  roadmapRowTopic: 'The agent loop — perceive → reason/plan → act/invoke tool → observe/reflect',
-  relatedNotes: ['agent-what-are-ai-agents', 'llm-reasoning-vs-standard-models', 'ai-engineer-roadmap'],
-  seedSources: [],
-  seedContext: '',
+  roadmapRowTopic: 'Perception / user input — step 1 of the agent loop',
+  relatedNotes: ['agent-loop', 'agent-what-are-ai-agents', 'ai-engineer-roadmap'],
+  seedSources: [
+    'https://marktalks.com/perception-in-ai-understanding-its-types-and-importance/',
+    'https://www.ibm.com/think/topics/ai-agent-perception',
+  ],
+  seedContext: 'Perception, also called user input, is the first step in an agent loop. The agent listens and gathers data from the outside world. This data can be text typed by a user, spoken words, camera images, sensor readings, or web content pulled through an API. The goal is to turn raw signals into a clear, usable form. The agent may clean the text, translate speech to text, resize an image, or drop noise from sensor values. Good perception means the agent starts its loop with facts, not guesses. If the input is wrong or unclear, later steps will also fail. So careful handling of perception keeps the whole agent loop on track.',
 }
 const rawArgs = (args && typeof args === 'object' && !Array.isArray(args)) ? args : {}
 const A = {
