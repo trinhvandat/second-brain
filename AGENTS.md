@@ -56,7 +56,16 @@
 - Short, atomic, heavily linked. Write in English by default.
 - **Optional headings** for `wiki/tech/` notes (or any note mixing concept + practical usage): add `## Gotchas` (common pitfalls, easy-to-forget details) and/or `## References` (source links, docs) as trailing sections when the note has enough of that material to warrant scanning separately. Not mandatory — don't retrofit existing notes just to add empty headings.
 
-## 6. LIFECYCLE (invalidate old knowledge — never delete silently)
+## 6. AI-Engineer roadmap note pipeline (multi-agent workflow)
+- Trigger: user asks to research/write a new note for `wiki/tech/ai-engineer/` (phrases like "viết note về X cho ai-engineer", "research và viết bài về X", "chạy pipeline cho topic X").
+- This is a `Workflow` tool call (multi-agent orchestration) — only run it when the user has explicitly asked in this turn (their own words count as opt-in; don't infer it from an old conversation).
+- Script: `.claude/workflows/ai-engineer-note-pipeline.js`. Stages: 3 parallel research agents (different angles) → dedupe+synthesize (writes the note + updates the roadmap hub row) → 3-persona review (junior/middle/senior score clarity+applicability, hard-fail if `(as of..., confidence:...)` citations appear >6 times) → revise loop (max 2 rounds) until all pass.
+- **How to run it** (do NOT rely on passing `args` to `Workflow` — confirmed unreliable when using `scriptPath`, silently drops fields or falls back to stale defaults):
+  1. Read the script, then `Edit` its `DEFAULT_ARGS` block (topic, category, slug, filePath, roadmapPath, roadmapRowTopic, relatedNotes, and optionally seedSources/seedContext if the user already gave sources/a draft definition) for the new topic. Follow the `wiki/tech/ai-engineer-roadmap.md` naming convention (folder=category, filename=`<category>-<slug>.md`) and copy `roadmapRowTopic` verbatim from that file's table (it may be a row shared by multiple notes — the script appends rather than overwrites).
+  2. Call `Workflow({ scriptPath: "<repo>/.claude/workflows/ai-engineer-note-pipeline.js" })` — no `args`, no `resumeFromRunId` for a new topic (only use `resumeFromRunId` to cheaply re-test the same topic after editing the script's prompts/rules).
+  3. After it completes, verify with `ls`/`grep` on the actual note file and the actual roadmap row — do not trust the JSON `result` blob alone before reporting done.
+
+## 7. LIFECYCLE (invalidate old knowledge — never delete silently)
 - **Supersede** (new info replaces old): set the old note's frontmatter `status: superseded`, add an inline `(superseded YYYY-MM → [[new-note]])` on the affected claim, and have the new note state `Supersedes [[old-note]]`. Keep the old note in place (preserves backlinks + provenance).
 - **Dispute** (evidence conflicts, unresolved): set `status: disputed`, add inline `(disputed YYYY-MM: <reason> [[conflicting-note]])`, and lower `(confidence)`. Do NOT pick a winner automatically; resolve later.
 - **Retire** (fully obsolete): move the file into `wiki/archive/` and set `status: retired`. It stays searchable for audit but is excluded from default QUERY.

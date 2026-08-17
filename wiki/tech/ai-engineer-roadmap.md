@@ -32,7 +32,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | Embeddings & vector search (vectors, similarity, ANN search, vector DB) | learning | [[llm-embedding]] |
 | Tokenization | learning | [[llm-tokenization]] |
 | Context windows & token-based pricing | learning | [[llm-context-window]], [[llm-token-pricing]] |
-| Generation controls (temperature, top-p, frequency/presence penalty, stopping criteria, max length) | learning | [[llm-temperature]], [[llm-top-p]], [[llm-frequency-penalty]] |
+| Generation controls (temperature, top-p, frequency/presence penalty, stopping criteria, max length) | learning | [[llm-temperature]], [[llm-top-p]], [[llm-frequency-penalty]], [[llm-presence-penalty]] |
 | Open-weight vs closed-weight models, model families & licenses | learning | [[llm-open-weight-models]], [[llm-closed-weight-models]] |
 | Streamed vs unstreamed responses (TTFT, SSE/WebSocket, decoding strategies) | learning | [[llm-streamed-vs-unstreamed-responses]] |
 | Reasoning vs standard models | learning | [[llm-reasoning-vs-standard-models]] |
@@ -49,9 +49,9 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 ### AI Agents 101 (`agent-`)
 | Topic | Stage | Note |
 |---|---|---|
-| What are AI agents? (vs plain LLM calls / vs RAG) | planned | — |
+| What are AI agents? (vs plain LLM calls / vs RAG) | learning | [[agent-what-are-ai-agents]] |
 | What are tools? | planned | — |
-| The agent loop — perceive → reason/plan → act/invoke tool → observe/reflect | planned | — |
+| The agent loop — perceive → reason/plan → act/invoke tool → observe/reflect | learning | [[agent-loop]] |
 | Example use cases (personal assistant, code gen, data analysis, web scraping, NPC/game AI) | planned | — |
 
 ### Tools & MCP (`agent-`)
