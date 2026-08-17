@@ -12,7 +12,7 @@ sources:
   - https://github.com/anthropics/claude-code/issues/34566
   - https://github.com/anthropics/claude-code/issues/55040
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Perception / User Input — bước đầu tiên của agent loop

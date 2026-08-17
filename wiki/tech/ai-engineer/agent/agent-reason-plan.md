@@ -7,7 +7,7 @@ sources:
   - https://www.anthropic.com/engineering/building-effective-agents
   - https://code.claude.com/docs/en/agent-sdk/agent-loop
 roadmap: ai-engineer
-stage: learning
+stage: done
 ---
 
 # Reason and Plan — bước 2 của agent loop
