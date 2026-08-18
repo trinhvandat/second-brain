@@ -86,44 +86,44 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | What is Prompt Engineering — the skill of writing clear instructions/questions so an AI system gives the answer you want (roadmap.sh has a dedicated prompt-engineering track). | done | [[prompt-engineering]] | [Dedicated Prompt Engineering Roadmap](https://roadmap.sh/prompt-engineering) |
 | Writing Good Prompts — be specific in what you want | done | [[prompt-writing-good-prompts-be-specific]] | [Prompt Engineering Guide](https://www.promptingguide.ai/) |
 | Writing Good Prompts — provide additional context (background facts, constraints, goals) | done | [[prompt-writing-good-prompts-provide-context]] | [What is Context in Prompt Engineering?](https://www.godofprompt.ai/blog/what-is-context-in-prompt-engineering) |
-| Writing Good Prompts — use relevant technical terms for domain tasks | planned | — | [AI Terms Glossary](https://www.moveworks.com/us/en/resources/ai-terms-glossary) |
+| Writing Good Prompts — use relevant technical terms for domain tasks | learning | [[prompt-writing-good-prompts-use-technical-terms]] | [AI Terms Glossary](https://www.moveworks.com/us/en/resources/ai-terms-glossary) |
 | Writing Good Prompts — use examples in your prompt (few-shot) | done | [[prompt-writing-good-prompts-use-examples]] | [10 Real-World AI Agent Examples in 2025](https://www.chatbase.co/blog/ai-agent-examples) |
-| Writing Good Prompts — iterate and test your prompts (treat v1 as a draft) | planned | — | [Prompt Engineering Best Practices - DeepLearning.AI](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/) |
-| Writing Good Prompts — specify length, format, etc | planned | — | [Mastering Prompt Engineering: Format, Length, and Audience](https://techlasi.com/savvy/mastering-prompt-engineering-format-length-and-audience-examples-for-2024/) |
+| Writing Good Prompts — iterate and test your prompts (treat v1 as a draft) | learning | [[prompt-writing-good-prompts-iterate-test]] | [Prompt Engineering Best Practices - DeepLearning.AI](https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/) |
+| Writing Good Prompts — specify length, format, etc | learning | [[prompt-writing-good-prompts-specify-format]] | [Mastering Prompt Engineering: Format, Length, and Audience](https://techlasi.com/savvy/mastering-prompt-engineering-format-length-and-audience-examples-for-2024/) |
 | Tree-of-Thought — organizes an agent's reasoning as a branching tree of intermediate thoughts, exploring multiple paths before committing. | done | [[prompt-engineering]] (see "Tree of Thoughts (ToT)") | [Tree of Thoughts (ToT) - Prompt Engineering Guide](https://www.promptingguide.ai/techniques/tot) |
 | Chain of Thought (CoT) — prompting technique where the model "thinks out loud" through intermediate reasoning steps before the final answer. | done | [[prompt-engineering]] (see "Chain-of-Thought (CoT) prompting") | [Chain-of-Thought Prompting Elicits Reasoning in LLMs](https://arxiv.org/abs/2201.11903) |
 
 ### Tools / Actions (`agent-`)
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| Tool Definition — any skill/function an agent can call: has a name, description, and a clear input/output schema. | planned | — | [What are Tools? - HF Agents Course](https://huggingface.co/learn/agents-course/en/unit1/tools) |
-| Examples of Tools — Web Search | planned | — | [8 Best AI Search Engines for 2025](https://usefulai.com/tools/ai-search-engines) |
-| Examples of Tools — Code Execution / REPL | planned | — | [What is a REPL? - Replit](https://docs.replit.com/getting-started/intro-replit) |
-| Examples of Tools — Database Queries | planned | — | [Building Your Own Database Agent - DeepLearning.AI](https://www.deeplearning.ai/short-courses/building-your-own-database-agent/) |
-| Examples of Tools — API Requests | planned | — | [Introduction to APIs - MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_APIs/Introduction) |
-| Examples of Tools — File System Access | planned | — | [Filesystem MCP server for AI Agents](https://playbooks.com/mcp/mateicanavra-filesystem) |
-| Examples of Tools — Email / Slack / SMS | planned | — | [Twilio Messaging API](https://www.twilio.com/docs/usage/api) |
+| Tool Definition — any skill/function an agent can call: has a name, description, and a clear input/output schema. | learning | [[agent-tool-definition]] | [What are Tools? - HF Agents Course](https://huggingface.co/learn/agents-course/en/unit1/tools) |
+| Examples of Tools — Web Search | learning | [[agent-tools-web-search]] | [8 Best AI Search Engines for 2025](https://usefulai.com/tools/ai-search-engines) |
+| Examples of Tools — Code Execution / REPL | learning | [[agent-tools-code-execution]] | [What is a REPL? - Replit](https://docs.replit.com/getting-started/intro-replit) |
+| Examples of Tools — Database Queries | learning | [[agent-tools-database-queries]] | [Building Your Own Database Agent - DeepLearning.AI](https://www.deeplearning.ai/short-courses/building-your-own-database-agent/) |
+| Examples of Tools — API Requests | learning | [[agent-tools-api-requests]] | [Introduction to APIs - MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_APIs/Introduction) |
+| Examples of Tools — File System Access | learning | [[agent-tools-filesystem-access]] | [Filesystem MCP server for AI Agents](https://playbooks.com/mcp/mateicanavra-filesystem) |
+| Examples of Tools — Email / Slack / SMS | learning | [[agent-tools-email-slack-sms]] | [Twilio Messaging API](https://www.twilio.com/docs/usage/api) |
 
 ### Model Context Protocol / MCP (`agent-`)
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| Model Context Protocol (MCP) — an open standard defining how an agent packages context (system role, memory, tool calls, etc.) when talking to a model, and how tools/data sources plug in. | planned | — | [Model Context Protocol — official](https://modelcontextprotocol.io/introduction) |
-| MCP Hosts — the app/environment (e.g. Claude Desktop, an IDE) that runs an MCP client and coordinates with servers. | planned | — | [Model Context Protocol — official](https://modelcontextprotocol.io/introduction) |
-| MCP Client — the component inside the host that talks to MCP servers on behalf of the model. | planned | — | [Model Context Protocol — official](https://modelcontextprotocol.io/introduction) |
-| MCP Servers — the process that exposes tools/resources/prompts to MCP clients over the protocol. | planned | — | [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers) |
-| Creating MCP Servers — building a server that exposes your own tools/data via MCP. | planned | — | [Model Context Protocol (MCP) — Anthropic announcement](https://www.anthropic.com/news/model-context-protocol) |
-| MCP deployment modes — Local Desktop (server runs on your own machine) | planned | — | [Build a Simple Local MCP Server](https://blog.stackademic.com/build-simple-local-mcp-server-5434d19572a4) |
-| MCP deployment modes — Remote / Cloud (server hosted on a cloud provider) | planned | — | [Edge AI vs. Cloud AI](https://medium.com/@hassaanidrees7/edge-ai-vs-cloud-ai-real-time-intelligence-vs-centralized-processing-df8c6e94fd11) |
+| Model Context Protocol (MCP) — an open standard defining how an agent packages context (system role, memory, tool calls, etc.) when talking to a model, and how tools/data sources plug in. | learning | [[agent-mcp-overview]] | [Model Context Protocol — official](https://modelcontextprotocol.io/introduction) |
+| MCP Hosts — the app/environment (e.g. Claude Desktop, an IDE) that runs an MCP client and coordinates with servers. | learning | [[agent-mcp-hosts]] | [Model Context Protocol — official](https://modelcontextprotocol.io/introduction) |
+| MCP Client — the component inside the host that talks to MCP servers on behalf of the model. | learning | [[agent-mcp-client]] | [Model Context Protocol — official](https://modelcontextprotocol.io/introduction) |
+| MCP Servers — the process that exposes tools/resources/prompts to MCP clients over the protocol. | learning | [[agent-mcp-servers]] | [punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers) |
+| Creating MCP Servers — building a server that exposes your own tools/data via MCP. | learning | [[agent-mcp-creating-servers]] | [Model Context Protocol (MCP) — Anthropic announcement](https://www.anthropic.com/news/model-context-protocol) |
+| MCP deployment modes — Local Desktop (server runs on your own machine) | learning | [[agent-mcp-deploy-local]] | [Build a Simple Local MCP Server](https://blog.stackademic.com/build-simple-local-mcp-server-5434d19572a4) |
+| MCP deployment modes — Remote / Cloud (server hosted on a cloud provider) | learning | [[agent-mcp-deploy-remote]] | [Edge AI vs. Cloud AI](https://medium.com/@hassaanidrees7/edge-ai-vs-cloud-ai-real-time-intelligence-vs-centralized-processing-df8c6e94fd11) |
 
 ### Agent Memory (`agent-`)
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| What is Agent Memory? — the part of an agent that tracks what already happened: past messages, learned facts, prior steps — across a turn or across sessions. | planned | — | [Agentic Memory for LLM Agents](https://arxiv.org/abs/2502.12110) |
-| Short-term memory — facts passed as part of the current prompt/context, discarded after the session ends. | planned | — | [Memory Management in AI Agents - LangChain](https://python.langchain.com/docs/how_to/chatbots_memory/) |
-| Long-term memory — information persisted outside the prompt (vector DB, SQL, files) and retrieved across sessions. | planned | — | [Long Term Memory in AI Agents](https://medium.com/@alozie_igbokwe/ai-101-long-term-memory-in-ai-agents-35f87f2d0ce0) |
-| Episodic vs Semantic Memory — episodic = specific past events/interactions; semantic = general facts/knowledge distilled from them. | planned | — | [What Is AI Agent Memory? - IBM](https://www.ibm.com/think/topics/ai-agent-memory) |
-| User Profile Storage — stable per-user facts (name, preferences, past choices) kept across sessions to personalize behavior. | planned | — | [Storage Technology Explained: AI and Data Storage](https://www.computerweekly.com/feature/Storage-technology-explained-AI-and-the-data-storage-it-needs) |
-| Summarization / Compression — condensing past conversation into a shorter form to keep the gist without storing every line. | planned | — | [Evaluating LLMs for Text Summarization](https://insights.sei.cmu.edu/blog/evaluating-llms-for-text-summarization-introduction/) |
+| What is Agent Memory? — the part of an agent that tracks what already happened: past messages, learned facts, prior steps — across a turn or across sessions. | learning | [[agent-memory-what-is-agent-memory]] | [Agentic Memory for LLM Agents](https://arxiv.org/abs/2502.12110) |
+| Short-term memory — facts passed as part of the current prompt/context, discarded after the session ends. | learning | [[agent-memory-short-term]] | [Memory Management in AI Agents - LangChain](https://python.langchain.com/docs/how_to/chatbots_memory/) |
+| Long-term memory — information persisted outside the prompt (vector DB, SQL, files) and retrieved across sessions. | learning | [[agent-memory-long-term]] | [Long Term Memory in AI Agents](https://medium.com/@alozie_igbokwe/ai-101-long-term-memory-in-ai-agents-35f87f2d0ce0) |
+| Episodic vs Semantic Memory — episodic = specific past events/interactions; semantic = general facts/knowledge distilled from them. | learning | [[agent-memory-episodic-semantic]] | [What Is AI Agent Memory? - IBM](https://www.ibm.com/think/topics/ai-agent-memory) |
+| User Profile Storage — stable per-user facts (name, preferences, past choices) kept across sessions to personalize behavior. | learning | [[agent-memory-user-profile-storage]] | [Storage Technology Explained: AI and Data Storage](https://www.computerweekly.com/feature/Storage-technology-explained-AI-and-the-data-storage-it-needs) |
+| Summarization / Compression — condensing past conversation into a shorter form to keep the gist without storing every line. | learning | [[agent-memory-summarization-compression]] | [Evaluating LLMs for Text Summarization](https://insights.sei.cmu.edu/blog/evaluating-llms-for-text-summarization-introduction/) |
 | Forgetting / Aging Strategies — deliberately dropping stale or low-value memory over time so context stays useful and bounded. | planned | — | [Memory Management - LangChain](https://python.langchain.com/docs/how_to/chatbots_memory/) |
 
 ### Agent Architectures (`agent-`)
