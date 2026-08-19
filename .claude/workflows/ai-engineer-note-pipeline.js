@@ -41,15 +41,16 @@ const REVIEW_SCHEMA = {
 }
 
 const DEFAULT_ARGS = {
-  topic: "Self-Critique Agents — agents that generate an output, critique their own result, then refine it before finishing. Also known as reflection/reflexion agents: after the initial generation step, the agent (either the same model instance re-prompted, or a separate 'critic' role) evaluates the output against the goal/criteria, produces specific feedback, and the agent revises based on that feedback — optionally looping this generate-critique-revise cycle multiple times or until a stop condition (max rounds, critic approves, no more changes). Distinct from a plain multi-turn conversation: the critique step is a deliberate, structured evaluation pass (often with its own prompt/persona), not just 'try again'. Trade-offs: catches errors a single pass misses and improves quality/reliability, but costs extra tokens/latency per round, and self-critique from the SAME model can be blind to its own systematic mistakes (a genuinely different critic — different prompt, different model, or a human — catches more than self-critique alone). This is exactly the pattern used by this vault's own ai-engineer-note-pipeline workflow (junior/middle/senior review loop) — worth citing as a concrete self-referential example.",
+  topic: "Anthropic Tool Use (Building AI Agents) — Anthropic/Claude's specific implementation of function calling, via the Messages API. Covers what's specific to Anthropic vs the generic overview in [[agent-building-function-calling-overview]]: tool definitions passed in the top-level `tools` array of a Messages API request (name, description, input_schema as JSON Schema), the model returning `tool_use` content blocks (with a `tool_use_id`) inside its response when it wants to call a tool, the required response shape (a `tool_result` content block referencing that same `tool_use_id`, sent back as a `user` role message), `tool_choice` options (auto/any/tool/none, plus `disable_parallel_tool_use`), extended-thinking-plus-tool-use interactions, built-in server-side tools Anthropic hosts (web search, code execution, computer use, bash, text editor) vs client-defined custom tools, and best practices from Anthropic's own 'writing tools for agents' guidance (detailed descriptions matter enormously for whether the model calls the right tool correctly). This is the most directly applicable node in this section for a Claude Code / Claude Agent SDK user.",
   category: 'agent',
-  slug: 'architecture-self-critique',
-  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-architecture-self-critique.md',
+  slug: 'building-anthropic-tool-use',
+  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-building-anthropic-tool-use.md',
   roadmapPath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer-roadmap.md',
-  roadmapRowTopic: 'Self-Critique Agents — agents that generate output, critique their own result, then refine it before finishing.',
-  relatedNotes: ['agent-architecture-react', 'agent-architecture-planner-executor', 'agent-observation-reflection', 'ai-engineer-roadmap'],
+  roadmapRowTopic: 'Anthropic Tool Use',
+  relatedNotes: ['agent-building-function-calling-overview', 'agent-tool-definition', 'agent-building-manual-from-scratch', 'ai-engineer-roadmap'],
   seedSources: [
-    'https://blog.langchain.com/reflection-agents/',
+    'https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview',
+    'https://www.anthropic.com/engineering/writing-tools-for-agents',
   ],
   seedContext: '',
 }

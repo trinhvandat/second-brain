@@ -142,11 +142,11 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 ### Building AI Agents (`agent-`)
 | Topic | Stage | Note | Reference |
 |---|---|---|---|
-| Manual from scratch — writing every part of the agent loop yourself via direct LLM API calls, without a framework. | planned | — | [A Step-by-Step Guide to Building an AI Agent From Scratch](https://www.neurond.com/blog/how-to-build-an-ai-agent) |
-| LLM-native function calling (overview) — letting the model itself decide when to call a function/tool and with what arguments. | planned | — | [A Comprehensive Guide to Function Calling in LLMs](https://thenewstack.io/a-comprehensive-guide-to-function-calling-in-llms/) |
+| Manual from scratch — writing every part of the agent loop yourself via direct LLM API calls, without a framework. | learning | [[agent-building-manual-from-scratch]] | [A Step-by-Step Guide to Building an AI Agent From Scratch](https://www.neurond.com/blog/how-to-build-an-ai-agent) |
+| LLM-native function calling (overview) — letting the model itself decide when to call a function/tool and with what arguments. | learning | [[agent-building-function-calling-overview]] | [A Comprehensive Guide to Function Calling in LLMs](https://thenewstack.io/a-comprehensive-guide-to-function-calling-in-llms/) |
 | OpenAI Functions Calling | planned | — | [OpenAI Docs — Function Calling](https://platform.openai.com/docs/guides/function-calling) |
 | Gemini Function Calling | planned | — | [Function Calling with the Gemini API](https://ai.google.dev/gemini-api/docs/function-calling) |
-| Anthropic Tool Use | planned | — | [Anthropic Tool Use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview) |
+| Anthropic Tool Use | learning | [[agent-building-anthropic-tool-use]] | [Anthropic Tool Use](https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview) |
 | OpenAI Assistant API | planned | — | [OpenAI Docs — Assistants API Overview](https://platform.openai.com/docs/assistants/overview) |
 | Building with frameworks — LangChain | planned | — | [LangChain Documentation](https://python.langchain.com/docs/introduction/) |
 | Building with frameworks — LangGraph | planned | — | [LangGraph Docs](https://docs.langchain.com/oss/python/langgraph/overview) |
