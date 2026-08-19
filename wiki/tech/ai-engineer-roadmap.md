@@ -150,7 +150,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | OpenAI Assistant API | learning | [[agent-building-openai-assistant-api]] | [OpenAI Docs — Assistants API Overview](https://platform.openai.com/docs/assistants/overview) |
 | Building with frameworks — LangChain | learning | [[agent-building-langchain]] | [LangChain Documentation](https://python.langchain.com/docs/introduction/) |
 | Building with frameworks — LangGraph | learning | [[agent-building-langgraph]] | [LangGraph Docs](https://docs.langchain.com/oss/python/langgraph/overview) |
-| Building with frameworks — LlamaIndex | planned | — | [LlamaIndex](https://llamaindex.ai/) |
+| Building with frameworks — LlamaIndex | learning | [[agent-building-llamaindex]] | [LlamaIndex](https://llamaindex.ai/) |
 | Building with frameworks — Haystack | planned | — | [Haystack](https://haystack.deepset.ai/) |
 | Building with frameworks — AutoGen | planned | — | [AutoGen - Microsoft Research](https://www.microsoft.com/en-us/research/project/autogen/) |
 | Building with frameworks — CrewAI | planned | — | [CrewAI](https://crewai.com/) |
