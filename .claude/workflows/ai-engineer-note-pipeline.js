@@ -41,17 +41,19 @@ const REVIEW_SCHEMA = {
 }
 
 const DEFAULT_ARGS = {
-  topic: "Writing Good Prompts — Use Examples (Few-Shot) — put sample input->output examples in the prompt so the model learns the pattern via in-context learning, instead of only describing the task in words (zero-shot). Few-shot is especially useful when the desired output format is hard to describe in text, when doing classification/extraction with a non-standard label set, or when zero-shot has already failed. Example-selection principles: diversity to avoid the model overfitting to one narrow pattern, consistent formatting between examples and the real question, and example count (usually 2-5) trading off quality against token cost. Distinct from 'provide context' — few-shot is concrete input/output examples, not general background description.",
-  category: 'prompt',
-  slug: 'writing-good-prompts-use-examples',
-  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/prompt/prompt-writing-good-prompts-use-examples.md',
+  topic: "Multi-agent orchestration patterns — multiple autonomous agents interacting to reach individual or collective goals. Covers the common topologies used to coordinate several LLM agents on one task: hub-and-spoke / orchestrator-worker (one lead agent delegates to specialist subagents and synthesizes their results, e.g. Claude Code's Task tool or Anthropic's multi-agent research system), sequential/pipeline handoff (agent A's output becomes agent B's input, e.g. a content pipeline), peer-to-peer / agent teams (agents share a task list and message each other directly, no strict hierarchy), and debate/critic patterns (agents challenge each other's output before a final answer). Trade-offs: more agents/parallelism buys speed and separation-of-concerns but costs more tokens, coordination overhead, and failure modes unique to multi-agent systems (context isolation between agents, redundant work, one agent's error propagating to others). Distinct from a single agent's internal architecture (ReAct, Planner-Executor, DAG) — orchestration patterns are about how MULTIPLE agent instances coordinate with each other.",
+  category: 'agent',
+  slug: 'architecture-multi-agent-orchestration',
+  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-architecture-multi-agent-orchestration.md',
   roadmapPath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer-roadmap.md',
-  roadmapRowTopic: 'Writing Good Prompts — use examples in your prompt (few-shot)',
-  relatedNotes: ['prompt-engineering', 'prompt-writing-good-prompts-be-specific', 'prompt-writing-good-prompts-provide-context', 'ai-engineer-roadmap'],
+  roadmapRowTopic: 'Multi-agent orchestration patterns — multiple autonomous agents interacting to reach individual or collective goals.',
+  relatedNotes: ['agent-architecture-react', 'agent-architecture-planner-executor', 'agent-architecture-dag', 'graph-engineering', 'agentic-systems-taxonomy', 'ai-engineer-roadmap'],
   seedSources: [
-    'https://www.promptingguide.ai/techniques/fewshot',
+    'https://cloud.google.com/discover/what-is-a-multi-agent-system',
+    'https://www.anthropic.com/engineering/multi-agent-research-system',
+    'https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them',
   ],
-  seedContext: 'Using examples means putting a few input-to-output examples directly in the prompt so the model learns the pattern via in-context learning, instead of only describing the task in words (zero-shot). Few-shot is especially useful when the desired output format is hard to describe in text, when doing classification/extraction with a non-standard label set, or when zero-shot has already failed. Example selection matters: diverse examples avoid overfitting to one narrow pattern, and consistent formatting between examples and the real question improves reliability.',
+  seedContext: 'This vault already has two related notes on multi-agent orchestration that should be cross-linked, not duplicated: [[graph-engineering]] (deep dive on multi-agent orchestration patterns for Claude Code harnesses) and [[agentic-systems-taxonomy]] (taxonomy note, still a stub). This new note should focus specifically on the roadmap.sh framing (naming and comparing the common topologies: hub-and-spoke, pipeline, peer-to-peer/teams, debate/critic) and link out to those two for deeper/Claude-Code-specific detail rather than re-deriving everything from scratch.',
 }
 const rawArgs = (args && typeof args === 'object' && !Array.isArray(args)) ? args : {}
 const A = {

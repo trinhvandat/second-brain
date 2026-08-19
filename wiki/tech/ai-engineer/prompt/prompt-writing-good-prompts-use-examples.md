@@ -10,35 +10,35 @@ roadmap: ai-engineer
 stage: done
 ---
 
-# Writing Good Prompts — Use Examples (Few-Shot) — dua vi du input->output mau vao prompt de model hoc pattern qua in-context learning
+# Writing Good Prompts — Use Examples (Few-Shot) — đưa ví dụ input->output mẫu vào prompt để model học pattern qua in-context learning
 
-TL;DR: Thay vi mo ta bang loi (zero-shot), few-shot dua vao prompt 2-5 cap vi du input->output cu the de model tu suy ra pattern qua **in-context learning** — dac biet hieu qua khi dinh dang output kho dien ta bang van ban hoac zero-shot da that bai.
+TL;DR: Thay vì mô tả bằng lời (zero-shot), few-shot đưa vào prompt 2-5 cặp ví dụ input->output cụ thể để model tự suy ra pattern qua **in-context learning** — đặc biệt hiệu quả khi định dạng output khó diễn tả bằng văn bản hoặc zero-shot đã thất bại.
 
-## Few-shot la gi
+## Few-shot là gì
 
-- **In-context learning** (model hoc task tu cac vi du minh hoa ngay trong prompt, tai thoi diem inference, khong can cap nhat gradient/fine-tune): khai niem nay bat nguon tu paper "Language Models are Few-Shot Learners" gioi thieu GPT-3 (Brown et al., 2020), phan biet 3 che do: zero-shot (0 vi du), one-shot (1 vi du), few-shot (nhieu vi du, thuong 10-100 trong paper goc, nhung trong thuc hanh prompt engineering hien nay con so nho hon nhieu — xem muc "So luong vi du" ben duoi).
-- Ve ban chat, few-shot la mot **alternative cho fine-tuning**: thay vi train lai model, ban "day" pattern ngay trong prompt bang mot vai cap vi du.
-- Anthropic goi ky thuat nay la **multishot prompting** (ten Anthropic dung cho ky thuat few-shot) va xac nhan day la "mot trong nhung cach dang tin cay nhat de dinh huong format, tone, va cau truc output" cua Claude.
+- **In-context learning** (model học task từ các ví dụ minh họa ngay trong prompt, tại thời điểm inference, không cần cập nhật gradient/fine-tune): khái niệm này bắt nguồn từ paper "Language Models are Few-Shot Learners" giới thiệu GPT-3 (Brown et al., 2020), phân biệt 3 chế độ: zero-shot (0 ví dụ), one-shot (1 ví dụ), few-shot (nhiều ví dụ, thường 10-100 trong paper gốc, nhưng trong thực hành prompt engineering hiện nay con số nhỏ hơn nhiều — xem mục "Số lượng ví dụ" bên dưới).
+- Về bản chất, few-shot là một **alternative cho fine-tuning**: thay vì train lại model, bạn "dạy" pattern ngay trong prompt bằng một vài cặp ví dụ.
+- Anthropic gọi kỹ thuật này là **multishot prompting** (tên Anthropic dùng cho kỹ thuật few-shot) và xác nhận đây là "một trong những cách đáng tin cậy nhất để định hướng format, tone, và cấu trúc output" của Claude.
 
-## Khi nao few-shot dac biet huu ich
+## Khi nào few-shot đặc biệt hữu ích
 
-- **Dinh dang output kho dien ta bang loi** — VD mot cau truc JSON dac thu voi nhieu field long nhau, hoac mot van phong/giong van rieng (formal, playful, technical) — mo ta bang tinh tu rat kho chinh xac, nhung cho model 1 vi du output mau thi no bam theo ngay.
-- **Task classification/extraction voi label set khong chuan** — khi tap nhan khong phai la cac category pho bien (sentiment positive/negative), ma la nhan dac thu domain (VD "urgent-billing", "feature-request-P2"), few-shot giup model hieu ranh gioi giua cac nhan qua vi du thay vi dinh nghia tu dien.
-- **Khi zero-shot da fail** — day la tin hieu ro rang nhat trong thuc te: neu prompt mo ta bang loi da thu nhieu lan van sai format/logic, buoc tiep theo hop ly la chuyen sang few-shot truoc khi nghi den fine-tuning.
-- Few-shot cung ap dung duoc voi **extended thinking** (che do Claude tu suy luan cong khai truoc khi tra loi): dat tag `<thinking>` mau ben trong vi du de day Claude phong cach lap luan, model se tu generalize style do sang cac block reasoning cua chinh no.
+- **Định dạng output khó diễn tả bằng lời** — VD một cấu trúc JSON đặc thù với nhiều field lồng nhau, hoặc một văn phong/giọng văn riêng (formal, playful, technical) — mô tả bằng tính từ rất khó chính xác, nhưng cho model 1 ví dụ output mẫu thì nó bám theo ngay.
+- **Task classification/extraction với label set không chuẩn** — khi tập nhãn không phải là các category phổ biến (sentiment positive/negative), mà là nhãn đặc thù domain (VD "urgent-billing", "feature-request-P2"), few-shot giúp model hiểu ranh giới giữa các nhãn qua ví dụ thay vì định nghĩa từ điển.
+- **Khi zero-shot đã fail** — đây là tín hiệu rõ ràng nhất trong thực tế: nếu prompt mô tả bằng lời đã thử nhiều lần vẫn sai format/logic, bước tiếp theo hợp lý là chuyển sang few-shot trước khi nghĩ đến fine-tuning.
+- Few-shot cũng áp dụng được với **extended thinking** (chế độ Claude tự suy luận công khai trước khi trả lời): đặt tag `<thinking>` mẫu bên trong ví dụ để dạy Claude phong cách lập luận, model sẽ tự generalize style đó sang các block reasoning của chính nó.
 
-## Nguyen tac chon vi du
+## Nguyên tắc chọn ví dụ
 
-> Cac khuyen nghi trong phan nay (tieu chi chon vi du, so luong 3-5) lay tu Anthropic prompt-engineering docs, confidence: high — xem `sources` o dau bai.
+> Các khuyến nghị trong phần này (tiêu chí chọn ví dụ, số lượng 3-5) lấy từ Anthropic prompt-engineering docs, confidence: high — xem `sources` ở đầu bài.
 
-- **Diversity (da dang)** — vi du phai bao quat nhieu truong hop, ke ca **edge case** (truong hop hiem/bien, khac voi truong hop pho bien), tranh model **overfit** (bam qua chat vao 1 pattern hep, roi ap dung sai cho input khac di mot chut) vao 1 pattern hep. Anthropic liet ke 3 tieu chi cho vi du tot: **Relevant** (bam sat use case thuc te), **Diverse** (du da dang de model khong nhat ra pattern gia/khong mong muon), **Structured** (bao trong `<example>`/`<examples>` de model phan biet vi du voi instruction).
-- **Dinh dang nhat quan** — giua cac vi du voi nhau, va giua vi du voi cau hoi that. Nghien cuu cua Min et al. (2022), duoc promptingguide.ai tong hop, cho thay: do chinh xac cua tung nhan (label) it quan trong hon viec **format** va **phan bo nhan** trong demonstration co "thuc" (realistic) hay khong — tham chi nhan ngau nhien van tot hon han khong co nhan mien la giu dung format (as of promptingguide.ai/techniques/fewshot, confidence: medium). Vi du thuc te: neu ban co 5 vi du classify sentiment nhung co-tinh gan sai 1 nhan (VD 1 cau tich cuc bi gan nhan "negative"), model van hoc dung dinh dang tra loi tot hon la khong co vi du nao — vi dieu quan trong hon la *cach trinh bay* input->output, khong phai tung nhan co chinh xac tuyet doi hay khong.
-- **So luong vi du (2-5)** — danh doi giua chat luong va chi phi token. Anthropic khuyen nghi cu the "3-5 vi du la toi uu"; OpenAI khuyen 2-4 cap va luu y qua nhieu vi du co the khien model "quen" cac vi du dau, gay output khong nhat quan. Nhieu vi du hon thuong giup task phuc tap hon nhung tang token/latency tuyen tinh.
-- **Gioi han**: few-shot thuong khong du cho task doi hoi lap luan nhieu buoc (VD toan nhieu buoc) — nhung truong hop nay can chain-of-thought (ky thuat yeu cau model trinh bay tung buoc suy luan) thay vi (hoac ket hop voi) few-shot thuan tuy.
+- **Diversity (đa dạng)** — ví dụ phải bao quát nhiều trường hợp, kể cả **edge case** (trường hợp hiếm/biên, khác với trường hợp phổ biến), tránh model **overfit** (bám quá chặt vào 1 pattern hẹp, rồi áp dụng sai cho input khác đi một chút) vào 1 pattern hẹp. Anthropic liệt kê 3 tiêu chí cho ví dụ tốt: **Relevant** (bám sát use case thực tế), **Diverse** (đủ đa dạng để model không nhặt ra pattern giả/không mong muốn), **Structured** (bao trong `<example>`/`<examples>` để model phân biệt ví dụ với instruction).
+- **Định dạng nhất quán** — giữa các ví dụ với nhau, và giữa ví dụ với câu hỏi thật. Nghiên cứu của Min et al. (2022), được promptingguide.ai tổng hợp, cho thấy: độ chính xác của từng nhãn (label) ít quan trọng hơn việc **format** và **phân bố nhãn** trong demonstration có "thực" (realistic) hay không — thậm chí nhãn ngẫu nhiên vẫn tốt hơn hẳn không có nhãn miễn là giữ đúng format (as of promptingguide.ai/techniques/fewshot, confidence: medium). Ví dụ thực tế: nếu bạn có 5 ví dụ classify sentiment nhưng cố tình gán sai 1 nhãn (VD 1 câu tích cực bị gán nhãn "negative"), model vẫn học đúng định dạng trả lời tốt hơn là không có ví dụ nào — vì điều quan trọng hơn là *cách trình bày* input->output, không phải từng nhãn có chính xác tuyệt đối hay không.
+- **Số lượng ví dụ (2-5)** — đánh đổi giữa chất lượng và chi phí token. Anthropic khuyến nghị cụ thể "3-5 ví dụ là tối ưu"; OpenAI khuyên 2-4 cặp và lưu ý quá nhiều ví dụ có thể khiến model "quên" các ví dụ đầu, gây output không nhất quán. Nhiều ví dụ hơn thường giúp task phức tạp hơn nhưng tăng token/latency tuyến tính.
+- **Giới hạn**: few-shot thường không đủ cho task đòi hỏi lập luận nhiều bước (VD toán nhiều bước) — những trường hợp này cần chain-of-thought (kỹ thuật yêu cầu model trình bày từng bước suy luận) thay vì (hoặc kết hợp với) few-shot thuần túy.
 
-## Vi du minh hoa
+## Ví dụ minh họa
 
-Zero-shot (mo ta bang loi, de bi model dien output theo cach khac):
+Zero-shot (mô tả bằng lời, dễ bị model diễn output theo cách khác):
 
 ```
 Classify the sentiment of this support ticket as urgent-billing, feature-request, or general-question.
@@ -46,7 +46,7 @@ Classify the sentiment of this support ticket as urgent-billing, feature-request
 Ticket: "My card was charged twice this month, please fix ASAP."
 ```
 
-Few-shot (dua 3 cap vi du de model bam theo dinh dang va ranh gioi nhan):
+Few-shot (đưa 3 cặp ví dụ để model bám theo định dạng và ranh giới nhãn):
 
 ```
 <examples>
@@ -68,27 +68,27 @@ Ticket: "My card was charged twice this month, please fix ASAP."
 Label:
 ```
 
-Voi few-shot, model khong chi biet "phai tra ve mot trong 3 nhan" ma con hoc duoc dung dinh dang tra loi (`Label: <ten-nhan>`, khong giai thich them) tu chinh cac vi du — dieu ma mo ta bang loi rat kho truyen dat chinh xac.
+Với few-shot, model không chỉ biết "phải trả về một trong 3 nhãn" mà còn học được đúng định dạng trả lời (`Label: <tên-nhãn>`, không giải thích thêm) từ chính các ví dụ — điều mà mô tả bằng lời rất khó truyền đạt chính xác.
 
-## Phan biet voi "provide context"
+## Phân biệt với "provide context"
 
-- **Few-shot** = vi du cu the input->output, day model *cach lam* mot task qua demonstration.
-- **Provide context** ([[prompt-writing-good-prompts-provide-context]]) = cung cap thong tin nen/tai lieu/vai tro chung, khong nhat thiet the hien hinh dang output mong muon.
-- **RAG** la ky thuat lien quan nhung khac: no *dong* (retrieve tai thoi diem query) tai lieu/context tu nguon ngoai, co the bao gom ca vi du few-shot-style duoc chon dong, thay vi hardcode vi du co dinh vao prompt (as of WebSearch synthesis Vellum.ai + PromptHub, confidence: low).
+- **Few-shot** = ví dụ cụ thể input->output, dạy model *cách làm* một task qua demonstration.
+- **Provide context** ([[prompt-writing-good-prompts-provide-context]]) = cung cấp thông tin nền/tài liệu/vai trò chung, không nhất thiết thể hiện hình dạng output mong muốn.
+- **RAG** là kỹ thuật liên quan nhưng khác: nó *động* (retrieve tại thời điểm query) tài liệu/context từ nguồn ngoài, có thể bao gồm cả ví dụ few-shot-style được chọn động, thay vì hardcode ví dụ cố định vào prompt (as of WebSearch synthesis Vellum.ai + PromptHub, confidence: low).
 
-## Lien he toi cac phan khac
+## Liên hệ tới các phần khác
 
-- [[prompt-engineering]] — few-shot la mot trong cac ky thuat prompt engineering co ban, thuong ket hop voi [[prompt-writing-good-prompts-be-specific]] (vi du giup lam ro "cu the" la nhu the nao) va [[prompt-writing-good-prompts-provide-context]] (context la nen, vi du la minh hoa cu the tren nen do).
-- Lien quan toi cac ky thuat generation-control khac trong roadmap nhu chain-of-thought — few-shot khong thay the CoT cho task lap luan phuc tap.
+- [[prompt-engineering]] — few-shot là một trong các kỹ thuật prompt engineering cơ bản, thường kết hợp với [[prompt-writing-good-prompts-be-specific]] (ví dụ giúp làm rõ "cụ thể" là như thế nào) và [[prompt-writing-good-prompts-provide-context]] (context là nền, ví dụ là minh họa cụ thể trên nền đó).
+- Liên quan tới các kỹ thuật generation-control khác trong roadmap như chain-of-thought — few-shot không thay thế CoT cho task lập luận phức tạp.
 
-### Ap dung voi Claude Code
+### Áp dụng với Claude Code
 
-- Claude Code khong co config/flag rieng cho "few-shot mode" qua CLI — day la nguyen tac **viet prompt/instruction** ma nguoi dung tu ap dung khi soan task hoac file CLAUDE.md/AGENTS.md.
-- Trong thuc hanh, co the dua vi du vao CLAUDE.md hoac vao chinh prompt gui cho Claude Code de dinh huong dinh dang output (VD "vi du commit message dung chuan cua repo nay la: ..."), giup agent bam dung convention cua project ma khong can giai thich dai dong.
-- Doi voi cac skill/slash command tuy chinh (`.claude/skills/`), tac gia skill co the nhung san few-shot examples ngay trong noi dung skill de dinh huong output cua Claude Code khi skill duoc goi — day la cach ap dung few-shot o cap "system-level" thay vi tung prompt rieng le.
+- Claude Code không có config/flag riêng cho "few-shot mode" qua CLI — đây là nguyên tắc **viết prompt/instruction** mà người dùng tự áp dụng khi soạn task hoặc file CLAUDE.md/AGENTS.md.
+- Trong thực hành, có thể đưa ví dụ vào CLAUDE.md hoặc vào chính prompt gửi cho Claude Code để định hướng định dạng output (VD "ví dụ commit message đúng chuẩn của repo này là: ..."), giúp agent bám đúng convention của project mà không cần giải thích dài dòng.
+- Đối với các skill/slash command tùy chỉnh (`.claude/skills/`), tác giả skill có thể nhúng sẵn few-shot examples ngay trong nội dung skill để định hướng output của Claude Code khi skill được gọi — đây là cách áp dụng few-shot ở cấp "system-level" thay vì từng prompt riêng lẻ.
 
-## Gioi han / open questions
+## Giới hạn / open questions
 
-- Chua co bang chung tu paper goc kiem chung ro rang cho claim few-shot co the **lam giam** hieu nang tren cac reasoning model doi moi (VD dong o1) — thong tin nay chi den tu nguon tong hop thu cap, can kiem chung them truoc khi ap dung nhu quy tac chung (as of starpop.ai blog, confidence: low).
-- Chua ro con so "3-5 vi du" cua Anthropic co thay doi theo do phuc tap task hay khong — huong dan hien tai mang tinh chung chung, chua co benchmark cong khai chi tiet cho tung loai task (classification vs. structured-output vs. style-transfer).
-- Ranh gioi giua few-shot va RAG-voi-vi-du-dong con mo — chua ro trong thuc hanh khi nao nen hardcode vi du co dinh vs. retrieve vi du dong theo tung query.
+- Chưa có bằng chứng từ paper gốc kiểm chứng rõ ràng cho claim few-shot có thể **làm giảm** hiệu năng trên các reasoning model đời mới (VD dòng o1) — thông tin này chỉ đến từ nguồn tổng hợp thứ cấp, cần kiểm chứng thêm trước khi áp dụng như quy tắc chung (as of starpop.ai blog, confidence: low).
+- Chưa rõ con số "3-5 ví dụ" của Anthropic có thay đổi theo độ phức tạp task hay không — hướng dẫn hiện tại mang tính chung chung, chưa có benchmark công khai chi tiết cho từng loại task (classification vs. structured-output vs. style-transfer).
+- Ranh giới giữa few-shot và RAG-với-ví-dụ-động còn mờ — chưa rõ trong thực hành khi nào nên hardcode ví dụ cố định vs. retrieve ví dụ động theo từng query.
