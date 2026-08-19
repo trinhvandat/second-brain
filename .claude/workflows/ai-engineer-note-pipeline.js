@@ -41,16 +41,15 @@ const REVIEW_SCHEMA = {
 }
 
 const DEFAULT_ARGS = {
-  topic: "Anthropic Tool Use (Building AI Agents) — Anthropic/Claude's specific implementation of function calling, via the Messages API. Covers what's specific to Anthropic vs the generic overview in [[agent-building-function-calling-overview]]: tool definitions passed in the top-level `tools` array of a Messages API request (name, description, input_schema as JSON Schema), the model returning `tool_use` content blocks (with a `tool_use_id`) inside its response when it wants to call a tool, the required response shape (a `tool_result` content block referencing that same `tool_use_id`, sent back as a `user` role message), `tool_choice` options (auto/any/tool/none, plus `disable_parallel_tool_use`), extended-thinking-plus-tool-use interactions, built-in server-side tools Anthropic hosts (web search, code execution, computer use, bash, text editor) vs client-defined custom tools, and best practices from Anthropic's own 'writing tools for agents' guidance (detailed descriptions matter enormously for whether the model calls the right tool correctly). This is the most directly applicable node in this section for a Claude Code / Claude Agent SDK user.",
+  topic: "OpenAI Assistant API (Building AI Agents) — OpenAI's (now-deprecated, sunsetting 2026) higher-level stateful agent API, distinct from the raw Chat Completions + manual function-calling loop covered in [[agent-building-openai-function-calling]]. Covers: what the Assistants API added on top of plain function calling — persistent server-side Threads (conversation state OpenAI stores for you, so you don't manage message history client-side), Assistants (a configured persona with instructions/model/tools), Runs (execute the assistant against a thread), and built-in tools (Code Interpreter, File Search/retrieval, plus custom function calling) — i.e. it bundled memory/state + retrieval + tool use into one managed API instead of the developer wiring each piece by hand. Its deprecation/migration path to the newer Responses API (which merges Chat Completions' simplicity with Assistants'-style built-in tools and adds server-side conversation state without the same Threads/Runs object model) is the most important practical fact to cover — this note should be framed as 'historically important pattern, being phased out' rather than 'this is what to build on'.",
   category: 'agent',
-  slug: 'building-anthropic-tool-use',
-  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-building-anthropic-tool-use.md',
+  slug: 'building-openai-assistant-api',
+  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-building-openai-assistant-api.md',
   roadmapPath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer-roadmap.md',
-  roadmapRowTopic: 'Anthropic Tool Use',
-  relatedNotes: ['agent-building-function-calling-overview', 'agent-tool-definition', 'agent-building-manual-from-scratch', 'ai-engineer-roadmap'],
+  roadmapRowTopic: 'OpenAI Assistant API',
+  relatedNotes: ['agent-building-openai-function-calling', 'agent-building-function-calling-overview', 'agent-memory-what-is-agent-memory', 'ai-engineer-roadmap'],
   seedSources: [
-    'https://docs.anthropic.com/en/docs/build-with-claude/tool-use/overview',
-    'https://www.anthropic.com/engineering/writing-tools-for-agents',
+    'https://platform.openai.com/docs/assistants/overview',
   ],
   seedContext: '',
 }
