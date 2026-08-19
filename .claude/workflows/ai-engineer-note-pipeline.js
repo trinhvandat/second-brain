@@ -41,19 +41,17 @@ const REVIEW_SCHEMA = {
 }
 
 const DEFAULT_ARGS = {
-  topic: "Multi-agent orchestration patterns — multiple autonomous agents interacting to reach individual or collective goals. Covers the common topologies used to coordinate several LLM agents on one task: hub-and-spoke / orchestrator-worker (one lead agent delegates to specialist subagents and synthesizes their results, e.g. Claude Code's Task tool or Anthropic's multi-agent research system), sequential/pipeline handoff (agent A's output becomes agent B's input, e.g. a content pipeline), peer-to-peer / agent teams (agents share a task list and message each other directly, no strict hierarchy), and debate/critic patterns (agents challenge each other's output before a final answer). Trade-offs: more agents/parallelism buys speed and separation-of-concerns but costs more tokens, coordination overhead, and failure modes unique to multi-agent systems (context isolation between agents, redundant work, one agent's error propagating to others). Distinct from a single agent's internal architecture (ReAct, Planner-Executor, DAG) — orchestration patterns are about how MULTIPLE agent instances coordinate with each other.",
+  topic: "Self-Critique Agents — agents that generate an output, critique their own result, then refine it before finishing. Also known as reflection/reflexion agents: after the initial generation step, the agent (either the same model instance re-prompted, or a separate 'critic' role) evaluates the output against the goal/criteria, produces specific feedback, and the agent revises based on that feedback — optionally looping this generate-critique-revise cycle multiple times or until a stop condition (max rounds, critic approves, no more changes). Distinct from a plain multi-turn conversation: the critique step is a deliberate, structured evaluation pass (often with its own prompt/persona), not just 'try again'. Trade-offs: catches errors a single pass misses and improves quality/reliability, but costs extra tokens/latency per round, and self-critique from the SAME model can be blind to its own systematic mistakes (a genuinely different critic — different prompt, different model, or a human — catches more than self-critique alone). This is exactly the pattern used by this vault's own ai-engineer-note-pipeline workflow (junior/middle/senior review loop) — worth citing as a concrete self-referential example.",
   category: 'agent',
-  slug: 'architecture-multi-agent-orchestration',
-  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-architecture-multi-agent-orchestration.md',
+  slug: 'architecture-self-critique',
+  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-architecture-self-critique.md',
   roadmapPath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer-roadmap.md',
-  roadmapRowTopic: 'Multi-agent orchestration patterns — multiple autonomous agents interacting to reach individual or collective goals.',
-  relatedNotes: ['agent-architecture-react', 'agent-architecture-planner-executor', 'agent-architecture-dag', 'graph-engineering', 'agentic-systems-taxonomy', 'ai-engineer-roadmap'],
+  roadmapRowTopic: 'Self-Critique Agents — agents that generate output, critique their own result, then refine it before finishing.',
+  relatedNotes: ['agent-architecture-react', 'agent-architecture-planner-executor', 'agent-observation-reflection', 'ai-engineer-roadmap'],
   seedSources: [
-    'https://cloud.google.com/discover/what-is-a-multi-agent-system',
-    'https://www.anthropic.com/engineering/multi-agent-research-system',
-    'https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them',
+    'https://blog.langchain.com/reflection-agents/',
   ],
-  seedContext: 'This vault already has two related notes on multi-agent orchestration that should be cross-linked, not duplicated: [[graph-engineering]] (deep dive on multi-agent orchestration patterns for Claude Code harnesses) and [[agentic-systems-taxonomy]] (taxonomy note, still a stub). This new note should focus specifically on the roadmap.sh framing (naming and comparing the common topologies: hub-and-spoke, pipeline, peer-to-peer/teams, debate/critic) and link out to those two for deeper/Claude-Code-specific detail rather than re-deriving everything from scratch.',
+  seedContext: '',
 }
 const rawArgs = (args && typeof args === 'object' && !Array.isArray(args)) ? args : {}
 const A = {

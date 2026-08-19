@@ -136,8 +136,8 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | Planner–Executor — splits agent work into two clear roles: a planner that decides the steps, and an executor that carries them out. | learning | [[agent-architecture-planner-executor]] | [Plan-and-Execute Agents - LangChain](https://blog.langchain.dev/planning-agents/) |
 | DAG Agents — agent workflow modeled as a Directed Acyclic Graph of nodes/tasks with no loops, enabling parallel/ordered execution. | learning | [[agent-architecture-dag]] | [Airflow: Directed Acyclic Graphs](https://airflow.apache.org/docs/apache-airflow/stable/concepts/dags.html) |
 | Tree-of-Thought — reused here as an architecture pattern; see Prompt Engineering above for the technique itself. | planned | — | — |
-| Multi-agent orchestration patterns — multiple autonomous agents interacting to reach individual or collective goals. | planned | — see also [[graph-engineering]], [[agentic-systems-taxonomy]] | [Guide to multi-agent systems (MAS) - Google Cloud](https://cloud.google.com/discover/what-is-a-multi-agent-system) |
-| Self-Critique Agents — agents that generate output, critique their own result, then refine it before finishing. | planned | — | [Reflection Agents - LangChain](https://blog.langchain.com/reflection-agents/) |
+| Multi-agent orchestration patterns — multiple autonomous agents interacting to reach individual or collective goals. | learning | — see also [[graph-engineering]], [[agentic-systems-taxonomy]], [[agent-architecture-multi-agent-orchestration]] | [Guide to multi-agent systems (MAS) - Google Cloud](https://cloud.google.com/discover/what-is-a-multi-agent-system) |
+| Self-Critique Agents — agents that generate output, critique their own result, then refine it before finishing. | learning | [[agent-architecture-self-critique]] | [Reflection Agents - LangChain](https://blog.langchain.com/reflection-agents/) |
 
 ### Building AI Agents (`agent-`)
 | Topic | Stage | Note | Reference |
