@@ -11,61 +11,61 @@ roadmap: ai-engineer
 stage: done
 ---
 
-# Writing Good Prompts — Be Specific — noi ro chinh xac ban muon gi thay vi de model tu doan
+# Writing Good Prompts — Be Specific — nói rõ chính xác bạn muốn gì thay vì để model tự đoán
 
-TL;DR: Prompt mo ho buoc model phai tu suy dien y dinh tu context ngheo nan nen output khong the doan truoc; prompt cang cu the (role, task, constraint, tieu chi thanh cong) cang thu hep khong gian output va tang xac suat dung ngay lan dau.
+TL;DR: Prompt mơ hồ buộc model phải tự suy diễn ý định từ context nghèo nàn nên output không thể đoán trước; prompt càng cụ thể (role, task, constraint, tiêu chí thành công) càng thu hẹp không gian output và tăng xác suất đúng ngay lần đầu.
 
-## Vi sao "be specific" quan trong
+## Vì sao "be specific" quan trọng
 
-- LLM khong doc duoc suy nghi cua ban — no chi co the bam vao nhung gi xuat hien trong context. Thieu chi tiet = model phai "doan", va cang doan thi variance cang cao.
-- Anthropic mo ta Claude nhu "**mot nhan vien moi rat gioi nhung chua co ngu canh** ve chuan muc/quy trinh cua ban" — cang giai thich chinh xac muon gi, ket qua cang tot (as of platform.claude.com/prompt-engineering, confidence: high).
-- **Golden rule** cua Anthropic: dua prompt cho mot dong nghiep it ngu canh doc thu — neu ho boi roi, Claude cung se boi roi.
-- Claude Code best-practices dung cung nguyen tac cho coding agent: "Claude co the suy luan y dinh, nhung khong doc duoc suy nghi cua ban. Instruction cang chinh xac thi cang it lan phai sua lai."
+- LLM không đọc được suy nghĩ của bạn — nó chỉ có thể bám vào những gì xuất hiện trong context. Thiếu chi tiết = model phải "đoán", và càng đoán thì variance càng cao.
+- Anthropic mô tả Claude như "**một nhân viên mới rất giỏi nhưng chưa có ngữ cảnh** về chuẩn mực/quy trình của bạn" — càng giải thích chính xác muốn gì, kết quả càng tốt (as of platform.claude.com/prompt-engineering, confidence: high).
+- **Golden rule** của Anthropic: đưa prompt cho một đồng nghiệp ít ngữ cảnh đọc thử — nếu họ bối rối, Claude cũng sẽ bối rối.
+- Claude Code best-practices dùng cùng nguyên tắc cho coding agent: "Claude có thể suy luận ý định, nhưng không đọc được suy nghĩ của bạn. Instruction càng chính xác thì càng ít lần phải sửa lại."
 
-## Cac thanh phan lam prompt tro nen cu the
+## Các thành phần làm prompt trở nên cụ thể
 
-- **Role/persona** — dat vai tro cho model trong system prompt. Chi 1 cau cung tao khac biet ro ret, VD: "You are a helpful coding assistant specializing in Python."
-- **Task** — dong tu lenh ro rang (Write, Classify, Summarize, Fix), khong dung tu chung chung nhu "lam tot hon".
-- **Constraints** — gioi han cu the thay vi so thich mo ho. VD thay "keep it professional" bang "avoid jargon, khong dung cum tu 'dive into' hay 'game-changer', khong qua 100 tu" — model xu ly ranh gioi ro rang nhu hard constraint, khong suy luan tot y ngam.
-- **Context/motivation** — giai thich *ly do* dang sau constraint giup model generalize dung, thay vi chi lam theo nghia den. VD: thay vi chi noi "NEVER dung dau ba cham", giai thich "vi output se duoc doc boi text-to-speech engine".
-- **Tieu chi thanh cong ro rang** — dinh nghia truoc "the nao la dung" thay vi de model tu quyet dinh. Claude Code goi day la "cho Claude cach tu verify cong viec".
-- **Dinh dang output** — neu can JSON, bang, so cau cu the... phai noi ro tu dau.
+- **Role/persona** — đặt vai trò cho model trong system prompt. Chỉ 1 câu cũng tạo khác biệt rõ rệt, VD: "You are a helpful coding assistant specializing in Python."
+- **Task** — động từ lệnh rõ ràng (Write, Classify, Summarize, Fix), không dùng từ chung chung như "làm tốt hơn".
+- **Constraints** — giới hạn cụ thể thay vì sở thích mơ hồ. VD thay "keep it professional" bằng "avoid jargon, không dùng cụm từ 'dive into' hay 'game-changer', không quá 100 từ" — model xử lý ranh giới rõ ràng như hard constraint, không suy luận tốt ý ngầm.
+- **Context/motivation** — giải thích *lý do* đằng sau constraint giúp model generalize đúng, thay vì chỉ làm theo nghĩa đen. VD: thay vì chỉ nói "NEVER dùng dấu ba chấm", giải thích "vì output sẽ được đọc bởi text-to-speech engine".
+- **Tiêu chí thành công rõ ràng** — định nghĩa trước "thế nào là đúng" thay vì để model tự quyết định. Claude Code gọi đây là "cho Claude cách tự verify công việc".
+- **Định dạng output** — nếu cần JSON, bảng, số câu cụ thể... phải nói rõ từ đầu.
 
-## Vi du: mo ho vs. cu the
+## Ví dụ: mơ hồ vs. cụ thể
 
-| Muc tieu | Prompt mo ho | Prompt cu the |
+| Mục tiêu | Prompt mơ hồ | Prompt cụ thể |
 |---|---|---|
-| Giai thich khai niem | "Explain prompt engineering. Keep it short." | "Use 2-3 sentences to explain prompt engineering to a high school student." |
+| Giải thích khái niệm | "Explain prompt engineering. Keep it short." | "Use 2-3 sentences to explain prompt engineering to a high school student." |
 | Sinh dashboard | "Create an analytics dashboard" | "Create an analytics dashboard. Include as many relevant features and interactions as possible. Go beyond the basics to create a fully-featured implementation." |
-| Sua bug (Claude Code) | "fix the login bug" | "Users report login fails after session timeout. Check the auth flow in src/auth/, especially token refresh. Write a failing test that reproduces the issue, then fix it." |
-| Viet test | "add tests for foo.py" | "Write a test for foo.py covering the edge case where the user is logged out. Avoid mocks." |
+| Sửa bug (Claude Code) | "fix the login bug" | "Users report login fails after session timeout. Check the auth flow in src/auth/, especially token refresh. Write a failing test that reproduces the issue, then fix it." |
+| Viết test | "add tests for foo.py" | "Write a test for foo.py covering the edge case where the user is logged out. Avoid mocks." |
 | Validate email (verification criteria) | "implement a function that validates email addresses" | "Write a validateEmail function. Example test cases: user@example.com is true, invalid is false, user@.com is false. Run the tests after implementing." |
 
-Prompt "cu the" o cot phai luon nam ro: **doi tuong**, **so luong/gioi han**, va **cach kiem tra ket qua** — day chinh la ba truc chinh cua nguyen tac be-specific.
+Prompt "cụ thể" ở cột phải luôn nắm rõ: **đối tượng**, **số lượng/giới hạn**, và **cách kiểm tra kết quả** — đây chính là ba trục chính của nguyên tắc be-specific.
 
-## Luu y: specificity la default, khong phai luat tuyet doi
+## Lưu ý: specificity là default, không phải luật tuyệt đối
 
-- Voi cac task **kham pha** (chua ro yeu cau, con dang tim y tuong), prompt mo ho lai co ich — VD "ban se cai thien gi trong file nay?" co the goi ra nhung goc nhin ma minh khong nghi den de hoi cu the.
-- Voi instruction **ben vung** (VD file CLAUDE.md), specificity phai di kem **suc tich**: chi giu nhung dieu khong hien nhien / dac thu project; loai bo advice chung chung ("write clean code") vi model da biet san. CLAUDE.md qua dai lam tin hieu bi loang, khien Claude bo qua instruction — nen "cu the" khong dong nghia voi "cang dai cang tot" (as of code.claude.com/best-practices, confidence: medium).
-- Khong co paper hoc thuat goc nao dat ten chinh thuc cho ky thuat "specificity" (khac voi Chain-of-Thought co paper goc Wei et al. 2022) — day la best practice duc ket tu thuc hanh cua cac vendor (Anthropic, OpenAI) va cong dong (promptingguide.ai), khong phai tu mot nghien cuu don le (confidence: medium).
+- Với các task **khám phá** (chưa rõ yêu cầu, còn đang tìm ý tưởng), prompt mơ hồ lại có ích — VD "bạn sẽ cải thiện gì trong file này?" có thể gợi ra những góc nhìn mà mình không nghĩ đến để hỏi cụ thể.
+- Với instruction **bền vững** (VD file CLAUDE.md), specificity phải đi kèm **súc tích**: chỉ giữ những điều không hiển nhiên / đặc thù project; loại bỏ advice chung chung ("write clean code") vì model đã biết sẵn. CLAUDE.md quá dài làm tín hiệu bị loãng, khiến Claude bỏ qua instruction — nên "cụ thể" không đồng nghĩa với "càng dài càng tốt" (as of code.claude.com/best-practices, confidence: medium).
+- Không có paper học thuật gốc nào đặt tên chính thức cho kỹ thuật "specificity" (khác với Chain-of-Thought có paper gốc Wei et al. 2022) — đây là best practice đúc kết từ thực hành của các vendor (Anthropic, OpenAI) và cộng đồng (promptingguide.ai), không phải từ một nghiên cứu đơn lẻ (confidence: medium).
 
-## Lien he toi cac phan khac
+## Liên hệ tới các phần khác
 
-- [[prompt-engineering]] — be-specific la nguyen tac nen tang, ap dung xuyen suot moi ky thuat prompt engineering khac (zero-shot, few-shot, CoT deu can prompt cu the o tung buoc).
-- Khac voi **RAG** — RAG giai quyet van de cung cap dung **du lieu/context** ben ngoai cho model, con be-specific tap trung vao cach **dien dat instruction**. Hai ky thuat bo tro nhau: prompt cu the + context dung deu thu hep khong gian output.
-- Khac voi **agent** (theo dinh nghia Anthropic trong "Building Effective Agents") — agent de model tu dinh huong nhieu buoc/tool call, nen constraint va success-criteria trong system prompt cang quan trong hon de gioi han khong gian hanh dong tu tri, tranh drift qua nhieu vong lap.
+- [[prompt-engineering]] — be-specific là nguyên tắc nền tảng, áp dụng xuyên suốt mọi kỹ thuật prompt engineering khác (zero-shot, few-shot, CoT đều cần prompt cụ thể ở từng bước).
+- Khác với **RAG** — RAG giải quyết vấn đề cung cấp đúng **dữ liệu/context** bên ngoài cho model, còn be-specific tập trung vào cách **diễn đạt instruction**. Hai kỹ thuật bổ trợ nhau: prompt cụ thể + context đúng đều thu hẹp không gian output.
+- Khác với **agent** (theo định nghĩa Anthropic trong "Building Effective Agents") — agent để model tự định hướng nhiều bước/tool call, nên constraint và success-criteria trong system prompt càng quan trọng hơn để giới hạn không gian hành động tự trị, tránh drift qua nhiều vòng lặp.
 
-### Ap dung voi Claude Code
+### Áp dụng với Claude Code
 
-- Claude Code khong expose mot "specificity setting" rieng qua CLI — nguyen tac nay ap dung truc tiep vao **cach viet prompt/task cho Claude Code**, khong phai mot config flag.
-- Ap dung ro nhat qua hai co che:
-  - **Prompt tuc thi**: mo ta scope (file nao, edge case nao), trieu chung cu the (khong chi "fix bug"), va tieu chi verify (chay test nao, expect gi) — xem bang vi du o tren.
-  - **CLAUDE.md** (system-level, ben vung): chi nen chua instruction cu the-nhung-khong-hien-nhien, tranh loang tin hieu bang advice chung chung.
-- Claude Agent SDK cho phep tune muc do "cu the" cua system prompt qua 3 co che: mac dinh minimal (chi tool instruction thiet yeu), preset `claude_code` (day du hanh vi Claude Code), va `append` (chong them instruction cu the len tren preset ma khong phai viet lai toan bo) (confidence: medium, tai lieu SDK).
-- Adversarial review step trong Claude Code cung ap dung nguyen tac nay cho subagent: thay vi "review code nay", noi ro "review diff X so voi PLAN.md, kiem tra tung requirement co duoc implement, edge case co test, report gap chu khong phai style preference" — mo rong be-specific tu prompt don sang orchestration nhieu agent.
+- Claude Code không expose một "specificity setting" riêng qua CLI — nguyên tắc này áp dụng trực tiếp vào **cách viết prompt/task cho Claude Code**, không phải một config flag.
+- Áp dụng rõ nhất qua hai cơ chế:
+  - **Prompt tức thì**: mô tả scope (file nào, edge case nào), triệu chứng cụ thể (không chỉ "fix bug"), và tiêu chí verify (chạy test nào, expect gì) — xem bảng ví dụ ở trên.
+  - **CLAUDE.md** (system-level, bền vững): chỉ nên chứa instruction cụ thể-nhưng-không-hiển-nhiên, tránh loãng tín hiệu bằng advice chung chung.
+- Claude Agent SDK cho phép tune mức độ "cụ thể" của system prompt qua 3 cơ chế: mặc định minimal (chỉ tool instruction thiết yếu), preset `claude_code` (đầy đủ hành vi Claude Code), và `append` (chồng thêm instruction cụ thể lên trên preset mà không phải viết lại toàn bộ) (confidence: medium, tài liệu SDK).
+- Adversarial review step trong Claude Code cũng áp dụng nguyên tắc này cho subagent: thay vì "review code này", nói rõ "review diff X so với PLAN.md, kiểm tra từng requirement có được implement, edge case có test, report gap chứ không phải style preference" — mở rộng be-specific từ prompt đơn sang orchestration nhiều agent.
 
-## Gioi han / open questions
+## Giới hạn / open questions
 
-- Chua co so lieu dinh luong (VD % giam variance, % tang accuracy) tu nguon chinh thuc nao do "specificity" mang lai — cac vi du deu la qualitative, chua thay benchmark A/B cong khai so sanh truc tiep prompt mo ho vs. cu the tren cung mot task.
-- Ranh gioi giua "cu the vua du" va "over-specified gay nhieu/mat flexibility" chua duoc dinh luong ro — CLAUDE.md guidance canh bao ve bloat nhung khong dua threshold cu the.
-- Chua ro nguyen tac nay khac biet the nao giua reasoning model (o1-class) va non-reasoning model — OpenAI goi y reasoning model can it instruction chi tiet hon (giao "muc tieu cao" thay vi buoc cu the), nhung chua co so sanh sau voi Claude/extended thinking trong nguon da doc.
+- Chưa có số liệu định lượng (VD % giảm variance, % tăng accuracy) từ nguồn chính thống nào đo "specificity" mang lại — các ví dụ đều là qualitative, chưa thấy benchmark A/B công khai so sánh trực tiếp prompt mơ hồ vs. cụ thể trên cùng một task.
+- Ranh giới giữa "cụ thể vừa đủ" và "over-specified gây nhiễu/mất flexibility" chưa được định lượng rõ — CLAUDE.md guidance cảnh báo về bloat nhưng không đưa threshold cụ thể.
+- Chưa rõ nguyên tắc này khác biệt thế nào giữa reasoning model (o1-class) và non-reasoning model — OpenAI gợi ý reasoning model cần ít instruction chi tiết hơn (giao "mục tiêu cao" thay vì bước cụ thể), nhưng chưa có so sánh sâu với Claude/extended thinking trong nguồn đã đọc.
