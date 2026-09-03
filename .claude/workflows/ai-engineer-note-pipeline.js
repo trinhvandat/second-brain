@@ -41,15 +41,15 @@ const REVIEW_SCHEMA = {
 }
 
 const DEFAULT_ARGS = {
-  topic: "OpenAI Assistant API (Building AI Agents) — OpenAI's (now-deprecated, sunsetting 2026) higher-level stateful agent API, distinct from the raw Chat Completions + manual function-calling loop covered in [[agent-building-openai-function-calling]]. Covers: what the Assistants API added on top of plain function calling — persistent server-side Threads (conversation state OpenAI stores for you, so you don't manage message history client-side), Assistants (a configured persona with instructions/model/tools), Runs (execute the assistant against a thread), and built-in tools (Code Interpreter, File Search/retrieval, plus custom function calling) — i.e. it bundled memory/state + retrieval + tool use into one managed API instead of the developer wiring each piece by hand. Its deprecation/migration path to the newer Responses API (which merges Chat Completions' simplicity with Assistants'-style built-in tools and adds server-side conversation state without the same Threads/Runs object model) is the most important practical fact to cover — this note should be framed as 'historically important pattern, being phased out' rather than 'this is what to build on'.",
+  topic: "Building with frameworks — CrewAI (Building AI Agents) — the role-based multi-agent framework: you model a 'crew' of agents, each with a role, goal, and backstory, collaborating on tasks via defined processes (sequential / hierarchical). Covers: core concepts (Agent, Task, Crew, Process; plus Flows for event-driven deterministic orchestration added later), why its role-play metaphor made it the most approachable multi-agent framework for beginners and very popular (huge course/community adoption), its standalone-from-LangChain rewrite (originally built on LangChain, later independent), and honest trade-offs: the role/backstory metaphor can be prompt-engineering-in-disguise, less low-level control than LangGraph, and production maturity concerns vs its marketing. Position vs [[agent-building-autogen]] (conversation-driven) and [[agent-architecture-multi-agent-orchestration]] (CrewAI = role-based orchestration pattern).",
   category: 'agent',
-  slug: 'building-openai-assistant-api',
-  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-building-openai-assistant-api.md',
+  slug: 'building-crewai',
+  filePath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer/agent/agent-building-crewai.md',
   roadmapPath: '/Users/leonard/Workspace/code/personal/second-brain/wiki/tech/ai-engineer-roadmap.md',
-  roadmapRowTopic: 'OpenAI Assistant API',
-  relatedNotes: ['agent-building-openai-function-calling', 'agent-building-function-calling-overview', 'agent-memory-what-is-agent-memory', 'ai-engineer-roadmap'],
+  roadmapRowTopic: 'Building with frameworks — CrewAI',
+  relatedNotes: ['agent-building-autogen', 'agent-architecture-multi-agent-orchestration', 'agent-building-langgraph', 'ai-engineer-roadmap'],
   seedSources: [
-    'https://platform.openai.com/docs/assistants/overview',
+    'https://crewai.com/',
   ],
   seedContext: '',
 }

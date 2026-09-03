@@ -102,7 +102,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | Examples of Tools — Database Queries | learning | [[agent-tools-database-queries]] | [Building Your Own Database Agent - DeepLearning.AI](https://www.deeplearning.ai/short-courses/building-your-own-database-agent/) |
 | Examples of Tools — API Requests | learning | [[agent-tools-api-requests]] | [Introduction to APIs - MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_APIs/Introduction) |
 | Examples of Tools — File System Access | learning | [[agent-tools-filesystem-access]] | [Filesystem MCP server for AI Agents](https://playbooks.com/mcp/mateicanavra-filesystem) |
-| Examples of Tools — Email / Slack / SMS | learning | [[agent-tools-email-slack-sms]] | [Twilio Messaging API](https://www.twilio.com/docs/usage/api) |
+| Examples of Tools — Email / Slack / SMS | done | [[agent-tools-email-slack-sms]] | [Twilio Messaging API](https://www.twilio.com/docs/usage/api) |
 
 ### Model Context Protocol / MCP (`agent-`)
 | Topic | Stage | Note | Reference |
@@ -153,7 +153,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | Building with frameworks — LlamaIndex | learning | [[agent-building-llamaindex]] | [LlamaIndex](https://llamaindex.ai/) |
 | Building with frameworks — Haystack | learning | [[agent-building-haystack]] | [Haystack](https://haystack.deepset.ai/) |
 | Building with frameworks — AutoGen | learning | [[agent-building-autogen]] | [AutoGen - Microsoft Research](https://www.microsoft.com/en-us/research/project/autogen/) |
-| Building with frameworks — CrewAI | planned | — | [CrewAI](https://crewai.com/) |
+| Building with frameworks — CrewAI | learning | [[agent-building-crewai]] | [CrewAI](https://crewai.com/) |
 | Building with frameworks — Agno | planned | — | [Agno Docs](https://docs.agno.com/) |
 | Building with frameworks — Smol Depot | planned | — | [smol.ai](https://smol.candycode.dev/) |
 
