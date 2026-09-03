@@ -101,7 +101,7 @@ Hub note for a self-paced learning series, tracking **[roadmap.sh/ai-agents](htt
 | Examples of Tools — Code Execution / REPL | learning | [[agent-tools-code-execution]] | [What is a REPL? - Replit](https://docs.replit.com/getting-started/intro-replit) |
 | Examples of Tools — Database Queries | learning | [[agent-tools-database-queries]] | [Building Your Own Database Agent - DeepLearning.AI](https://www.deeplearning.ai/short-courses/building-your-own-database-agent/) |
 | Examples of Tools — API Requests | learning | [[agent-tools-api-requests]] | [Introduction to APIs - MDN](https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Client-side_APIs/Introduction) |
-| Examples of Tools — File System Access | learning | [[agent-tools-filesystem-access]] | [Filesystem MCP server for AI Agents](https://playbooks.com/mcp/mateicanavra-filesystem) |
+| Examples of Tools — File System Access | done | [[agent-tools-filesystem-access]] | [Filesystem MCP server for AI Agents](https://playbooks.com/mcp/mateicanavra-filesystem) |
 | Examples of Tools — Email / Slack / SMS | done | [[agent-tools-email-slack-sms]] | [Twilio Messaging API](https://www.twilio.com/docs/usage/api) |
 
 ### Model Context Protocol / MCP (`agent-`)
